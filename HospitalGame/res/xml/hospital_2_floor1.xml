@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<WorldInfo>
+   <actionFixedID>1 5</actionFixedID>
+   <actionPos>1 179.500000 419.484009</actionPos>
+   <actionEnabled>1 1</actionEnabled>
+   <actionDropArea>3 12</actionDropArea>
+   <actionPos>3 3.473000 448.070007</actionPos>
+   <actionLinkCount>3 1</actionLinkCount>
+   <actionLinkPoint>3 0 26.053253 6.899933</actionLinkPoint>
+   <actionPatientNode>3 26</actionPatientNode>
+   <actionArea>3 -81.9475 -80.6725 88.8935 532.216</actionArea>
+   <actionFixedID>2 10</actionFixedID>
+   <actionPos>2 229.714005 216.863998</actionPos>
+   <actionEnabled>2 1</actionEnabled>
+   <actionNode>2 4</actionNode>
+   <actionFixedID>4 2</actionFixedID>
+   <actionPos>4 338.532013 396.772003</actionPos>
+   <actionEnabled>4 1</actionEnabled>
+   <actionPatientNode>4 27</actionPatientNode>
+   <actionFixedID>7 1</actionFixedID>
+   <actionPos>7 483.075989 292.088989</actionPos>
+   <actionEnabled>7 1</actionEnabled>
+   <actionNode>7 5</actionNode>
+   <actionPatientNode>7 12</actionPatientNode>
+   <actionFixedID>8 1</actionFixedID>
+   <actionPos>8 569.005981 365.552002</actionPos>
+   <actionEnabled>8 1</actionEnabled>
+   <actionNode>8 7</actionNode>
+   <actionPatientNode>8 12</actionPatientNode>
+   <actionFixedID>10 1</actionFixedID>
+   <actionPos>10 730.932007 298.398987</actionPos>
+   <actionEnabled>10 1</actionEnabled>
+   <actionNode>10 18</actionNode>
+   <actionPatientNode>10 19</actionPatientNode>
+   <actionFixedID>9 1</actionFixedID>
+   <actionPos>9 648.075989 219.257996</actionPos>
+   <actionEnabled>9 1</actionEnabled>
+   <actionNode>9 16</actionNode>
+   <actionPatientNode>9 19</actionPatientNode>
+   <actionFixedID>5 7</actionFixedID>
+   <actionPos>5 479.500000 500.500000</actionPos>
+   <actionEnabled>5 1</actionEnabled>
+   <actionPatientNode>5 10</actionPatientNode>
+   <actionFixedID>13 15</actionFixedID>
+   <actionPos>13 261.110992 294.360992</actionPos>
+   <actionEnabled>13 0</actionEnabled>
+   <nodePos>9 615.064026 537.296021</nodePos>
+   <connectsTo>9 8 78.1882</connectsTo>
+   <connectsTo>9 10 103.201</connectsTo>
+   <nodePos>10 515.346008 563.880981</nodePos>
+   <connectsTo>10 9 103.201</connectsTo>
+   <nodePos>11 624.676025 451.410004</nodePos>
+   <connectsTo>11 8 70.3237</connectsTo>
+   <nodePos>6 433.750000 371.826996</nodePos>
+   <connectsTo>6 5 39.4011</connectsTo>
+   <connectsTo>6 7 78.1365</connectsTo>
+   <connectsTo>6 12 94.5795</connectsTo>
+   <nodePos>8 560.856995 480.949005</nodePos>
+   <connectsTo>8 7 90.3374</connectsTo>
+   <connectsTo>8 9 78.1882</connectsTo>
+   <connectsTo>8 11 70.3237</connectsTo>
+   <nodePos>17 616.258972 298.016998</nodePos>
+   <connectsTo>17 12 102.291</connectsTo>
+   <connectsTo>17 16 49.3453</connectsTo>
+   <connectsTo>17 18 58.0956</connectsTo>
+   <connectsTo>17 19 77.4168</connectsTo>
+   <nodePos>19 686.530029 265.531006</nodePos>
+   <connectsTo>19 17 77.4168</connectsTo>
+   <nodePos>12 521.556030 336.678986</nodePos>
+   <connectsTo>12 6 94.5795</connectsTo>
+   <connectsTo>12 17 102.291</connectsTo>
+   <nodePos>13 471.971008 246.326996</nodePos>
+   <connectsTo>13 14 58.1574</connectsTo>
+   <connectsTo>13 20 43.8182</connectsTo>
+   <nodePos>15 591.848999 197.244003</nodePos>
+   <connectsTo>15 14 71.3805</connectsTo>
+   <connectsTo>15 22 43.2068</connectsTo>
+   <nodePos>14 525.870972 224.485001</nodePos>
+   <connectsTo>14 13 58.1574</connectsTo>
+   <connectsTo>14 15 71.3805</connectsTo>
+   <connectsTo>14 16 67.78</connectsTo>
+   <nodePos>7 498.455994 415.627014</nodePos>
+   <connectsTo>7 6 78.1365</connectsTo>
+   <connectsTo>7 8 90.3374</connectsTo>
+   <nodePos>5 406.319000 343.542999</nodePos>
+   <connectsTo>5 21 83.0546</connectsTo>
+   <connectsTo>5 6 39.4011</connectsTo>
+   <nodePos>16 581.956970 262.544006</nodePos>
+   <connectsTo>16 14 67.78</connectsTo>
+   <connectsTo>16 17 49.3453</connectsTo>
+   <nodePos>18 663.140991 332.326996</nodePos>
+   <connectsTo>18 17 58.0956</connectsTo>
+   <nodePos>0 437.032013 747.002014</nodePos>
+   <connectsTo>0 1 376.655</connectsTo>
+   <nodePos>20 431.032990 261.950989</nodePos>
+   <connectsTo>20 21 100.766</connectsTo>
+   <connectsTo>20 13 43.8182</connectsTo>
+   <actionFixedID>15 16</actionFixedID>
+   <actionPos>15 355.092010 510.826996</actionPos>
+   <actionEnabled>15 0</actionEnabled>
+   <actionFixedID>11 13</actionFixedID>
+   <actionPos>11 651.596985 58.070000</actionPos>
+   <actionEnabled>11 0</actionEnabled>
+   <actionFixedID>12 13</actionFixedID>
+   <actionPos>12 753.306030 131.720993</actionPos>
+   <actionEnabled>12 0</actionEnabled>
+   <actionEquipmentID>16 0</actionEquipmentID>
+   <actionPos>16 396.855011 200.347000</actionPos>
+   <actionNode>16 20</actionNode>
+   <actionPatientNode>16 13</actionPatientNode>
+   <actionEquipmentID>17 0</actionEquipmentID>
+   <actionPos>17 552.521973 140.126007</actionPos>
+   <actionNode>17 15</actionNode>
+   <actionPatientNode>17 22</actionPatientNode>
+   <nodePos>22 632.213989 181.832993</nodePos>
+   <connectsTo>22 15 43.2068</connectsTo>
+   <nodePos>2 270.906006 436.993988</nodePos>
+   <connectsTo>2 1 151.265</connectsTo>
+   <connectsTo>2 3 157.116</connectsTo>
+   <connectsTo>2 27 32.2648</connectsTo>
+   <nodePos>21 336.910004 297.931000</nodePos>
+   <connectsTo>21 23 49.9993</connectsTo>
+   <connectsTo>21 5 83.0546</connectsTo>
+   <connectsTo>21 20 100.766</connectsTo>
+   <nodePos>23 291.183014 277.708008</nodePos>
+   <connectsTo>23 4 22.9385</connectsTo>
+   <connectsTo>23 21 49.9993</connectsTo>
+   <connectsTo>23 24 141.256</connectsTo>
+   <nodePos>4 272.096985 264.984009</nodePos>
+   <connectsTo>4 23 22.9385</connectsTo>
+   <nodePos>24 167.763000 346.415985</nodePos>
+   <connectsTo>24 3 19.9339</connectsTo>
+   <connectsTo>24 2 137.269</connectsTo>
+   <connectsTo>24 23 141.256</connectsTo>
+   <nodePos>3 154.177002 331.829010</nodePos>
+   <connectsTo>3 24 19.9339</connectsTo>
+   <actionDropArea>20 6</actionDropArea>
+   <actionPos>20 162.509003 530.309998</actionPos>
+   <actionLinkCount>20 9</actionLinkCount>
+   <actionLinkPoint>20 0 -24.448685 9.245972</actionLinkPoint>
+   <actionLinkPoint>20 1 -41.817200 -8.715454</actionLinkPoint>
+   <actionLinkPoint>20 2 -61.398270 -26.601074</actionLinkPoint>
+   <actionLinkPoint>20 3 -84.187531 -44.031921</actionLinkPoint>
+   <actionLinkPoint>20 4 -104.874878 -58.128235</actionLinkPoint>
+   <actionLinkPoint>20 5 -62.615173 -65.706909</actionLinkPoint>
+   <actionLinkPoint>20 6 -37.613342 -47.972839</actionLinkPoint>
+   <actionLinkPoint>20 7 -13.607178 -29.177795</actionLinkPoint>
+   <actionLinkPoint>20 8 11.505264 -9.397522</actionLinkPoint>
+   <actionPatientNode>20 1</actionPatientNode>
+   <actionArea>20 51.8815 86.7225 273.137 606.096</actionArea>
+   <actionFixedID>22 34</actionFixedID>
+   <actionPos>22 289.707001 494.036011</actionPos>
+   <actionEnabled>22 0</actionEnabled>
+   <actionFixedID>14 13</actionFixedID>
+   <actionPos>14 104.859001 355.231995</actionPos>
+   <actionEnabled>14 0</actionEnabled>
+   <nodePos>27 299.528992 422.102997</nodePos>
+   <connectsTo>27 2 32.2648</connectsTo>
+   <actionDropArea>21 33</actionDropArea>
+   <actionPos>21 73.858002 473.368988</actionPos>
+   <actionLinkCount>21 0</actionLinkCount>
+   <actionPatientNode>21 26</actionPatientNode>
+   <actionArea>21 41.858 46.71 105.858 500.517</actionArea>
+   <nodePos>26 84.026001 505.342987</nodePos>
+   <connectsTo>26 25 33.915</connectsTo>
+   <nodePos>25 109.422997 527.820007</nodePos>
+   <connectsTo>25 26 33.915</connectsTo>
+   <connectsTo>25 1 34.2431</connectsTo>
+   <nodePos>1 140.875000 514.278992</nodePos>
+   <connectsTo>1 0 376.655</connectsTo>
+   <connectsTo>1 2 151.265</connectsTo>
+   <connectsTo>1 25 34.2431</connectsTo>
+   <actionEquipmentID>6 0</actionEquipmentID>
+   <actionPos>6 692.833008 500.145996</actionPos>
+   <actionNode>6 9</actionNode>
+   <actionPatientNode>6 11</actionPatientNode>
+   <actionFixedID>0 11</actionFixedID>
+   <actionPos>0 69.129997 224.022995</actionPos>
+   <actionEnabled>0 1</actionEnabled>
+   <actionNode>0 3</actionNode>
+</WorldInfo>

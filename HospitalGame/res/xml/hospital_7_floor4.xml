@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<WorldInfo>
+   <nodePos>0 650.661011 150.656006</nodePos>
+   <connectsTo>0 1 169.965</connectsTo>
+   <actionFixedID>0 8</actionFixedID>
+   <actionPos>0 628.390015 79.146004</actionPos>
+   <actionEnabled>0 1</actionEnabled>
+   <actionNode>0 0</actionNode>
+   <actionPatientNode>0 0</actionPatientNode>
+   <actionDropArea>1 9</actionDropArea>
+   <actionPos>1 701.604980 132.585999</actionPos>
+   <actionLinkCount>1 10</actionLinkCount>
+   <actionLinkPoint>1 0 83.817017 -36.321289</actionLinkPoint>
+   <actionLinkPoint>1 1 36.342163 -17.170059</actionLinkPoint>
+   <actionLinkPoint>1 2 -7.268433 5.283096</actionLinkPoint>
+   <actionLinkPoint>1 3 -50.787048 3.962326</actionLinkPoint>
+   <actionLinkPoint>1 4 -44.254639 -27.736252</actionLinkPoint>
+   <actionLinkPoint>1 5 105.254272 -37.217529</actionLinkPoint>
+   <actionLinkPoint>1 6 138.560303 -51.321503</actionLinkPoint>
+   <actionLinkPoint>1 7 177.110596 -47.453522</actionLinkPoint>
+   <actionLinkPoint>1 8 205.264282 -21.792770</actionLinkPoint>
+   <actionLinkPoint>1 9 233.509949 -1.273605</actionLinkPoint>
+   <actionPatientNode>1 0</actionPatientNode>
+   <actionArea>1 609.599 654.434 793.61 179.757</actionArea>
+   <nodePos>1 778.280029 262.912994</nodePos>
+   <connectsTo>1 0 169.965</connectsTo>
+   <connectsTo>1 2 117.531</connectsTo>
+   <nodePos>2 662.478027 283.001007</nodePos>
+   <connectsTo>2 1 117.531</connectsTo>
+   <actionDropArea>2 35</actionDropArea>
+   <actionPos>2 558.005005 314.619995</actionPos>
+   <actionLinkCount>2 7</actionLinkCount>
+   <actionLinkPoint>2 0 -81.576599 46.111725</actionLinkPoint>
+   <actionLinkPoint>2 1 -115.146851 3.870697</actionLinkPoint>
+   <actionLinkPoint>2 2 -138.210388 0.925598</actionLinkPoint>
+   <actionLinkPoint>2 3 -163.153137 -19.185181</actionLinkPoint>
+   <actionLinkPoint>2 4 -122.834656 -21.120514</actionLinkPoint>
+   <actionLinkPoint>2 5 -142.054321 29.787506</actionLinkPoint>
+   <actionLinkPoint>2 6 -43.222778 76.824844</actionLinkPoint>
+   <actionPatientNode>2 2</actionPatientNode>
+   <actionArea>2 472.585 473.86 643.426 398.765</actionArea>
+</WorldInfo>

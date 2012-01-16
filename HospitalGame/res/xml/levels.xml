@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<HospitalObjectives>
+  <Hospital1>
+    <Time>160.0 170.0 170.0 175.0 200.0 210.0 220.0 230.0 240.0</Time>
+    <Objectives>5 5 6 7 8 9 10 11 12 </Objectives>
+    <ExpertObjectives>6 6 8 9 10 11 12 13 16</ExpertObjectives>
+    <PatientCount>10 10 11 11 12 13 14 15 16</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 0 0 1 0 0 0 0</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>0 0 0 0 0 0 0 0 0</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital1>
+  <Hospital2>
+    <Time>170.0 175.0 180.0 185.0 195.0 205.0 215.0 220.0 225.0</Time>
+    <Objectives>7 8 9 9 10 11 12 12 13</Objectives>
+    <ExpertObjectives>9 10 11 11 12 13 14 14 15</ExpertObjectives>
+    <PatientCount>10 11 12 12 13 15 15 16 17</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 0 0 0 0 0 0 0</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>0 0 0 0 1 1 1 1 1</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital2>
+  <Hospital3>
+    <Time>210.0 210.0 225.0 225.0 235.0 235.0 245.0 245.0 250.0</Time>
+    <Objectives>4 5 7 8 8 9 9 10 10</Objectives>
+    <ExpertObjectives>6 7 9 10 10 11 12 13 14</ExpertObjectives>
+    <PatientCount>8 10 14 14 15 15 16 17 18</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>2 2 0 2 2 2 0 2 0</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>2 2 2 2 2 2 2 2 2</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital3>
+  <Hospital4>
+    <Time>240.0 280.0 300.0 320.0 360.0 370.0 375.0 378.0 380.0</Time>
+    <Objectives>8 9 10 10 11 12 14 16 18</Objectives>
+    <ExpertObjectives>9 10 12 12 13 14 16 18 20</ExpertObjectives>
+    <PatientCount>12 14 15 15 15 16 18 20 22</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 2 2 0 0 0 0 0</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>1 1 1 1 1 1 2 3 4</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital4>
+  <Hospital5>
+    <Time>260.0 280.0 280.0 300.0 400.0 400.0 500.0 600.0 650.0</Time>
+    <Objectives>12 13 14 18 18 18 20 20 20</Objectives>
+    <ExpertObjectives>14 15 18 20 20 20 23 24 25</ExpertObjectives>
+    <PatientCount>18 19 20 23 23 23 28 28 30</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 0 1 0 0 0 0 1</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>1 1 1 1 2 2 2 2 2</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital5>
+  <Hospital6>
+    <Time>230.0 300.0 330.0 400.0 430.0 500.0 530.0 600.0 630.0</Time>
+    <Objectives>12 13 14 15 16 17 18 20 22</Objectives>
+    <ExpertObjectives>14 15 16 17 18 20 22 24 27</ExpertObjectives>
+    <PatientCount>15 16 17 18 19 21 23 25 30</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 0 0 0 0 0 0 0</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>1 1 1 1 2 2 2 2 2</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital6>
+  <Hospital7>
+    <Time>330.0 374.0 440.0 484.0 550.0 594.0 660.0 740.0 770.0</Time>
+    <Objectives>10 12 15 17 20 22 25 27 30</Objectives>
+    <ExpertObjectives>12 14 17 19 22 24 27 29 32</ExpertObjectives>
+    <PatientCount>15 17 20 22 25 27 30 32 35</PatientCount>
+    <MoneyMultiplier>1.0</MoneyMultiplier>
+    <AmbulanceDelay>0</AmbulanceDelay>
+    <HelicopterDelay>0</HelicopterDelay>
+    <WeatherIds>0 0 0 0 2 2 2 2 2</WeatherIds>
+    <SalaryValue>200.0</SalaryValue>
+    <PharmacyValue>100.0</PharmacyValue>
+    <MaintenanceValue>200.0</MaintenanceValue>
+    <CoffeeValue>300.0</CoffeeValue>
+    <MachineBreakCount>1 1 1 1 2 2 3 3 4</MachineBreakCount>
+    <StartMoney>0</StartMoney>
+  </Hospital7>
+</HospitalObjectives>

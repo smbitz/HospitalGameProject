@@ -1,0 +1,623 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<AnimationInfo>
+   <animation>66 12 4 3 Patients\patient_0_body.png 5.99927 0 1 139 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 5 5 5 5 5 5 5 5 5 5 5 5 5 5 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>18 6 3 2 montage_bubba_charlie_tiny.png 5.99937 0 1 114 5 5 5 5 5 5 5 5 5 5 0 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 1 2 3 4 5 5 5 5 4 3 3 3 3 3 3 3 3 3 3 3 3 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 4 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4</animation>
+   <animation>36 15 5 3 montage_psiquiatra.png 1 0 0 1 13</animation>
+   <animation>35 15 5 3 montage_psiquiatra.png 6 0 1 24 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12</animation>
+   <animation>34 15 5 3 montage_psiquiatra.png 10 0 1 68 2 2 2 2 10 10 10 9 9 9 8 8 8 9 9 9 9 10 10 2 2 2 2 9 9 9 9 10 10 2 2 2 2 2 2 10 10 10 8 8 8 8 8 9 9 10 10 9 9 9 3 4 5 6 7 8 3 4 5 6 6 7 7 7 8 8 8 8</animation>
+   <animation>33 15 5 3 montage_psiquiatra.png 10 0 1 134 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 9 9 9 6 5 4 3 8 7 6 5 4 3 3 8 8 7 7 7 6 6 6 6</animation>
+   <animation>31 20 5 4 montage_oftalmologista.png 9.00001 0 1 90 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 14 13 13 13 13 13 13 13 13 13 13 14 13 13 13 13 13 13 13 13 13 13 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 15 13 13 13 13 13 13 13 13 13 13 13 13 15 16 16 16 16 16 16 16 16 16 16 16 16 16 16 15 13</animation>
+   <animation>32 20 5 4 montage_oftalmologista.png 1 0 0 1 17</animation>
+   <animation>30 20 5 4 montage_oftalmologista.png 10 0 1 83 6 7 7 7 8 9 10 11 11 11 11 11 11 11 11 11 11 11 12 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12 11 11 11 11 11 11 11 11 11 12 11 11 11 12 11 11 11 12 11 12 11 12 11 12 12 12 12 10 9 8 7 7 7 7 5 5 5 5 5 5 5 5 5 5 5 5 5 5</animation>
+   <animation>29 20 5 4 montage_oftalmologista.png 1 0 0 1 4</animation>
+   <animation>28 20 5 4 montage_oftalmologista.png 9.00034 0 1 131 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 0</animation>
+   <animation>27 20 5 4 montage_fisioterapia.png 1 0 0 1 16</animation>
+   <animation>26 20 5 4 montage_fisioterapia.png 9.00035 0 1 133 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 12 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 13 11 11 11 11 11 11 11 11 11 11 11 12 11 11 11 11 11 11 11 11 11 11 11 11 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 11 11 11 11 11 11 11 11 11 12 11 11 11 11 11 11 11 11 11 11 15 15 15 15 15 15 15 15 15 15 15 15 15 11</animation>
+   <animation>25 20 5 4 montage_fisioterapia.png 9.00001 0 1 3 8 9 10</animation>
+   <animation>24 20 5 4 montage_fisioterapia.png 25.9999 0 1 3 5 6 7</animation>
+   <animation>23 20 5 4 montage_fisioterapia.png 9.00038 0 1 139 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 4 4 4 4 4 4 4 4 4 4 4 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3</animation>
+   <animation>22 8 4 2 montage_TAC.png 1 0 0 1 6</animation>
+   <animation>21 8 4 2 montage_TAC.png 1 0 0 1 5</animation>
+   <animation>20 8 4 2 montage_TAC.png 13 0 1 4 1 2 3 4</animation>
+   <animation>19 8 4 2 montage_TAC.png 1 0 0 1 0</animation>
+   <animation>17 30 6 5 montage_farmacia_medico.png 7.00008 0 0 35 0 8 8 9 10 11 11 26 12 25 24 14 15 16 17 18 19 20 21 22 17 18 19 20 21 22 17 18 19 20 21 22 23 12 26</animation>
+   <animation>16 30 6 5 montage_farmacia_medico.png 8 0 1 89 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 2 3 4 4 4 5 6 7 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 26 12 25 13 13 13 13 13 13 25 12 26 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</animation>
+   <animation>14 24 6 4 montage_medicoTriagem.png 8 0 0 51 0 7 4 4 4 4 4 4 4 4 4 4 4 5 4 4 4 4 4 5 4 4 4 4 4 4 4 4 3 0 8 9 10 11 12 13 14 11 12 13 14 11 12 13 14 11 12 13 14 15 16</animation>
+   <animation>13 24 6 4 montage_medicoTriagem.png 9.00001 0 1 71 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 17 18 19 19 19 20</animation>
+   <animation>12 6 3 2 montage_camas.png 1 0 0 1 4</animation>
+   <animation>11 6 3 2 montage_camas.png 1 0 0 1 1</animation>
+   <animation>10 2 2 1 montage_cadeiras.png 1 0 0 1 1</animation>
+   <animation>9 2 2 1 montage_cadeiras.png 1 0 0 1 0</animation>
+   <animation>8 12 4 3 montage_first_socorrate.png 1 0 0 1 11</animation>
+   <animation>7 12 4 3 montage_first_socorrate.png 1 0 0 1 10</animation>
+   <animation>6 12 4 3 montage_first_socorrate.png 5.99991 0 1 25 0 2 3 4 5 6 5 4 3 5 5 4 4 4 3 5 4 6 5 6 5 4 3 2 0</animation>
+   <animation>5 12 4 3 montage_first_socorrate.png 9.00008 0 1 77 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 8 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 7 8 0 9 9 9 9 9 9 9 9 9</animation>
+   <animation>4 9 3 3 montage_xray.png 30 0 0 1 7</animation>
+   <animation>3 9 3 3 montage_xray.png 1 0 0 1 6</animation>
+   <animation>2 9 3 3 montage_xray.png 10 0 1 37 2 3 2 4 5 4 2 3 2 4 5 4 2 3 2 4 5 4 2 3 2 4 5 4 2 3 2 3 2 3 2 4 5 4 5 4 5</animation>
+   <animation>1 9 3 3 montage_xray.png 1 0 0 1 0</animation>
+   <animation>38 12 4 3 montage_quimioterapia.png 15 0 1 2 0 4</animation>
+   <animation>39 12 4 3 montage_quimioterapia.png 9.00007 0 1 36 1 2 3 2 1 2 3 2 1 6 7 5 7 6 7 5 7 6 1 2 3 2 1 2 3 2 1 6 7 5 7 6 7 5 7 6</animation>
+   <animation>37 12 4 3 montage_quimioterapia.png 1 0 0 1 0</animation>
+   <animation>40 12 4 3 montage_quimioterapia.png 1 0 0 1 8</animation>
+   <animation>41 12 4 3 montage_quimioterapia.png 1 0 0 1 9</animation>
+   <animation>43 24 6 4 montage_babyscan.png 9.00005 0 1 86 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 2 2 2 2 2 2 2 2 2 2 2 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 1</animation>
+   <animation>44 24 6 4 montage_babyscan.png 1 0 1 6 6 7 6 6 8 7</animation>
+   <animation>45 24 6 4 montage_babyscan.png 3.00002 0 1 30 12 12 12 12 11 13 13 13 13 11 12 12 12 12 11 13 13 13 13 13 11 11 11 11 11 13 13 13 13 11</animation>
+   <animation>42 9 3 3 montage_xray.png 5.99995 0 0 10 0 0 1 0 0 1 0 0 1 0</animation>
+   <animation>46 24 6 4 montage_babyscan.png 9.00008 0 1 61 14 14 14 14 14 14 14 14 14 14 14 15 14 14 14 14 14 14 14 14 14 15 14 14 14 14 14 14 14 14 14 14 15 16 16 16 16 16 16 16 16 16 16 16 16 17 18 18 18 18 18 18 18 18 18 18 18 18 18 18 15</animation>
+   <animation>47 24 6 4 montage_babyscan.png 1 0 0 1 19</animation>
+   <animation>48 20 5 4 montage_dentista.png 9.00008 0 1 86 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 4 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 1 4 0</animation>
+   <animation>49 20 5 4 montage_dentista.png 15 0 1 63 6 6 6 6 6 6 6 6 6 6 6 6 6 7 8 7 8 8 10 8 10 8 10 8 10 9 8 9 7 8 7 8 7 9 7 9 7 9 7 9 7 9 8 10 8 10 8 10 8 9 8 9 8 7 8 7 6 6 6 6 6 6 6</animation>
+   <animation>50 20 5 4 montage_dentista.png 9.00008 0 1 64 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 15 12 13 13 13 13 13 13 13 13 13 13 13 13 13 14 14 14 14 14 14 14 14 14 14 14 14 14 14 14 12 12 15</animation>
+   <animation>51 20 5 4 montage_dentista.png 1 0 0 1 16</animation>
+   <animation>52 30 6 5 montage_cardio.png 9.00015 0 1 97 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 4 4 4 4 4 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2</animation>
+   <animation>53 30 6 5 montage_cardio.png 4 0 1 5 6 7 6 8 6</animation>
+   <animation>54 30 6 5 montage_cardio.png 1 0 1 6 9 9 9 9 10 10</animation>
+   <animation>55 30 6 5 montage_cardio.png 18.0001 0 0 40 12 13 12 11 12 13 12 11 12 13 12 11 12 13 12 11 15 15 15 16 16 16 17 17 17 18 18 18 19 19 19 19 19 19 19 19 19 19 19 19</animation>
+   <animation>56 30 6 5 montage_cardio.png 9.00006 0 1 81 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 21 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 20 21 20 20 20 20 20 20 20 20 21 22 23 23 23 23 23 23 23 23 23 23 23 23 24 24 24 24 24 24 24 24 24 24 24 24 24 24 24 22</animation>
+   <animation>57 30 6 5 montage_cardio.png 1 0 0 1 26</animation>
+   <animation>58 24 6 4 montage_operacao.png 9.00012 0 1 94 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 3 3 3 3 3 3 3 3 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3</animation>
+   <animation>59 24 6 4 montage_operacao.png 9.00012 0 1 93 4 5 6 7 8 8 8 9 10 10 11 11 12 5 4 18 13 14 15 17 17 16 15 14 15 16 17 17 16 15 16 15 14 14 15 16 17 17 16 15 14 13 18 18 18 18 18 18 13 14 15 16 17 17 16 15 16 17 16 15 14 14 14 15 16 17 16 15 14 15 16 17 16 15 14 14 15 16 15 14 15 16 17 16 17 17 16 15 16 17 17 13 18</animation>
+   <animation>60 24 6 4 montage_operacao.png 9.00006 0 1 64 19 19 19 19 19 19 19 19 19 19 19 19 19 19 19 20 19 19 19 19 19 19 19 19 19 19 19 19 19 19 20 19 19 19 19 19 19 19 19 19 19 22 22 22 22 22 22 22 22 22 21 21 21 21 21 21 21 22 22 22 22 22 22 22</animation>
+   <animation>61 24 6 4 montage_operacao.png 1 0 0 1 23</animation>
+   <animation>62 12 4 3 montage_ultrascan.png 1 0 0 1 0</animation>
+   <animation>63 12 4 3 montage_ultrascan.png 8 0 1 12 1 2 3 4 5 6 7 6 5 4 3 2</animation>
+   <animation>64 12 4 3 montage_ultrascan.png 1 0 0 1 8</animation>
+   <animation>65 12 4 3 montage_ultrascan.png 1 0 0 1 9</animation>
+   <animation>72 15 5 3 Patients\patientHead_0.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>74 15 5 3 Patients\patientHead_0.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>75 15 5 3 Patients\patientHead_0.png 1 0 0 1 8</animation>
+   <animation>84 15 5 3 Patients\patientHead_0.png 1 0 0 1 12</animation>
+   <animation>78 6 3 2 montage_camas.png 1 0 1 1 2</animation>
+   <animation>76 6 3 2 montage_camas.png 1 0 1 1 0</animation>
+   <animation>77 6 3 2 montage_camas.png 1 0 1 1 3</animation>
+   <animation>79 3 3 1 montage_elevadortiny.png 1 0 0 1 0</animation>
+   <animation>80 3 3 1 montage_elevadortiny.png 9.00001 0 0 8 0 1 2 2 2 2 1 0</animation>
+   <animation>81 6 3 2 montage_grafico.png 1 0 0 1 4</animation>
+   <animation>82 6 3 2 montage_grafico.png 3 0 1 3 2 3 4</animation>
+   <animation>83 6 3 2 montage_grafico.png 3 0 1 3 0 0 1</animation>
+   <animation>73 15 5 3 Patients\patientHead_0.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>67 4 2 2 Patients\patient_0_Cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <frameLink>67 0 5.4375 -14.7729</frameLink>
+   <frameLink>67 1 7.74304 -22.12</frameLink>
+   <frameLink>67 2 7.74304 -30.652</frameLink>
+   <frameLink>67 3 7.3515 -38.7891</frameLink>
+   <animation>68 16 4 4 Patients\patient_0_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>69 16 4 4 Patients\patient_0_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>70 16 4 4 Patients\patient_0_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>71 16 4 4 Patients\patient_0_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>86 4 2 2 Patients\patient_1_cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>87 16 4 4 Patients\patient_1_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>88 16 4 4 Patients\patient_1_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>89 16 4 4 Patients\patient_1_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>90 16 4 4 Patients\patient_1_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>85 12 4 3 Patients\patient_1_body.png 8 0 1 124 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 4 3 3 3 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1</animation>
+   <frameLink>68 15 -0.249023 -46.8521</frameLink>
+   <frameLink>68 14 1.03748 -46.057</frameLink>
+   <frameLink>68 13 1.03748 -44.52</frameLink>
+   <frameLink>68 12 0.788513 -42.9301</frameLink>
+   <frameLink>68 11 0.53949 -47.1169</frameLink>
+   <frameLink>68 10 1.2865 -47.382</frameLink>
+   <frameLink>68 9 1.03748 -43.99</frameLink>
+   <frameLink>68 8 0.788452 -42.9301</frameLink>
+   <frameLink>69 15 0.53949 -46.587</frameLink>
+   <frameLink>69 14 -0.788513 -46.587</frameLink>
+   <frameLink>69 13 -1.03748 -43.99</frameLink>
+   <frameLink>69 12 -1.2865 -43.1949</frameLink>
+   <frameLink>69 11 -1.2865 -46.8521</frameLink>
+   <frameLink>69 10 -1.03748 -46.8521</frameLink>
+   <frameLink>69 9 -0.539551 -43.725</frameLink>
+   <frameLink>69 8 -0.539551 -42.4</frameLink>
+   <frameLink>71 7 -2.6145 -48.9189</frameLink>
+   <frameLink>71 6 -4.93848 -48.389</frameLink>
+   <frameLink>71 5 -4.44049 -46.322</frameLink>
+   <frameLink>71 4 -4.93848 -44.785</frameLink>
+   <frameLink>71 3 -4.44049 -48.9189</frameLink>
+   <frameLink>71 2 -4.68945 -49.184</frameLink>
+   <frameLink>71 1 -3.901 -46.322</frameLink>
+   <frameLink>71 0 -3.901 -46.322</frameLink>
+   <frameLink>70 7 2.86353 -48.6541</frameLink>
+   <frameLink>70 6 4.44049 -48.6541</frameLink>
+   <frameLink>70 5 4.44049 -46.057</frameLink>
+   <frameLink>70 4 4.44049 -44.785</frameLink>
+   <frameLink>70 3 4.93848 -47.912</frameLink>
+   <frameLink>70 2 4.68945 -48.9189</frameLink>
+   <frameLink>70 1 3.901 -46.587</frameLink>
+   <frameLink>70 0 3.901 -45.262</frameLink>
+   <animation>91 12 4 3 Patients\patient_2_body.png 6.99998 0 1 99 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 5 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 4 3 3 3 4 1</animation>
+   <animation>93 16 4 4 Patients\patient_2_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>94 16 4 4 Patients\patient_2_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>95 16 4 4 Patients\patient_2_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>96 16 4 4 Patients\patient_2_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>92 4 2 2 Patients\patient_2_cured.png 16 0 0 22 1 1 1 1 0 2 3 3 3 2 0 1 1 1 1 0 2 3 3 3 2 0</animation>
+   <animation>97 12 4 3 Patients\patient_3_body.png 17.7149 0 1 124 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 4 3 3 3 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1</animation>
+   <frameLink>90 7 -2.36249 -43.584</frameLink>
+   <frameLink>90 6 -1.41748 -44.304</frameLink>
+   <frameLink>90 5 -1.638 -44.7839</frameLink>
+   <frameLink>90 4 -1.63794 -44.064</frameLink>
+   <frameLink>90 3 -0.944946 -43.3921</frameLink>
+   <frameLink>90 2 -1.41748 -44.5439</frameLink>
+   <frameLink>90 1 -1.89001 -44.064</frameLink>
+   <frameLink>90 0 -2.11047 -42.9121</frameLink>
+   <frameLink>89 7 2.36249 -43.584</frameLink>
+   <frameLink>89 6 1.16553 -44.064</frameLink>
+   <frameLink>89 5 1.16553 -44.5439</frameLink>
+   <frameLink>89 4 0.944946 -43.1521</frameLink>
+   <frameLink>89 3 0.944946 -43.1521</frameLink>
+   <frameLink>89 2 1.89001 -44.304</frameLink>
+   <frameLink>89 1 1.63794 -44.304</frameLink>
+   <frameLink>87 8 -0.472534 -42.912</frameLink>
+   <frameLink>87 9 -0.692993 -44.5439</frameLink>
+   <frameLink>87 10 -1.41748 -43.824</frameLink>
+   <frameLink>87 11 -1.16553 -42.192</frameLink>
+   <frameLink>87 12 -1.41748 -42.672</frameLink>
+   <frameLink>87 13 -0.945007 -43.824</frameLink>
+   <frameLink>87 14 -0.692993 -44.5439</frameLink>
+   <frameLink>87 15 -0.22052 -43.824</frameLink>
+   <frameLink>88 15 0.472473 -43.824</frameLink>
+   <frameLink>88 14 0.945007 -44.7841</frameLink>
+   <frameLink>88 13 1.41748 -44.064</frameLink>
+   <frameLink>88 12 1.63794 -42.672</frameLink>
+   <frameLink>88 11 1.41748 -43.152</frameLink>
+   <frameLink>88 10 1.16553 -44.304</frameLink>
+   <frameLink>88 9 0.472534 -44.5439</frameLink>
+   <frameLink>88 8 0.220459 -43.824</frameLink>
+   <frameLink>89 0 2.58301 -42.4319</frameLink>
+   <frameLink>92 3 0.98999 -42.1431</frameLink>
+   <frameLink>92 2 -3.30005 -37.1851</frameLink>
+   <frameLink>92 1 -7.55701 -27.3359</frameLink>
+   <frameLink>92 0 -4.62 -31.5569</frameLink>
+   <frameLink>86 3 5.57349 -39.627</frameLink>
+   <frameLink>86 2 3.72754 -35.28</frameLink>
+   <frameLink>86 1 4.33105 -29.988</frameLink>
+   <frameLink>86 0 0.319458 -25.074</frameLink>
+   <animation>98 4 2 2 Patients\patient_3_cured.png 16 0 0 22 1 1 1 1 0 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>161 12 4 3 Patients\patient_0_body.png 1 0 0 1 6</animation>
+   <animation>162 12 4 3 Patients\patient_0_body.png 1 0 0 1 7</animation>
+   <animation>163 12 4 3 Patients\patient_0_body.png 8 0 0 4 8 9 10 11</animation>
+   <animation>194 15 5 3 Patients\patientHead_0.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>192 15 5 3 Patients\patientHead_0.png 1 1 0 1 14</animation>
+   <animation>193 15 5 3 Patients\patientHead_0.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>191 15 5 3 Patients\patientHead_0.png 1 0 0 1 14</animation>
+   <animation>121 15 5 3 Patients\patientHead_1.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>195 15 5 3 Patients\patientHead_0.png 1 0 0 1 10</animation>
+   <animation>122 15 5 3 Patients\patientHead_1.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>123 15 5 3 Patients\patientHead_1.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>124 15 5 3 Patients\patientHead_1.png 1 0 0 1 8</animation>
+   <animation>125 15 5 3 Patients\patientHead_1.png 1 0 0 1 12</animation>
+   <animation>196 15 5 3 Patients\patientHead_1.png 1 0 0 1 10</animation>
+   <animation>197 15 5 3 Patients\patientHead_1.png 1 0 0 1 14</animation>
+   <animation>198 15 5 3 Patients\patientHead_1.png 1 1 0 1 14</animation>
+   <animation>200 15 5 3 Patients\patientHead_1.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>199 15 5 3 Patients\patientHead_1.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>164 12 4 3 Patients\patient_1_body.png 1 0 0 1 6</animation>
+   <animation>165 12 4 3 Patients\patient_1_body.png 1 0 0 1 7</animation>
+   <animation>166 12 4 3 Patients\patient_1_body.png 8 0 0 4 8 9 10 11</animation>
+   <animation>167 12 4 3 Patients\patient_2_body.png 1 0 0 1 6</animation>
+   <animation>168 12 4 3 Patients\patient_2_body.png 1 0 0 1 7</animation>
+   <animation>169 12 4 3 Patients\patient_2_body.png 8 0 0 4 8 9 10 11</animation>
+   <animation>126 15 5 3 Patients\patientHead_2.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>127 15 5 3 Patients\patientHead_2.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>128 15 5 3 Patients\patientHead_2.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>129 15 5 3 Patients\patientHead_2.png 1 0 0 1 8</animation>
+   <animation>130 15 5 3 Patients\patientHead_2.png 1 0 0 1 12</animation>
+   <animation>201 15 5 3 Patients\patientHead_2.png 1 0 0 1 10</animation>
+   <animation>202 15 5 3 Patients\patientHead_2.png 1 0 0 1 14</animation>
+   <animation>203 15 5 3 Patients\patientHead_2.png 1 1 0 1 14</animation>
+   <animation>204 15 5 3 Patients\patientHead_2.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>205 15 5 3 Patients\patientHead_2.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>131 15 5 3 Patients\PatientHead_3.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>132 15 5 3 Patients\PatientHead_3.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>133 15 5 3 Patients\PatientHead_3.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>134 15 5 3 Patients\PatientHead_3.png 1 0 0 1 8</animation>
+   <animation>135 15 5 3 Patients\PatientHead_3.png 1 0 0 1 12</animation>
+   <animation>206 15 5 3 Patients\PatientHead_3.png 1 0 0 1 10</animation>
+   <animation>207 15 5 3 Patients\PatientHead_3.png 1 0 0 1 14</animation>
+   <animation>208 15 5 3 Patients\PatientHead_3.png 1 1 0 1 14</animation>
+   <animation>209 15 5 3 Patients\PatientHead_3.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>210 15 5 3 Patients\PatientHead_3.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>136 15 5 3 Patients\PatientHead_4.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>137 15 5 3 Patients\PatientHead_4.png 16 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>138 15 5 3 Patients\PatientHead_4.png 9.00008 0 1 59 4 4 5 6 6 6 6 5 4 6 7 7 7 5 6 6 7 4 5 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>139 15 5 3 Patients\PatientHead_4.png 1 0 0 1 8</animation>
+   <animation>140 15 5 3 Patients\PatientHead_4.png 1 0 0 1 12</animation>
+   <animation>211 15 5 3 Patients\PatientHead_4.png 1 0 0 1 10</animation>
+   <animation>212 15 5 3 Patients\PatientHead_4.png 1 0 0 1 13</animation>
+   <animation>213 15 5 3 Patients\PatientHead_4.png 1 1 0 1 13</animation>
+   <animation>214 15 5 3 Patients\PatientHead_4.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>215 15 5 3 Patients\PatientHead_4.png 9.00008 1 1 59 4 4 5 6 6 6 6 5 4 6 7 7 7 5 6 6 7 4 5 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>141 15 5 3 Patients\PatientHead_5.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>142 15 5 3 Patients\PatientHead_5.png 16 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>143 15 5 3 Patients\PatientHead_5.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>144 15 5 3 Patients\PatientHead_5.png 1 0 0 1 8</animation>
+   <animation>145 15 5 3 Patients\PatientHead_5.png 1 0 0 1 12</animation>
+   <animation>216 15 5 3 Patients\PatientHead_5.png 1 0 0 1 10</animation>
+   <animation>217 15 5 3 Patients\PatientHead_5.png 1 0 0 1 14</animation>
+   <animation>218 15 5 3 Patients\PatientHead_5.png 1 1 0 1 14</animation>
+   <animation>219 15 5 3 Patients\PatientHead_5.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>220 15 5 3 Patients\PatientHead_5.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>228 15 5 3 Patients\PatientHead_6.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>148 15 5 3 Patients\PatientHead_6.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>149 15 5 3 Patients\PatientHead_6.png 1 0 0 1 8</animation>
+   <animation>150 15 5 3 Patients\PatientHead_6.png 1 0 0 1 12</animation>
+   <animation>221 15 5 3 Patients\PatientHead_6.png 1 0 0 1 10</animation>
+   <animation>151 15 5 3 Patients\PatientHead_7.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>153 15 5 3 Patients\PatientHead_7.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>154 15 5 3 Patients\PatientHead_7.png 1 0 0 1 8</animation>
+   <animation>155 15 5 3 Patients\PatientHead_7.png 1 0 0 1 12</animation>
+   <animation>226 15 5 3 Patients\PatientHead_7.png 1 0 0 1 10</animation>
+   <animation>156 15 5 3 Patients\PatientHead_8.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>158 15 5 3 Patients\PatientHead_8.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>159 15 5 3 Patients\PatientHead_8.png 1 0 0 1 8</animation>
+   <animation>160 15 5 3 Patients\PatientHead_8.png 1 0 0 1 12</animation>
+   <animation>231 15 5 3 Patients\PatientHead_8.png 1 0 0 1 10</animation>
+   <animation>99 16 4 4 Patients\patient_3_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>100 16 4 4 Patients\patient_3_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>101 16 4 4 Patients\patient_3_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>102 16 4 4 Patients\patient_3_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>170 12 4 3 Patients\patient_3_body.png 1 0 0 1 6</animation>
+   <animation>171 12 4 3 Patients\patient_3_body.png 1 0 0 1 7</animation>
+   <animation>172 12 4 3 Patients\patient_3_body.png 8 0 0 4 8 9 10 11</animation>
+   <animation>103 9 3 3 Patients\patient_4_body.png 5.9998 0 1 65 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</animation>
+   <animation>104 4 2 2 Patients\patient_4_cured.png 10 0 0 11 2 2 2 2 1 0 0 0 0 1 2</animation>
+   <animation>105 16 4 4 Patients\patient_4_walk.png 8 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>106 16 4 4 Patients\patient_4_walk.png 8 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>107 16 4 4 Patients\patient_4_walk.png 8 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>108 16 4 4 Patients\patient_4_walk.png 8 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>173 9 3 3 Patients\patient_4_body.png 1 0 0 1 3</animation>
+   <animation>174 9 3 3 Patients\patient_4_body.png 1 0 0 1 4</animation>
+   <animation>175 9 3 3 Patients\patient_4_body.png 8 0 0 4 5 6 7 8</animation>
+   <animation>109 12 4 3 Patients\patient_5_body.png 8 0 1 125 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 4 5 5 5 5 4 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1</animation>
+   <frameLink>176 6 1.91248 5.99414</frameLink>
+   <animation>111 16 4 4 Patients\patient_5_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>112 16 4 4 Patients\patient_5_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>113 16 4 4 Patients\patient_5_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>114 16 4 4 Patients\patient_5_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>176 12 4 3 Patients\patient_5_body.png 1 0 0 1 6</animation>
+   <animation>178 12 4 3 Patients\patient_5_body.png 8 0 0 4 8 9 10 11</animation>
+   <animation>115 9 3 3 Patients\patient_6_body.png 7 0 1 119 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>116 4 2 2 Patients\patient_6_cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>117 16 4 4 Patients\patient_6_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>118 16 4 4 Patients\patient_6_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>119 16 4 4 Patients\patient_6_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>120 16 4 4 Patients\patient_6_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>179 9 3 3 Patients\patient_6_body.png 1 0 0 1 3</animation>
+   <animation>180 9 3 3 Patients\patient_6_body.png 1 0 0 1 4</animation>
+   <animation>181 9 3 3 Patients\patient_6_body.png 8 0 0 4 5 6 7 8</animation>
+   <animation>147 6 3 2 Patients\stretcher_idle.png 6.99996 0 1 88 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 2 2 2 2 2 2 2 2 2 3 2 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 2 2 2 2 2 2 2 2 2 2 2 2 3 2 4 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 5 4 3</animation>
+   <animation>152 16 4 4 Patients\stretcher_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>157 16 4 4 Patients\stretcher_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>110 16 4 4 Patients\stretcher_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>182 16 4 4 Patients\stretcher_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>183 4 2 2 Patients\patient_7_cured.png 16 0 0 22 1 1 1 1 0 2 3 3 3 2 0 1 1 1 1 0 2 3 3 3 2 0</animation>
+   <animation>184 16 4 4 Patients\patient_7_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>185 16 4 4 Patients\patient_7_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>186 16 4 4 Patients\patient_7_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>187 16 4 4 Patients\patient_7_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>188 3 3 1 montage_TV.png 5.99991 0 1 53 0 1 2 1 2 0 0 1 1 1 0 2 2 2 0 0 0 0 0 1 1 1 2 2 2 2 0 0 2 2 0 1 1 1 0 0 2 2 2 2 2 0 1 1 1 0 2 0 0 2 0 2 0</animation>
+   <animation>225 15 5 3 Patients\PatientHead_6.png 1 0 0 1 14</animation>
+   <animation>227 15 5 3 Patients\PatientHead_6.png 1 1 0 1 14</animation>
+   <animation>146 15 5 3 Patients\PatientHead_6.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>229 15 5 3 Patients\PatientHead_6.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>222 15 5 3 Patients\PatientHead_6.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>230 15 5 3 Patients\PatientHead_7.png 1 0 0 1 14</animation>
+   <animation>237 15 5 3 Patients\PatientHead_7.png 1 1 0 1 14</animation>
+   <animation>232 15 5 3 Patients\PatientHead_7.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>233 15 5 3 Patients\PatientHead_7.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>223 15 5 3 Patients\PatientHead_7.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>177 12 4 3 Patients\patient_5_body.png 1 0 0 1 7</animation>
+   <animation>235 6 3 2 montage_helicopter.png 20 0 0 36 0 0 0 0 1 1 1 1 2 2 2 2 0 0 0 1 1 2 2 0 0 1 2 0 1 2 0 1 2 0 1 2 3 4 3 4</animation>
+   <animation>234 6 3 2 montage_helicopter.png 1 0 0 1 0</animation>
+   <animation>236 6 3 2 montage_helicopter.png 20 0 1 2 3 4</animation>
+   <frameLink>183 0 -7.02002 -29.0552</frameLink>
+   <frameLink>183 1 -4.16003 -32.8901</frameLink>
+   <frameLink>183 2 -2.85999 -39.2598</frameLink>
+   <frameLink>183 3 1.59253 -42.77</frameLink>
+   <animation>241 16 4 4 Patients\patient_8_walk.png 10 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>240 16 4 4 Patients\patient_8_walk.png 10 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>242 16 4 4 Patients\patient_8_walk.png 10 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>243 16 4 4 Patients\patient_8_walk.png 10 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>239 4 2 2 Patients\patient_8_cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>238 9 3 3 Patients\patient_8_body.png 7 0 1 119 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>244 9 3 3 Patients\patient_8_body.png 1 0 0 1 3</animation>
+   <animation>245 9 3 3 Patients\patient_8_body.png 1 0 0 1 4</animation>
+   <animation>246 9 3 3 Patients\patient_8_body.png 8 0 0 4 5 6 7 8</animation>
+   <animation>250 16 4 4 Patients\patient_9_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>249 16 4 4 Patients\patient_9_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>251 16 4 4 Patients\patient_9_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>252 16 4 4 Patients\patient_9_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>247 9 3 3 Patients\patient_9_body.png 7 0 1 119 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>248 4 2 2 Patients\patient_9_cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>253 9 3 3 Patients\patient_9_body.png 1 0 0 1 3</animation>
+   <animation>254 9 3 3 Patients\patient_9_body.png 1 0 0 1 4</animation>
+   <animation>255 9 3 3 Patients\patient_9_body.png 8 0 0 4 5 6 7 8</animation>
+   <frameLink>239 0 0 -23.7461</frameLink>
+   <frameLink>239 1 3.33704 -28.52</frameLink>
+   <frameLink>239 2 3.33704 -33.79</frameLink>
+   <frameLink>239 3 4.86353 -38.3779</frameLink>
+   <frameLink>248 0 -0.310547 -25.0918</frameLink>
+   <frameLink>248 1 3.31201 -29.2739</frameLink>
+   <frameLink>248 2 3.62256 -34.7476</frameLink>
+   <frameLink>248 3 5.1405 -39.8521</frameLink>
+   <animation>258 16 4 4 Patients\patient_10_walk.png 9 1 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>260 16 4 4 Patients\patient_10_walk.png 9 0 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>259 16 4 4 Patients\patient_10_walk.png 9 0 1 8 8 9 10 11 12 13 14 15</animation>
+   <animation>261 16 4 4 Patients\patient_10_walk.png 9 1 1 8 0 1 2 3 4 5 6 7</animation>
+   <animation>256 12 4 3 Patients\patient_10_body.png 5.99927 0 1 139 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 3 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 5 5 5 5 5 5 5 5 5 5 5 5 5 5 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>257 4 2 2 Patients\patient_10_Cured.png 16 0 0 22 0 0 0 0 1 2 3 3 3 2 0 0 0 0 0 1 2 3 3 3 2 0</animation>
+   <animation>262 12 4 3 Patients\patient_10_body.png 1 0 0 1 6</animation>
+   <animation>263 12 4 3 Patients\patient_10_body.png 1 0 0 1 7</animation>
+   <animation>264 12 4 3 Patients\patient_10_body.png 8 0 0 4 8 9 10 11</animation>
+   <frameLink>257 0 -6.97498 -28.8315</frameLink>
+   <frameLink>257 1 -3.81299 -33.8623</frameLink>
+   <frameLink>257 2 -2.85205 -39.9253</frameLink>
+   <frameLink>257 3 2.54199 -44.0537</frameLink>
+   <animation>266 15 5 3 Patients\PatientHead_10.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>293 15 5 3 Patients\PatientHead_10.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>273 15 5 3 Patients\PatientHead_10.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>272 15 5 3 Patients\PatientHead_10.png 1 1 0 1 14</animation>
+   <animation>271 15 5 3 Patients\PatientHead_10.png 1 0 0 1 14</animation>
+   <animation>270 15 5 3 Patients\PatientHead_10.png 1 0 0 1 10</animation>
+   <animation>269 15 5 3 Patients\PatientHead_10.png 1 0 0 1 12</animation>
+   <animation>268 15 5 3 Patients\PatientHead_10.png 1 0 0 1 8</animation>
+   <animation>267 15 5 3 Patients\PatientHead_10.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>265 15 5 3 Patients\PatientHead_10.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>274 15 5 3 Patients\PatientHead_11.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>276 15 5 3 Patients\PatientHead_11.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>277 15 5 3 Patients\PatientHead_11.png 1 0 0 1 8</animation>
+   <animation>278 15 5 3 Patients\PatientHead_11.png 1 0 0 1 12</animation>
+   <animation>279 15 5 3 Patients\PatientHead_11.png 1 0 0 1 10</animation>
+   <animation>280 15 5 3 Patients\PatientHead_11.png 1 0 0 1 14</animation>
+   <animation>281 15 5 3 Patients\PatientHead_11.png 1 1 0 1 14</animation>
+   <animation>282 15 5 3 Patients\PatientHead_11.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>294 15 5 3 Patients\PatientHead_11.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>275 15 5 3 Patients\PatientHead_11.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>284 15 5 3 Patients\PatientHead_12.png 20 0 0 22 0 0 0 1 1 1 7 7 7 1 1 0 0 0 1 1 1 7 7 7 1 1</animation>
+   <animation>292 15 5 3 Patients\PatientHead_12.png 9.00008 1 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>291 15 5 3 Patients\PatientHead_12.png 7.00002 1 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <animation>290 15 5 3 Patients\PatientHead_12.png 1 1 0 1 14</animation>
+   <animation>289 15 5 3 Patients\PatientHead_12.png 1 0 0 1 14</animation>
+   <animation>288 15 5 3 Patients\PatientHead_12.png 1 0 0 1 10</animation>
+   <animation>287 15 5 3 Patients\PatientHead_12.png 1 0 0 1 12</animation>
+   <animation>286 15 5 3 Patients\PatientHead_12.png 1 0 0 1 8</animation>
+   <animation>285 15 5 3 Patients\PatientHead_12.png 9.00008 0 1 68 4 4 5 6 6 6 6 5 11 11 4 6 11 7 7 11 11 11 7 5 11 6 6 7 11 4 5 11 6 6 9 9 9 9 9 9 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 9 9 9 9 9 9 5 5 5 5 5 5 5 5</animation>
+   <animation>283 15 5 3 Patients\PatientHead_12.png 7.00002 0 1 104 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2</animation>
+   <frameLink>96 7 -2.44 -50.6714</frameLink>
+   <frameLink>96 6 -2.71448 -52.3364</frameLink>
+   <frameLink>96 5 -3.26349 -49.6169</frameLink>
+   <frameLink>96 4 -3.26355 -48.7844</frameLink>
+   <frameLink>96 3 -3.26355 -51.2266</frameLink>
+   <frameLink>96 2 -2.71448 -52.3364</frameLink>
+   <frameLink>96 1 -2.98901 -49.3396</frameLink>
+   <frameLink>96 0 -2.71448 -48.7844</frameLink>
+   <frameLink>95 7 2.44 -50.6714</frameLink>
+   <frameLink>95 6 2.71448 -52.3364</frameLink>
+   <frameLink>95 5 3.26349 -49.6169</frameLink>
+   <frameLink>95 4 3.26355 -48.7844</frameLink>
+   <frameLink>95 3 3.26355 -51.2266</frameLink>
+   <frameLink>95 2 2.71448 -52.3364</frameLink>
+   <frameLink>95 1 2.98901 -49.3396</frameLink>
+   <frameLink>93 15 5.73401 -48.2295</frameLink>
+   <frameLink>93 14 5.73401 -49.6169</frameLink>
+   <frameLink>93 13 6.28302 -47.175</frameLink>
+   <frameLink>93 12 6.52698 -46.3425</frameLink>
+   <frameLink>93 11 6.28296 -48.2295</frameLink>
+   <frameLink>93 10 6.28296 -48.7844</frameLink>
+   <frameLink>93 9 5.73401 -46.8975</frameLink>
+   <frameLink>93 8 5.73401 -45.7876</frameLink>
+   <frameLink>94 15 -5.73401 -48.2295</frameLink>
+   <frameLink>94 14 -5.73401 -49.6169</frameLink>
+   <frameLink>94 13 -6.28302 -47.175</frameLink>
+   <frameLink>94 12 -6.52698 -46.3425</frameLink>
+   <frameLink>94 11 -6.28296 -48.2295</frameLink>
+   <frameLink>94 10 -6.28296 -48.7844</frameLink>
+   <frameLink>94 9 -5.73401 -46.8975</frameLink>
+   <frameLink>95 0 2.71448 -48.7844</frameLink>
+   <frameLink>94 8 -5.73401 -45.7876</frameLink>
+   <frameLink>98 0 4.422 -34.344</frameLink>
+   <frameLink>98 1 0.527954 -30.9519</frameLink>
+   <frameLink>98 2 4.68604 -40.5979</frameLink>
+   <frameLink>98 3 6.23706 -44.2549</frameLink>
+   <frameLink>100 8 1.13403 -43.3779</frameLink>
+   <frameLink>100 9 2.26794 -43.6079</frameLink>
+   <frameLink>100 10 2.94299 -43.6079</frameLink>
+   <frameLink>100 11 3.83398 -41.584</frameLink>
+   <frameLink>100 12 3.83398 -41.584</frameLink>
+   <frameLink>100 13 3.61798 -43.3779</frameLink>
+   <frameLink>100 14 2.48401 -43.8379</frameLink>
+   <frameLink>100 15 2.26801 -42.918</frameLink>
+   <frameLink>99 15 -2.26794 -42.918</frameLink>
+   <frameLink>99 14 -2.48401 -43.8379</frameLink>
+   <frameLink>99 13 -3.61804 -43.3779</frameLink>
+   <frameLink>99 12 -3.83398 -41.584</frameLink>
+   <frameLink>99 11 -3.83398 -41.584</frameLink>
+   <frameLink>99 10 -2.94299 -43.6079</frameLink>
+   <frameLink>99 9 -2.26801 -43.6079</frameLink>
+   <frameLink>99 8 -1.13397 -43.3779</frameLink>
+   <frameLink>102 0 0.458984 -41.124</frameLink>
+   <frameLink>102 1 1.34998 -41.584</frameLink>
+   <frameLink>102 2 1.59302 -41.998</frameLink>
+   <frameLink>102 3 2.69995 -40.6641</frameLink>
+   <frameLink>102 4 2.70001 -40.894</frameLink>
+   <frameLink>102 5 1.80902 -41.998</frameLink>
+   <frameLink>102 6 1.59302 -41.998</frameLink>
+   <frameLink>102 7 0.890991 -41.124</frameLink>
+   <frameLink>101 7 -0.890991 -41.124</frameLink>
+   <frameLink>101 6 -1.59302 -41.998</frameLink>
+   <frameLink>101 5 -1.80896 -41.998</frameLink>
+   <frameLink>101 4 -2.69995 -40.894</frameLink>
+   <frameLink>101 3 -2.69995 -40.6641</frameLink>
+   <frameLink>101 2 -1.59302 -41.998</frameLink>
+   <frameLink>101 1 -1.34998 -41.584</frameLink>
+   <frameLink>101 0 -0.458984 -41.124</frameLink>
+   <frameLink>104 0 1.70203 -34.8879</frameLink>
+   <frameLink>104 1 -1.92395 -31.5071</frameLink>
+   <frameLink>104 2 1.92395 -39.2</frameLink>
+   <frameLink>104 3 7.474 -44.051</frameLink>
+   <frameLink>107 0 3.80249 -39.7671</frameLink>
+   <frameLink>107 1 4.02747 -40.4497</frameLink>
+   <frameLink>107 2 4.25244 -42.6792</frameLink>
+   <frameLink>107 3 4.47754 -41.9966</frameLink>
+   <frameLink>107 4 4.25244 -39.9946</frameLink>
+   <frameLink>107 5 4.47748 -40.6768</frameLink>
+   <frameLink>107 6 4.2525 -42.2241</frameLink>
+   <frameLink>107 7 4.02753 -41.1318</frameLink>
+   <frameLink>108 7 -4.02747 -41.1318</frameLink>
+   <frameLink>108 6 -4.25244 -42.2241</frameLink>
+   <frameLink>108 5 -4.47754 -40.6768</frameLink>
+   <frameLink>108 4 -4.25244 -39.9946</frameLink>
+   <frameLink>108 3 -4.47754 -41.9966</frameLink>
+   <frameLink>108 2 -4.2525 -42.6792</frameLink>
+   <frameLink>108 1 -4.02753 -40.4497</frameLink>
+   <frameLink>108 0 -3.80249 -39.7671</frameLink>
+   <frameLink>106 8 -3.57751 -37.5376</frameLink>
+   <frameLink>106 9 -3.57751 -38.4473</frameLink>
+   <frameLink>106 10 -3.80249 -39.9946</frameLink>
+   <frameLink>106 11 -3.57751 -39.312</frameLink>
+   <frameLink>106 12 -3.57751 -37.3101</frameLink>
+   <frameLink>106 13 -3.35248 -37.9927</frameLink>
+   <frameLink>106 14 -3.35248 -40.2222</frameLink>
+   <frameLink>106 15 -3.57751 -39.312</frameLink>
+   <frameLink>105 15 3.57751 -39.312</frameLink>
+   <frameLink>105 14 3.35254 -40.2219</frameLink>
+   <frameLink>105 13 3.35254 -37.9924</frameLink>
+   <frameLink>105 12 3.57751 -37.3101</frameLink>
+   <frameLink>105 11 3.57751 -39.312</frameLink>
+   <frameLink>105 10 3.80249 -39.9944</frameLink>
+   <frameLink>105 9 3.57751 -38.4475</frameLink>
+   <frameLink>105 8 3.57751 -37.5376</frameLink>
+   <frameLink>186 0 4.62805 -48.9824</frameLink>
+   <frameLink>186 1 4.62805 -50.2949</frameLink>
+   <frameLink>186 2 4.62805 -52.3423</frameLink>
+   <frameLink>186 3 4.88794 -51.8174</frameLink>
+   <frameLink>186 4 4.88794 -49.2451</frameLink>
+   <frameLink>186 5 4.62799 -50.0327</frameLink>
+   <frameLink>186 6 4.39398 -52.0801</frameLink>
+   <frameLink>186 7 4.62799 -51.0298</frameLink>
+   <frameLink>185 8 -3.87402 -46.1475</frameLink>
+   <frameLink>185 9 -3.87402 -46.4102</frameLink>
+   <frameLink>185 10 -4.39404 -48.4575</frameLink>
+   <frameLink>185 11 -4.13403 -47.9326</frameLink>
+   <frameLink>185 12 -4.13403 -45.6226</frameLink>
+   <frameLink>185 13 -4.13397 -46.6724</frameLink>
+   <frameLink>185 14 -3.61401 -48.7202</frameLink>
+   <frameLink>185 15 -3.87402 -48.1948</frameLink>
+   <frameLink>242 0 2.40906 -44.9819</frameLink>
+   <frameLink>242 1 2.17798 -45.9619</frameLink>
+   <frameLink>242 2 1.18799 -46.207</frameLink>
+   <frameLink>242 3 0.725952 -45.2271</frameLink>
+   <frameLink>242 4 0.494995 -45.2271</frameLink>
+   <frameLink>242 5 0.95697 -46.6968</frameLink>
+   <frameLink>242 6 1.45203 -46.207</frameLink>
+   <frameLink>242 7 1.914 -45.4722</frameLink>
+   <frameLink>241 8 -0.957031 -43.0708</frameLink>
+   <frameLink>241 9 -0.494995 -44.2959</frameLink>
+   <frameLink>241 10 0 -44.2959</frameLink>
+   <frameLink>241 11 0.230957 -42.0908</frameLink>
+   <frameLink>241 12 0.230957 -42.0908</frameLink>
+   <frameLink>241 13 0 -44.0508</frameLink>
+   <frameLink>241 14 0 -44.4922</frameLink>
+   <frameLink>241 15 -0.726013 -43.561</frameLink>
+   <frameLink>251 0 2.89795 -43.561</frameLink>
+   <frameLink>251 1 2.39404 -44.9819</frameLink>
+   <frameLink>251 2 2.17346 -44.4922</frameLink>
+   <frameLink>251 3 1.44897 -43.3159</frameLink>
+   <frameLink>251 4 1.44897 -43.561</frameLink>
+   <frameLink>251 5 1.66949 -44.9819</frameLink>
+   <frameLink>251 6 2.39398 -45.2271</frameLink>
+   <frameLink>251 7 2.89801 -44.2959</frameLink>
+   <frameLink>250 8 0.251953 -42.0908</frameLink>
+   <frameLink>250 9 0.724487 -43.561</frameLink>
+   <frameLink>250 10 0.724487 -43.561</frameLink>
+   <frameLink>250 11 1.44897 -41.6499</frameLink>
+   <frameLink>250 12 1.66956 -41.4048</frameLink>
+   <frameLink>250 13 0.976501 -43.3159</frameLink>
+   <frameLink>250 14 0.724487 -43.561</frameLink>
+   <frameLink>250 15 0.472473 -42.5811</frameLink>
+   <frameLink>260 0 3.12 -46.0571</frameLink>
+   <frameLink>260 1 3.64001 -46.8521</frameLink>
+   <frameLink>260 2 3.64001 -49.4492</frameLink>
+   <frameLink>260 3 3.38 -48.124</frameLink>
+   <frameLink>260 4 3.38 -46.3218</frameLink>
+   <frameLink>260 5 3.38 -46.5869</frameLink>
+   <frameLink>260 6 3.64001 -49.1841</frameLink>
+   <frameLink>260 7 3.38 -48.3892</frameLink>
+   <frameLink>259 8 -4.68005 -43.46</frameLink>
+   <frameLink>259 9 -4.16003 -43.9902</frameLink>
+   <frameLink>259 10 -4.42004 -46.5869</frameLink>
+   <frameLink>259 11 -4.68005 -45.5269</frameLink>
+   <frameLink>259 12 -4.93994 -42.9302</frameLink>
+   <frameLink>259 13 -4.41998 -43.9902</frameLink>
+   <frameLink>259 14 -4.94 -46.3218</frameLink>
+   <frameLink>259 15 -4.15997 -45.2622</frameLink>
+   <frameLink>261 7 -3.38 -48.3892</frameLink>
+   <frameLink>261 6 -3.64001 -49.1841</frameLink>
+   <frameLink>261 5 -3.38 -46.5869</frameLink>
+   <frameLink>261 4 -3.38 -46.3218</frameLink>
+   <frameLink>261 3 -3.38 -48.124</frameLink>
+   <frameLink>261 2 -3.64001 -49.4492</frameLink>
+   <frameLink>261 1 -3.64001 -46.8521</frameLink>
+   <frameLink>261 0 -3.12 -46.0571</frameLink>
+   <frameLink>258 15 4.16003 -45.2622</frameLink>
+   <frameLink>258 14 4.93994 -46.3218</frameLink>
+   <frameLink>258 13 4.42004 -43.9902</frameLink>
+   <frameLink>258 12 4.93994 -42.9302</frameLink>
+   <frameLink>258 11 4.68005 -45.5269</frameLink>
+   <frameLink>258 10 4.41998 -46.5869</frameLink>
+   <frameLink>258 9 4.15997 -43.9902</frameLink>
+   <frameLink>258 8 4.67999 -43.46</frameLink>
+   <frameLink>252 7 -2.89795 -44.2959</frameLink>
+   <frameLink>252 6 -2.39404 -45.2271</frameLink>
+   <frameLink>252 5 -1.66956 -44.9819</frameLink>
+   <frameLink>252 4 -1.44897 -43.561</frameLink>
+   <frameLink>252 3 -1.44897 -43.3159</frameLink>
+   <frameLink>252 2 -2.17352 -44.4922</frameLink>
+   <frameLink>252 1 -2.39398 -44.9819</frameLink>
+   <frameLink>252 0 -2.89801 -43.561</frameLink>
+   <frameLink>249 15 -0.472534 -42.5811</frameLink>
+   <frameLink>249 14 -0.724487 -43.561</frameLink>
+   <frameLink>249 13 -0.97644 -43.3159</frameLink>
+   <frameLink>249 12 -1.66956 -41.4048</frameLink>
+   <frameLink>249 11 -1.44897 -41.6499</frameLink>
+   <frameLink>249 10 -0.724487 -43.561</frameLink>
+   <frameLink>249 9 -0.724487 -43.561</frameLink>
+   <frameLink>249 8 -0.252014 -42.0908</frameLink>
+   <frameLink>243 7 -1.91394 -45.4722</frameLink>
+   <frameLink>243 6 -1.45203 -46.207</frameLink>
+   <frameLink>243 5 -0.957031 -46.6968</frameLink>
+   <frameLink>243 4 -0.494995 -45.2271</frameLink>
+   <frameLink>243 3 -0.725952 -45.2271</frameLink>
+   <frameLink>243 2 -1.18799 -46.207</frameLink>
+   <frameLink>243 1 -2.17798 -45.9619</frameLink>
+   <frameLink>243 0 -2.409 -44.9819</frameLink>
+   <frameLink>240 15 0.725952 -43.561</frameLink>
+   <frameLink>240 14 0 -44.4922</frameLink>
+   <frameLink>240 13 0 -44.0508</frameLink>
+   <frameLink>240 12 -0.230957 -42.0908</frameLink>
+   <frameLink>240 11 -0.230957 -42.0908</frameLink>
+   <frameLink>240 10 0 -44.2959</frameLink>
+   <frameLink>240 9 0.494995 -44.2959</frameLink>
+   <frameLink>240 8 0.95697 -43.0708</frameLink>
+   <frameLink>187 7 -4.62805 -51.0298</frameLink>
+   <frameLink>187 6 -4.39404 -52.0801</frameLink>
+   <frameLink>187 5 -4.62805 -50.0327</frameLink>
+   <frameLink>187 4 -4.88794 -49.2451</frameLink>
+   <frameLink>187 3 -4.88794 -51.8174</frameLink>
+   <frameLink>187 2 -4.62799 -52.3423</frameLink>
+   <frameLink>187 1 -4.62799 -50.2949</frameLink>
+   <frameLink>187 0 -4.62799 -48.9824</frameLink>
+   <frameLink>184 15 3.87402 -48.1948</frameLink>
+   <frameLink>184 14 3.61401 -48.7202</frameLink>
+   <frameLink>184 13 4.13403 -46.6724</frameLink>
+   <frameLink>184 12 4.13403 -45.6226</frameLink>
+   <frameLink>184 11 4.13403 -47.9326</frameLink>
+   <frameLink>184 10 4.39398 -48.4575</frameLink>
+   <frameLink>184 9 3.87402 -46.4102</frameLink>
+   <frameLink>184 8 3.87402 -46.1475</frameLink>
+   <animation>295 4 2 2 montage_umbrella.png 6.99999 0 0 4 0 1 2 3</animation>
+   <frameLink>59 10 0.57251 26.4453</frameLink>
+   <frameLink>49 8 -56.175 -12.2012</frameLink>
+   <frameLink>30 10 42.6021 -64.3201</frameLink>
+   <animation>296 16 4 4 Patients\patient_5_walk.png 1 0 0 1 6</animation>
+</AnimationInfo>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<HospitalInfo>
+  <Stages>9</Stages>
+  <Number>7</Number>
+  <ImagesFolder>Media\Textures\Hospitals\</ImagesFolder>
+  <InfoFolder>Media\</InfoFolder>
+  <HospitalImage>hospital%d_piso%d_%d.png</HospitalImage>
+  <Hospital1>
+    <Levels>1</Levels>
+    <Level1>
+      <Info>hospital-1-floor1.xml</Info>
+    </Level1>
+    <Name>Maryville Medical Center</Name>
+  </Hospital1>
+  <Hospital2>
+    <Levels>1</Levels>
+    <Level1>
+      <Info>hospital-2-floor1.xml</Info>
+    </Level1>
+    <Name>Albuquerque Medical Center</Name>
+  </Hospital2>
+  <Hospital3>
+    <Levels>2</Levels>
+    <Level1>
+      <Info>hospital-3-floor1.xml</Info>
+    </Level1>
+    <Level2>
+      <Info>hospital-3-floor2.xml</Info>
+    </Level2>
+    <Name>Minneapolis Emergency Center</Name>
+  </Hospital3>
+  <Hospital4>
+    <Levels>2</Levels>
+    <Level1>
+      <Info>hospital-4-floor1.xml</Info>
+    </Level1>
+    <Level2>
+      <Info>hospital-4-floor2.xml</Info>
+    </Level2>
+    <Name>Portland Emergency Center</Name>
+  </Hospital4>
+  <Hospital5>
+    <Levels>2</Levels>
+    <Level1>
+      <Info>hospital-5-floor1.xml</Info>
+    </Level1>
+    <Level2>
+      <Info>hospital-5-floor2.xml</Info>
+    </Level2>
+    <Name>New Orleans Suburb Hospital</Name>
+  </Hospital5>
+  <Hospital6>
+    <Levels>3</Levels>
+    <Level1>
+      <Info>hospital-6-floor1.xml</Info>
+    </Level1>
+    <Level2>
+      <Info>hospital-6-floor2.xml</Info>
+    </Level2>
+    <Level3>
+      <Info>hospital-6-floor3.xml</Info>
+    </Level3>
+    <Name>Los Angeles Central Hospital</Name>
+  </Hospital6>
+  <Hospital7>
+    <Levels>4</Levels>
+    <Level1>
+      <Info>hospital-7-floor1.xml</Info>
+    </Level1>
+    <Level2>
+      <Info>hospital-7-floor2.xml</Info>
+    </Level2>
+    <Level3>
+      <Info>hospital-7-floor3.xml</Info>
+    </Level3>
+    <Level4>
+      <Info>hospital-7-floor4.xml</Info>
+    </Level4>
+    <Name>New York Central Hospital</Name>
+  </Hospital7>
+</HospitalInfo>

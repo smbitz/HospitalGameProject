@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<PatientInfo>
+   <patientCount>11</patientCount>
+   <patientArmImg>0 12 4 3 doente01_bracodireito.png</patientArmImg>
+   <patientLegImg>0 12 4 3 doente01_perna_direita.png</patientLegImg>
+   <patientBalloon>-22.518 45.08 0.270004 -6.90002</patientBalloon>
+   <patientBody>0 200 26.052 -48.9189 12.48 -5.724 20.02 19.239 29.952 -50.509</patientBody>
+   <patientBodyIds>0 0 66 67 68 69 70 71 161 162 163</patientBodyIds>
+   <patientBodyHeads>0 4 0 1 2 3</patientBodyHeads>
+   <patientBody>1 200 18.126 -42.4351 6.612 -4.85999 13.908 27.855 21.204 -42.4351</patientBody>
+   <patientBodyIds>1 0 85 86 87 88 89 90 164 165 166</patientBodyIds>
+   <patientBodyHeads>1 4 0 1 2 3</patientBodyHeads>
+   <patientBody>2 200 24.596 -43.5049 13.244 -4.84009 21.586 34.595 23.779 -49.4451</patientBody>
+   <patientBodyIds>2 1 91 92 93 94 95 96 167 168 169</patientBodyIds>
+   <patientBodyHeads>2 2 4 5 0 0</patientBodyHeads>
+   <patientHead>2 14.688 -14.7875 6.19199 9.625 4.384 -24.6925 4.384 -14.7875</patientHead>
+   <patientHeadIds>2 126 127 128 129 130 201 202 203 126 204 202 203 128 205</patientHeadIds>
+   <patientHead>3 15.328 -17.208 5.07199 12.384 2.57599 -25.824 4.48001 -15.792</patientHead>
+   <patientHeadIds>3 131 132 133 134 135 206 207 208 131 209 207 208 133 210</patientHeadIds>
+   <patientBody>3 120 18.04 -40.6411 10.956 -4.32446 15.532 27.156 21.912 -39.9436</patientBody>
+   <patientBodyIds>3 2 97 98 99 100 101 102 170 171 172</patientBodyIds>
+   <patientBodyHeads>3 1 6 0 0 0</patientBodyHeads>
+   <patientBody>4 120 33.3135 -35.9551 21.879 -3.90088 29.1555 28.905 38.1645 -40.373</patientBody>
+   <patientBodyIds>4 2 103 104 105 106 107 108 173 174 175</patientBodyIds>
+   <patientBodyHeads>4 1 7 0 0 0</patientBodyHeads>
+   <patientBody>5 200 22.638 -39.4351 11.046 -3.24512 19.404 32.395 24.234 -44.2749</patientBody>
+   <patientBodyIds>5 3 296 110 111 112 113 114 176 177 178</patientBodyIds>
+   <patientBodyHeads>5 1 9 0 0 0</patientBodyHeads>
+   <patientBody>6 100 13.475 -27.1143 7.64499 -2.10449 9.13 18.7271 15.565 -26.0469</patientBody>
+   <patientBodyIds>6 999 115 116 117 118 119 120 179 180 181</patientBodyIds>
+   <patientBodyHeads>6 1 8 0 0 0</patientBodyHeads>
+   <patientHead>8 10.0395 -9.32373 1.35699 9.17871 0 -16.0225 -1.7135 -8.04736</patientHead>
+   <patientHeadIds>8 156 999 158 159 160 231 999 999 999 999 999 999 999 999</patientHeadIds>
+   <patientHead>9 13.5135 -15.0059 3.08551 13.2842 1.02301 -22.4473 0.610504 -13.2842</patientHead>
+   <patientHeadIds>9 141 142 143 144 145 216 999 999 999 999 999 999 999 999</patientHeadIds>
+   <patientHead>0 18.853 -24.3335 5.33801 11.7875 0.40799 -30.381 4.62399 -13.5916</patientHead>
+   <patientHeadIds>0 72 73 74 75 84 195 191 192 72 193 191 192 74 194</patientHeadIds>
+   <patientHead>1 17.376 -17.98 6.09601 11.5 1.82401 -23.48 3.34399 -13.66</patientHead>
+   <patientHeadIds>1 121 122 123 124 125 196 197 198 121 199 197 198 123 200</patientHeadIds>
+   <patientHead>6 18.8565 -18.1116 7.76099 8.80591 3.66599 -24.2351 5.26501 -13.7825</patientHead>
+   <patientHeadIds>6 146 222 148 149 150 221 225 227 146 228 225 227 148 229</patientHeadIds>
+   <patientHead>7 22.264 -19.824 5.41199 12.4319 0.417999 -22.8899 1.51801 -11.2351</patientHead>
+   <patientHeadIds>7 151 223 153 154 155 226 230 237 151 232 230 237 153 233</patientHeadIds>
+   <patientBody>7 200 24.2675 -43.9004 10.9225 -2.99707 21.25 34.3545 23.715 -50.1719</patientBody>
+   <patientBodyIds>7 1 109 183 184 185 186 187 176 177 178</patientBodyIds>
+   <patientBodyHeads>7 2 4 5 0 0</patientBodyHeads>
+   <patientHead>4 20.328 -23.6475 0.881989 4.97241 0 -28.2151 0.447998 -19.125</patientHead>
+   <patientHeadIds>4 136 137 138 139 140 211 212 213 136 214 212 213 138 215</patientHeadIds>
+   <patientHead>5 17.64 -20.0596 2.2225 10.2339 0.997498 -23.7791 3.16751 -10.0405</patientHead>
+   <patientHeadIds>5 141 142 143 144 145 216 217 218 141 219 217 218 143 220</patientHeadIds>
+   <patientBody>8 200 18.942 -43.146 9.933 -7.14404 12.012 27.918 26.5265 -41.5479</patientBody>
+   <patientBodyIds>8 0 238 239 240 241 242 243 244 245 246</patientBodyIds>
+   <patientBodyHeads>8 1 12 0 0 0</patientBodyHeads>
+   <patientBody>9 200 20.52 -42.9399 10.28 -5.12988 15.64 28.6899 28.24 -41.04</patientBody>
+   <patientBodyIds>9 0 247 248 249 250 251 252 253 254 255</patientBodyIds>
+   <patientBodyHeads>9 1 10 0 0 0</patientBodyHeads>
+   <patientBody>10 200 24.9415 -46.1162 13.778 -7.18213 20.667 35.2622 23.8625 -46.1162</patientBody>
+   <patientBodyIds>10 1 256 257 258 259 260 261 262 263 264</patientBodyIds>
+   <patientBodyHeads>10 1 11 0 0 0</patientBodyHeads>
+   <patientHead>10 22.264 -19.8242 8.536 13.7129 0.417999 -22.8901 1.826 -14.0488</patientHead>
+   <patientHeadIds>10 265 266 267 268 269 270 271 272 265 273 271 272 267 293</patientHeadIds>
+   <patientHead>11 15.554 -16.8628 1.298 12.5371 -1.51801 -19.6558 1.73801 -17.1782</patientHead>
+   <patientHeadIds>11 274 275 276 277 278 279 280 281 274 282 280 281 276 294</patientHeadIds>
+   <patientHead>12 18.48 -18.48 5.082 13.6079 -1.408 -21.9238 -1.298 -8.52588</patientHead>
+   <patientHeadIds>12 283 284 285 286 287 288 289 290 283 291 289 290 285 292</patientHeadIds>
+</PatientInfo>

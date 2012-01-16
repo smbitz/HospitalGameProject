@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<ObjectInfo>
+   <objectLinkCount>1 1</objectLinkCount>
+   <objectLinkPoint>1 0 -15.677979 12.641968</objectLinkPoint>   
+   <objectImg>1 6 3 2 1 montage_camas.png</objectImg>
+   <objectLinkCount>13 0</objectLinkCount>
+   <objectImg>13 1 1 1 0 plant1.png</objectImg>
+   <bedInformationObject>0 -48.938965 62.523071 6 3 2 1 montage_grafico.png</bedInformationObject>
+   <objectLinkCount>5 0</objectLinkCount>
+   <objectImg>5 4 2 2 0 montage_portas.png</objectImg>
+   <objectLinkCount>3 1</objectLinkCount>
+   <objectLinkPoint>3 0 -12.906006 -43.400024</objectLinkPoint>
+   <objectImg>3 9 3 3 0 montage_xray.png</objectImg>
+   <objectLinkCount>2 4</objectLinkCount>
+   <objectLinkPoint>2 0 49.895996 59.892944</objectLinkPoint>
+   <objectLinkPoint>2 1 15.335938 33.936035</objectLinkPoint>
+   <objectLinkPoint>2 2 -16.956055 7.979004</objectLinkPoint>
+   <objectLinkPoint>2 3 -49.355957 -19.593994</objectLinkPoint>
+   <objectImg>2 2 2 1 0 montage_cadeiras.png</objectImg>
+   <objectLinkCount>4 1</objectLinkCount>
+   <objectLinkPoint>4 0 5.797119 -36.162476</objectLinkPoint>
+   <objectImg>4 12 4 3 0 montage_first_socorrate.png</objectImg>
+   <objectLinkCount>10 0</objectLinkCount>
+   <objectImg>10 2 2 1 0 montage_roupa.png</objectImg>
+   <objectCheckBox>3 -4.873047 -48.039001</objectCheckBox>
+   <objectCheckBox>19 -71.515137 18.364014</objectCheckBox>
+   <objectCheckBox>1 -52.316162 3.580078</objectCheckBox>
+   <objectCheckBox>4 12.380127 75.723022</objectCheckBox>
+   <objectCheckBox>2 -7.823975 -31.899902</objectCheckBox>
+   <LinkedObject>11 0 39.906006 1.583984 12 4 3 montage_estante.png</LinkedObject>
+   <objectCheckBox>11 -32.638916 67.367920</objectCheckBox>
+   <objectLinkCount>30 0</objectLinkCount>
+   <objectImg>30 1 1 1 0 montage_armario_madeira2.png</objectImg>
+   <objectLinkCount>27 0</objectLinkCount>
+   <objectImg>27 1 1 1 0 montage_armarios_azuis.png</objectImg>
+   <objectLinkCount>29 0</objectLinkCount>
+   <objectImg>29 1 1 1 0 montage_armarios_azuis2.png</objectImg>
+   <objectLinkCount>28 0</objectLinkCount>
+   <objectImg>28 1 1 1 0 montage_armario_metal.png</objectImg>
+   <objectLinkCount>16 0</objectLinkCount>
+   <objectImg>16 1 1 1 0 montage_food-machine.png</objectImg>
+   <objectLinkCount>15 0</objectLinkCount>
+   <objectImg>15 6 3 2 2 montage_bubba_charlie_tiny.png</objectImg>
+   <objectLinkCount>17 1</objectLinkCount>
+   <objectLinkPoint>17 0 51.759033 -16.847900</objectLinkPoint>
+   <objectImg>17 8 4 2 0 montage_TAC.png</objectImg>
+   <objectLinkCount>18 0</objectLinkCount>
+   <objectImg>18 1 1 1 0 montage_lixo.png</objectImg>
+   <objectCheckBox>17 -35.381836 -1.127197</objectCheckBox>
+   <bedInformationObject>4 49.730957 30.239990 3 3 1 1 montage_soroblue.png</bedInformationObject>
+   <objectLinkCount>19 1</objectLinkCount>
+   <objectLinkPoint>19 0 -5.635010 -27.139893</objectLinkPoint>
+   <objectImg>19 20 5 4 0 montage_fisioterapia.png</objectImg>
+   <objectLinkCount>20 1</objectLinkCount>
+   <objectLinkPoint>20 0 -24.513916 7.637939</objectLinkPoint>
+   <objectImg>20 20 5 4 0 montage_oftalmologista.png</objectImg>
+   <objectLinkCount>21 1</objectLinkCount>
+   <objectLinkPoint>21 0 -24.159424 15.752930</objectLinkPoint>
+   <objectImg>21 15 5 3 0 montage_psiquiatra.png</objectImg>
+   <objectLinkCount>22 1</objectLinkCount>
+   <objectLinkPoint>22 0 -5.463379 -24.633789</objectLinkPoint>
+   <objectImg>22 12 4 3 0 montage_quimioterapia.png</objectImg>
+   <objectLinkCount>23 1</objectLinkCount>
+   <objectLinkPoint>23 0 -4.207520 -1.371582</objectLinkPoint>
+   <objectImg>23 24 6 4 1 montage_babyscan.png</objectImg>
+   <objectLinkCount>24 1</objectLinkCount>
+   <objectLinkPoint>24 0 49.455078 -21.663086</objectLinkPoint>
+   <objectImg>24 20 5 4 0 montage_dentista.png</objectImg>
+   <bedInformationObject>3 49.730957 30.244019 3 3 1 1 montage_sorogreen.png</bedInformationObject>
+   <bedInformationObject>1 49.730957 30.244019 3 3 1 1 montage_soropurple.png</bedInformationObject>
+   <bedInformationObject>2 49.730957 30.244019 3 3 1 1 montage_sorored.png</bedInformationObject>
+   <objectCheckBox>20 -24.709961 -19.895996</objectCheckBox>
+   <objectCheckBox>21 -58.003906 -27.829102</objectCheckBox>
+   <objectCheckBox>22 -54.365967 -39.450684</objectCheckBox>
+   <objectCheckBox>23 -56.507080 12.218262</objectCheckBox>
+   <objectCheckBox>24 -53.448975 -8.827148</objectCheckBox>
+   <objectCheckBox>10 -2.358948 2.292007</objectCheckBox>
+   <objectLinkCount>25 1</objectLinkCount>
+   <objectLinkPoint>25 0 1.129883 -15.024414</objectLinkPoint>
+   <objectImg>25 30 6 5 0 montage_cardio.png</objectImg>
+   <objectLinkCount>26 1</objectLinkCount>
+   <objectLinkPoint>26 0 4.465576 -37.114258</objectLinkPoint>
+   <objectImg>26 24 6 4 0 montage_operacao.png</objectImg>
+   <objectCheckBox>25 57.763916 -12.694824</objectCheckBox>
+   <objectCheckBox>26 -69.449951 -51.235840</objectCheckBox>
+   <objectFloor>24 11.250977 -44.593262</objectFloor>
+   <objectFloor>3 4.654053 -54.286987</objectFloor>
+   <objectFloor>17 -0.127930 -20.763184</objectFloor>
+   <objectLinkCount>32 28</objectLinkCount>
+   <objectLinkPoint>32 0 -54.114990 33.570068</objectLinkPoint>
+   <objectLinkPoint>32 1 -34.364990 21.689941</objectLinkPoint>
+   <objectLinkPoint>32 2 -13.666992 14.129883</objectLinkPoint>
+   <objectLinkPoint>32 3 9.717041 5.310059</objectLinkPoint>
+   <objectLinkPoint>32 4 31.678955 -3.060059</objectLinkPoint>
+   <objectLinkPoint>32 5 -40.527100 50.399902</objectLinkPoint>
+   <objectLinkPoint>32 6 -24.647949 63.179932</objectLinkPoint>
+   <objectLinkPoint>32 7 53.719971 -12.419922</objectLinkPoint>
+   <objectLinkPoint>32 8 28.597900 -81.719971</objectLinkPoint>
+   <objectLinkPoint>32 9 -5.292969 -72.000000</objectLinkPoint>
+   <objectLinkPoint>32 10 -36.103027 -60.570068</objectLinkPoint>
+   <objectLinkPoint>32 11 -53.246094 -54.810059</objectLinkPoint>
+   <objectLinkPoint>32 12 -71.731934 -44.189941</objectLinkPoint>
+   <objectLinkPoint>32 13 -75.287109 -65.879883</objectLinkPoint>
+   <objectLinkPoint>32 14 -60.277100 -72.449951</objectLinkPoint>
+   <objectLinkPoint>32 15 -38.314941 -76.050049</objectLinkPoint>
+   <objectLinkPoint>32 16 -18.486084 -83.070068</objectLinkPoint>
+   <objectLinkPoint>32 17 2.606934 -89.729980</objectLinkPoint>
+   <objectLinkPoint>32 18 -54.114990 -88.830078</objectLinkPoint>
+   <objectLinkPoint>32 19 -77.894043 -80.459961</objectLinkPoint>
+   <objectLinkPoint>32 20 75.681885 -87.479980</objectLinkPoint>
+   <objectLinkPoint>32 21 48.427002 -92.340088</objectLinkPoint>
+   <objectLinkPoint>32 22 -33.891113 -95.489990</objectLinkPoint>
+   <objectLinkPoint>32 23 -75.681885 -96.389893</objectLinkPoint>
+   <objectLinkPoint>32 24 -93.299072 -71.189941</objectLinkPoint>
+   <objectLinkPoint>32 25 -94.642090 -50.850098</objectLinkPoint>
+   <objectLinkPoint>32 26 -93.299072 -31.860107</objectLinkPoint>
+   <objectLinkPoint>32 27 -93.772949 -14.580078</objectLinkPoint>
+   <objectImg>32 1 1 1 0 farmacia_miniBalcao1.png</objectImg>
+   <LinkedObject>32 1 -11.983887 119.875000 3 3 1 montage_elevadortiny.png</LinkedObject>
+   <objectCheckBox>32 45.472168 47.666016</objectCheckBox>
+   <objectLinkCount>8 1</objectLinkCount>
+   <objectLinkPoint>8 0 8.058502 -44.615997</objectLinkPoint>
+   <objectImg>8 4 4 1 3 montage_portas_elevadores.png</objectImg>
+   <objectFloor>23 21.957031 -53.383789</objectFloor>
+   <objectFloor>22 -1.815918 -64.174805</objectFloor>
+   <objectFloor>26 3.661133 -63.765137</objectFloor>
+   <objectFloor>25 -15.701172 -62.833984</objectFloor>
+   <objectFloor>19 0.576904 -40.144043</objectFloor>
+   <objectFloor>20 5.510986 -40.869873</objectFloor>
+   <objectFloor>21 -3.480957 -34.555176</objectFloor>
+   <objectLinkCount>31 1</objectLinkCount>
+   <objectLinkPoint>31 0 -16.946045 -46.904785</objectLinkPoint>
+   <objectImg>31 12 4 3 0 montage_ultrascan.png</objectImg>
+   <objectFloor>31 -6.507080 -72.182617</objectFloor>
+   <objectCheckBox>31 29.019043 54.278320</objectCheckBox>
+   <LinkedObject>11 1 -79.655029 94.803955 3 3 1 montage_elevadortiny.png</LinkedObject>
+   <LinkedObject>32 3 -6.658936 -30.537109 1 -1 -1 sign_1_short.png</LinkedObject>
+   <objectLinkCount>34 0</objectLinkCount>
+   <objectImg>34 3 3 1 0 montage_TV.png</objectImg>
+   <objectFloor>4 18.420898 -58.103027</objectFloor>
+   <objectLinkCount>7 1</objectLinkCount>
+   <objectLinkPoint>7 0 -26.500000 -71.955078</objectLinkPoint>
+   <objectImg>7 24 6 4 14 montage_medicoTriagem.png</objectImg>
+   <LinkedObject>7 0 12.136963 -13.773926 2 2 1 montage_mesaTriagem1.png</LinkedObject>
+   <LinkedObject>7 1 23.022949 -14.611816 2 2 1 montage_mesaTriagem2.png</LinkedObject>
+   <LinkedObject>7 2 20.668945 -13.635986 2 2 1 montage_mesaTriagem3.png</LinkedObject>
+   <LinkedObject>7 3 30.479980 -14.597900 2 2 1 montage_mesaTriagem4.png</LinkedObject>
+   <LinkedObject>7 4 34.054932 -14.604980 2 2 1 montage_mesaTriagem5.png</LinkedObject>
+   <LinkedObject>7 5 30.460938 -9.153809 2 2 1 montage_mesaTriagem6.png</LinkedObject>
+   <LinkedObject>7 6 26.073975 -5.360840 2 2 1 montage_mesaTriagem7.png</LinkedObject>
+   <LinkedObject>11 2 -40.257080 -37.206055 1 -1 -1 farmacia_balcao1.png</LinkedObject>
+   <LinkedObject>11 3 -49.343994 -66.624023 1 -1 -1 sign_1_short.png</LinkedObject>
+   <objectLinkCount>11 26</objectLinkCount>
+   <objectLinkPoint>11 0 -122.895508 8.842529</objectLinkPoint>
+   <objectLinkPoint>11 1 -97.870605 -3.667969</objectLinkPoint>
+   <objectLinkPoint>11 2 -69.933594 -14.737549</objectLinkPoint>
+   <objectLinkPoint>11 3 -41.222900 -25.741455</objectLinkPoint>
+   <objectLinkPoint>11 4 -13.240479 -36.811035</objectLinkPoint>
+   <objectLinkPoint>11 5 -110.383057 25.741455</objectLinkPoint>
+   <objectLinkPoint>11 6 -92.729004 39.038086</objectLinkPoint>
+   <objectLinkPoint>11 7 -135.271484 23.907471</objectLinkPoint>
+   <objectLinkPoint>11 8 -129.492920 -75.062988</objectLinkPoint>
+   <objectLinkPoint>11 9 -104.740967 -81.678467</objectLinkPoint>
+   <objectLinkPoint>11 10 -75.894043 -97.333008</objectLinkPoint>
+   <objectLinkPoint>11 11 -51.142090 -98.118896</objectLinkPoint>
+   <objectLinkPoint>11 12 -24.751953 -115.476563</objectLinkPoint>
+   <objectLinkPoint>11 13 -5.778564 -120.388916</objectLinkPoint>
+   <objectLinkPoint>11 14 5.778564 -141.021484</objectLinkPoint>
+   <objectLinkPoint>11 15 -55.237061 -112.135986</objectLinkPoint>
+   <objectLinkPoint>11 16 -42.314941 -127.921387</objectLinkPoint>
+   <objectLinkPoint>11 17 -27.208984 -141.021484</objectLinkPoint>
+   <objectLinkPoint>11 18 -73.391602 -121.240479</objectLinkPoint>
+   <objectLinkPoint>11 19 -164.027588 -95.957520</objectLinkPoint>
+   <objectLinkPoint>11 20 -99.781494 -106.372070</objectLinkPoint>
+   <objectLinkPoint>11 21 -138.547607 -92.354980</objectLinkPoint>
+   <objectLinkPoint>11 22 -153.380615 -73.425537</objectLinkPoint>
+   <objectLinkPoint>11 23 -119.573975 -101.459473</objectLinkPoint>
+   <objectLinkPoint>11 24 -57.784912 -140.301025</objectLinkPoint>
+   <objectLinkPoint>11 25 -97.006104 -125.891113</objectLinkPoint>
+   <objectImg>11 30 6 5 0 montage_farmacia_medico.png</objectImg>
+   <LinkedObject>24 0 53.822998 -18.736328 1 -1 -1 dentista_almofada.png</LinkedObject>
+</ObjectInfo>

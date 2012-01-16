@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<TransportInfo>
+   <ambulanceAnimation>0 0 8 6.99999 4 2 montage_ambulancia.png 4 1 2 3 2</ambulanceAnimation>
+   <ambulanceAnimation>1 0 8 10 4 2 montage_ambulancia.png 2 4 5</ambulanceAnimation>
+   <ambulanceAnimation>2 0 8 1 4 2 montage_ambulancia.png 1 6</ambulanceAnimation>
+   <StretcherLinkPoint>2.64999 -13.4945 66.674 16.154</StretcherLinkPoint>
+   <StretcherIds>147 152 157 182 110</StretcherIds>
+   <HelicopterIds>234 235 236</HelicopterIds>
+   <ambulancePath>1 1.971000 460.980011</ambulancePath>
+   <ambulancePath>0 302.292999 913.421021</ambulancePath>
+   <ambulancePath>2 -352.220001 151.192993</ambulancePath>
+   <helicopterPath>1 568.546021 199.442993</helicopterPath>
+   <helicopterPath>0 159.408005 -307.065002</helicopterPath>
+   <helicopterPath>2 1162.722046 -163.429001</helicopterPath>
+</TransportInfo>
