@@ -231,7 +231,9 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   private int[] patinetIdList = {0, 1, 2, 3, 4, 8, 9,10};
   private Random random = new Random();
   public void patientComein(){
-	int pId = patinetIdList[Math.abs(random.nextInt()) % patinetIdList.length];
+	int iid = Math.abs(random.nextInt()) % patinetIdList.length;
+	Log.d("RokejitsX", "iid = "+iid);
+	int pId = patinetIdList[iid];
     Patient patient = new Patient(pId);	  
     if(getFloor() != 0)
       patient.setVisible(false);    
