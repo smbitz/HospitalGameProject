@@ -19,9 +19,7 @@ public abstract class Ward extends Building{
   
   private double healingEffectiveLevel; 
   private long operationTime,endHealingTime;
-  private WardListener listener;  
-  
-  
+  private WardListener listener; 
   //private int wardType;
   
   
@@ -31,6 +29,8 @@ public abstract class Ward extends Building{
     this.wardType = type;*/
 	
     setHealingEffectiveLevel(5);
+    
+    
      
   }
   
@@ -38,10 +38,14 @@ public abstract class Ward extends Building{
   
   
   
-  /*public int getWardType(){
-    return wardType;	  
-  }*/
+
   
+
+
+
+
+
+
   public void setHealingEffectiveLevel(double healingLevel){
     healingEffectiveLevel = healingLevel;	  
   }
@@ -72,6 +76,11 @@ public abstract class Ward extends Building{
   }
   
  
+  private float currentHealingTime = -1;
+  
+  protected float getCurrentHealingTime(){
+    return currentHealingTime;	  
+  }
   
   protected void startHealing(){
 	Log.d("Rokejitsx", "StartHealing....");
@@ -79,10 +88,12 @@ public abstract class Ward extends Building{
 	getCurrentPatient().setPickable(false);
 	getCurrentPatient().onHealing();
     onStartHealing();      
+    currentHealingTime = 0;
     endHealingTime = System.currentTimeMillis() + operationTime;
   }
   
   private void healing(float pSecondsElapsed){
+	currentHealingTime = currentHealingTime + pSecondsElapsed;
 	Patient patient = getCurrentPatient();	
 	patient.setHealthLevel(patient.getHealthLevel() + (healingEffectiveLevel  * pSecondsElapsed));	
     onHealing(pSecondsElapsed);	  
@@ -90,26 +101,45 @@ public abstract class Ward extends Building{
       finishHealing();
   }
   
-  protected void finishHealing(){	
+  protected void finishHealing(){
+	currentHealingTime = -1;
     setState(STATE_IDLE);    
-    getCurrentPatient().setPickable(true);
-    if(isVisible())
-      getCurrentPatient().setVisible(true);
     onfinishHealing();
+    Patient patient = getCurrentPatient();
+    onGameCharactorCallback(patient);
     if(listener != null)
-      listener.onFinishHealing(this, getCurrentPatient());
+      listener.onFinishHealing(this, getCurrentPatient());    
+    patient.setPickable(true);
+    if(isVisible())
+      patient.setVisible(true);
+    patient.nextHealingRoute();
+    
+        
+    
   }  
 
   @Override
-  public void onReceive(GameCharactor gameChar) {	
+  public boolean onReceive(GameCharactor gameChar) {	
     Patient patient = (Patient) gameChar;
     patient.setPickable(false);
     onWardReceivePatient(patient);
     if(!patient.hasRequireItem()){
       startHealing();	
+    }else{
+      patient.showBubbleBoxItem();	
     }
-    //return true;
+    return true;
   }
+  
+  @Override
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {
+    setPatientOnReceived((Patient) gameChar);	  	   
+	  
+  }
+  
+  protected abstract void setPatientOnReceived(Patient patient);
+	  
+  
 
   @Override
   public void onRemove(GameCharactor gameChar) {

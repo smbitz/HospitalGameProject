@@ -1,5 +1,9 @@
 package com.rokejitsx.ui.hospital;
 
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Vector;
+
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -10,13 +14,37 @@ import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector.ElevatorSelector
 import com.rokejitsx.ui.hospital.Hospital.HospitalListener;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
 import com.rokejitsx.ui.hospital.HospitalTimer.HospitalTimerListener;
+import com.rokejitsx.ui.item.Item;
+import com.rokejitsx.ui.patient.Patient;
 
 public class HospitalUI extends Entity implements HospitalListener{
   private HospitalStat hospitalStat;	
   private HospitalTimer timer;
   private HospitalFloorSelector hospitalFloorSelector;
   private ElevatorFloorSelector elevatorFloorSelector;
-  public HospitalUI(int maxFloor){
+  private Vector<PatientDoughnut> patientDoughnutList;
+  private HospitalUIListener listener;
+  private ItemDoughnut[] itemDoughnutList;
+  public HospitalUI(int maxFloor, HospitalUIListener listener){
+	this.listener = listener;
+	patientDoughnutList = new Vector<PatientDoughnut>();
+	itemDoughnutList = new ItemDoughnut[5];
+	
+	for(int i = 0;i < itemDoughnutList.length;i++){
+	  itemDoughnutList[i] = new ItemDoughnut();	
+	}
+	
+	ItemDoughnut itemDo = itemDoughnutList[0];
+	float x = 450 - (itemDo.getWidth() * 2 + itemDo.getWidth()/2 + 20);
+	float y = 600 - itemDo.getHeight();
+	
+	for(int i = 0;i < itemDoughnutList.length;i++){
+	  itemDoughnutList[i].setPosition(x, y);
+	  x += itemDoughnutList[i].getWidth() + 10;
+	  attachChild(itemDoughnutList[i]);
+    }
+	
+	
 	int cameraWidth = HospitalGameActivity.getGameActivity().getCameraWidth();
 	int cameraHeight = HospitalGameActivity.getGameActivity().getCameraHeight();
 	
@@ -89,6 +117,19 @@ public class HospitalUI extends Entity implements HospitalListener{
       return true;
     if(elevatorFloorSelector.onSceneTouchEvent(pScene, pSceneTouchEvent))
   	  return true;
+    int action = pSceneTouchEvent.getAction();
+    float touchX = pSceneTouchEvent.getX();
+	float touchY = pSceneTouchEvent.getY();
+	if(action == TouchEvent.ACTION_DOWN){
+      for(int i = 0;i < itemDoughnutList.length;i++){
+        ItemDoughnut itemDo = itemDoughnutList[i];      
+        if(itemDo.contains(touchX, touchY) && itemDo.containItem()){
+          listener.onItemSelected(i);
+          return true;
+        }
+      }
+	}
+    
     return false;
   }
 
@@ -107,6 +148,57 @@ public class HospitalUI extends Entity implements HospitalListener{
   public void onPatientFinishHealing() {
 	hospitalStat.increaseMoney(100);
 	hospitalStat.increaseThreatedPatient(1);
+	
+  }
+
+  @Override
+  public void addPatientDoughnut(Patient patient) {
+	PatientDoughnut doughNut = new PatientDoughnut(patient);
+	doughNut.setPosition(0, 600);
+	patientDoughnutList.add(doughNut);	
+	attachChild(doughNut);
+	updateDoughnutPosition();
+	
+  }
+
+  @Override
+  public void removePatientDoughnut(Patient patient) {
+    Enumeration<PatientDoughnut> e = patientDoughnutList.elements();
+    PatientDoughnut doughnut = null;
+    while(e.hasMoreElements()){
+      PatientDoughnut pDo = e.nextElement();
+      if(pDo.getCurrentPatient().equals(patient)){
+        doughnut = pDo;
+        break;
+      }
+    		  
+    }    
+    patientDoughnutList.remove(doughnut);
+    detachChild(doughnut);
+    updateDoughnutPosition();
+	
+  }
+  
+  private void updateDoughnutPosition(){
+    float x = 0;
+    float y = hospitalStat.getX() + hospitalStat.getHeight();
+    Enumeration<PatientDoughnut> e = patientDoughnutList.elements();
+    while(e.hasMoreElements()){
+      PatientDoughnut pDo = e.nextElement();
+      pDo.moveTo(x, y);
+      y += pDo.getHeight();
+    }  
+  }
+
+  @Override
+  public void addItemOndesk(Item item, int index) {
+    itemDoughnutList[index].setItem(item);	
+	
+  }
+
+  @Override
+  public void removeItemOndesk(Item item, int index) {
+    itemDoughnutList[index].clear();	
 	
   }
 	

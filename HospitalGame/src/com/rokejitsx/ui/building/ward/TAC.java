@@ -16,12 +16,17 @@ public class TAC extends Ward{
 	setBrokedAnimationId(22);
 	setOperationTime(3500);
 	setState(STATE_IDLE);
+	addGameCharactorOnReceivedPosition(61, 100);
   }
 
   @Override
   public void onWardReceivePatient(Patient patient) {
 	// TODO Auto-generated method stub
 	
+  }
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.idle(false);	  
   }
 
   @Override
@@ -44,7 +49,8 @@ public class TAC extends Ward{
 
   @Override
   public void onfinishHealing() {
-	getCurrentPatient().setVisible(true);
+	if(isVisible())
+	  getCurrentPatient().setVisible(true);
 	
   }  
 

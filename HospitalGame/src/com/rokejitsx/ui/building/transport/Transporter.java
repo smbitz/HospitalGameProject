@@ -90,12 +90,10 @@ public class Transporter extends Building implements PathFinderListener, IModifi
 		  
   }
   @Override
-  protected void onReceive(GameCharactor gameChar) {
+  protected boolean onReceive(GameCharactor gameChar) {
 	gameChar.setVisible(false);
-	setTransportState(STATE_CLOSE_DOOR);
-	/*AnimationInfo animInfo = ResourceManager.getInstance().getAmbulanceAnimationInfo(1);
-	setAnimation(mainSprite, animInfo.getEachFrameDuration(), new int[]{5, 4}, 1, false, this);*/
-	super.onReceive(gameChar);
+	setTransportState(STATE_CLOSE_DOOR);	
+	return false;
   }
   
   private int idleTile;
@@ -287,6 +285,10 @@ public class Transporter extends Building implements PathFinderListener, IModifi
 	}
 	
   }
+
+
+  @Override
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {}
 
 
 

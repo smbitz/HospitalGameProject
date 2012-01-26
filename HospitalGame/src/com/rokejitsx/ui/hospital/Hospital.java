@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.hospital;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.Random;
@@ -9,6 +10,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.Entity;
+import org.anddev.andengine.entity.IEntity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -25,8 +27,11 @@ import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameCharactorListener;
 import com.rokejitsx.data.GameCharatorFloorChangedListener;
 import com.rokejitsx.data.GameObject;
+import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.route.RouteManager;
+import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.data.xml.HospitalLevelReader.BuildingInfo;
+import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.building.BuildingListener;
 import com.rokejitsx.ui.building.Chair;
@@ -52,7 +57,7 @@ import com.rokejitsx.ui.nurse.NurseListener;
 import com.rokejitsx.ui.patient.Patient;
 import com.rokejitsx.ui.patient.PatientListener;
 
-public class Hospital extends Entity implements WardListener, PatientListener, GameCharactorListener, BuildingListener, ElevatorSelectorListener, GameCharatorFloorChangedListener, FirstPharmacyListener, PharmacyListener, NurseListener {
+public class Hospital extends Entity implements WardListener, PatientListener, GameCharactorListener, BuildingListener, ElevatorSelectorListener, GameCharatorFloorChangedListener, FirstPharmacyListener, PharmacyListener, NurseListener, HospitalUIListener {
   private RouteManager[] routeManagerList;  
   private Triage analizeWard;    
   private Chair waitingChair;
@@ -70,7 +75,6 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   
   private Nurse nurse;
   private Vector<GameObject> nurseQueue;
-  
   private Patient pickedPatient;
   private Building collideBuilding;
   
@@ -82,18 +86,23 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   private HospitalListener hospitalListener;  
   private Elevator selectedElevator;
   
-  private Vector<Item> itemOnDesk;
+  private Item[] itemOnDesk;
   
   
   private Ambulance ambulance;
   private Helicopter helicopter;
   
   
+  private Vector<Patient> patientAlmostDeadList;
+  
+  
+  
   public Hospital(int maxFloor){
 	this.maxFloor = maxFloor;
-	itemOnDesk = new Vector<Item>(5);
+	itemOnDesk = new Item[5];
 	patientList = new Vector<Patient>();
 	healedPatientList = new Vector<Patient>();
+	patientAlmostDeadList = new Vector<Patient>();
 	buildingList = new Vector<GameObject>();
 	routeManagerList = new RouteManager[maxFloor];
 	infowardList = new Pharmacy[maxFloor];
@@ -157,9 +166,12 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     	bg[i].setVisible(false);
     }
     updateFloorChanged(floor);
-    Enumeration<Item> e = itemOnDesk.elements();
-    while(e.hasMoreElements()){
-      Item item = e.nextElement();      
+    //Enumeration<Item> e = itemOnDesk.elements();
+    
+    for(int i = 0; i < itemOnDesk.length;i++){
+      Item item = itemOnDesk[i];   
+      if(item == null)
+        continue;
       if(!nurseQueue.contains(item) && !item.equals(nurse.getItemToPick())){
     	Pharmacy infoWard = (Pharmacy) item.getOwner();
         if(infoWard.getCurrentFloor() != currentFloor){
@@ -206,47 +218,83 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   
   
   private int[][] wardCourseInfo = {
-    { Building.QUICKTREAT },
+    { Building.QUICKTREAT /*Building.ULTRASCAN*//*Building.CARDIOLOGY*//*Building.BABY_SCAN*/},
     null,
     {Building.PSYCHIATRY, Building.PHYSIOTHERAPY},
-    {Building.QUICKTREAT, Building.XRAY, Building.OPERATION},
+    {Building.QUICKTREAT, Building.XRAY, Building.OPERATION, Building.DENTIST},
     {Building.PSYCHIATRY, Building.OPERATION, Building.TAC},
-    {Building.DENTIST, Building.QUICKTREAT, Building.CHEMOTHERAPY},
-    {Building.QUICKTREAT, Building.XRAY, Building.TAC/*, Building.CARDIOLOGY*/, Building.OPERATION}
+    {Building.DENTIST, Building.QUICKTREAT, Building.CHEMOTHERAPY, Building.OPHTHALMOLOGY},
+    {Building.QUICKTREAT, Building.XRAY, Building.TAC, Building.CARDIOLOGY, Building.OPERATION}
   };
   
+  
+  private int[] patinetIdList = {0, 1, 2, 3, 4, 8, 9,10};
+  private Random random = new Random();
   public void patientComein(){
-    Patient patient = new Patient(0);	  
+	int pId = patinetIdList[Math.abs(random.nextInt()) % patinetIdList.length];
+    Patient patient = new Patient(pId);	  
     if(getFloor() != 0)
-      patient.setVisible(false);
-    patient.setHealthLevel(50);    
+      patient.setVisible(false);    
     patient.setGameCharactorPosition(routeManagerList[0].getRouteX(0), routeManagerList[0].getRouteY(0));
+    /*patient.onSetFace(GameCharactor.FACE_UP_R);
+    attachChild(patient);
+    float x = 500;
+    float y = 200;
+    patient = new Patient(pId, hId);
+    patient.setGameCharactorPosition(x, y);
+    patient.onSetFace(GameCharactor.FACE_UP_L);
+    attachChild(patient);
+    
+    y +=100;
+    patient = new Patient(pId, hId);
+    patient.setGameCharactorPosition(x,y);
+    patient.onSetFace(GameCharactor.FACE_DOWN_R);
+    attachChild(patient);
+    y +=100;
+    patient = new Patient(pId, hId);
+    patient.setGameCharactorPosition(x, y);
+    patient.onSetFace(GameCharactor.FACE_DOWN_L);
+    attachChild(patient);
+    
+    
+    y +=100;
+    patient = new Patient(pId, hId);
+    patient.setGameCharactorPosition(x, y);
+    //patient.onSetFace(GameCharactor.FACE_DOWN_L);
+    patient.setPickable(true);
+    attachChild(patient);*/
+    
+    
+    
+    patient.setHealthLevel(25);    
+    
     patient.setGameCharactorFloorChangeListener(this);
     patient.addGameCharactorListener(this);
-    patient.addWardHealingRoute(Building.TRIAGE);
+    patient.addWardHealingRoute(Building.TRIAGE, 0);
     InfoPlate infoPlate = new InfoPlate(patientQueueNumber);    
     infoPlate.setOwner(patient);
+    
+    
     //infoPlate.setGameCharactorFloorChangeListener(this);
     //addFloorChangeListener(infoPlate);
+    
     int[] random = wardCourseInfo[hospitalId];
     if(random == null){
-      patient.addWardHealingRoute(Building.BED).addItem(infoPlate);	
+      patient.addWardHealingRoute(Building.BED, getWardFloor(Building.BED)).addItem(infoPlate);	
     }else{
       Random r = new Random();
       int id = Math.abs(r.nextInt()) % random.length;
-      patient.addWardHealingRoute(random[id]).addItem(infoPlate);
-      patient.addWardHealingRoute(Building.BED);
+      patient.addWardHealingRoute(random[id], getWardFloor(random[id])).addItem(infoPlate);
+      patient.addWardHealingRoute(Building.BED, getWardFloor(Building.BED));
     }
+    
+    /*patient.addWardHealingRoute(Building.QUICKTREAT, 0).addItem(infoPlate);
+    patient.addWardHealingRoute(Building.BED, 0).addItem(infoPlate);*/
     	
+    patient.setShowFloorNumberInBubbleBox(true);
     
     
-    /*Random random = new Random();
-    if(random.nextInt() % 2 == 0){
-      
-      patient.addWardHealingRoute(Building.QUICKTREAT).addItem(infoPlate);
-      //patient.addWardHealingRoute(Building.BED);
-    }else
-      patient.addWardHealingRoute(Building.BED).addItem(infoPlate);*/
+    
     patient.setPatientListener(this);
     patient.setQueue(patientQueueNumber++);
     if(patientQueueNumber > 15)
@@ -256,7 +304,24 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     
     addFloorChangeListener(patient);
     routeManagerList[0].findPath(0, 2, patient);
+    
+    
+    
   }
+  
+  public int getWardFloor(int buildingType){
+       
+    for(int i = 0;i < buildingList.size();i++){
+      GameObject obj = buildingList.elementAt(i);
+      if(!(obj instanceof Ward))
+        continue;
+      Ward ward = (Ward) obj;
+      if(ward.getBuildingType() == buildingType)
+        return ward.getCurrentFloor();
+    }
+    return -1;	
+  }
+ 
   
   private void addNurseQueue(GameObject obj){	
     nurseQueue.add(obj);    
@@ -275,15 +340,22 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     if(nurseQueue.size() == 0 || nurse.isCleaning())
       return;    
     GameObject toTarget = nurseQueue.elementAt(0);
+    Log.d("Rokejits", "toTarget "+toTarget.getClass());
     if(toTarget instanceof Item){
       Item item = (Item) toTarget;	
+      Log.d("InfomationWard", "ownerrrrrr1 "+item.getOwner().getClass());
+      Log.d("InfomationWard", "ownerrrrrr2 "+item.getPatientNumber());
       Pharmacy infoWard = (Pharmacy) item.getOwner();
       Log.d("InfomationWard", "ownerrrrrr "+infoWard.getCurrentFloor());
       if(infoWard.getCurrentFloor() != nurse.getCurrentFloor()){
         toTarget = elevatorList[nurse.getCurrentFloor()];	
+        Log.d("InfomationWard", "ownerrrrrr3 ");
       }else{
+    	Log.d("InfomationWard", "ownerrrrrr4 ");  
         nurseQueue.remove(0);
       }
+      Log.d("InfomationWard", "ownerrrrrr5 "+nurseQueue.size());  
+      
     }else{
       if(toTarget.getCurrentFloor() != nurse.getCurrentFloor()){
         toTarget = elevatorList[nurse.getCurrentFloor()];	
@@ -537,15 +609,29 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	  
 	  for(int i= 0;i < buildingInfoList.length;i++){
 		BuildingInfo buildingInfo = buildingInfoList[i];
+		
 		GameObject building = Building.createBuildingObject(buildingInfo.getBuildingId(), hospital);
+		
+		
+		//Log.d("RokejitsX", "create building1 = "+buildingInfo.getBuildingId()+"************************************************");
 	    if(building == null)
 	      continue;
+	    /*ObjectInfo objectInfo = ResourceManager.getInstance().getObjectInfo(buildingInfo.getBuildingId());
+	    Log.d("RokejitsX", "create building2 = "+building.getClass()+"************************************************");
+	    Log.d("RokejitsX", "create building3 = "+objectInfo+"************************************************");*/
 	    addFloorChangeListener(building);
 		//GameObject building = buildingList[i];
 		if(building != null){
 		  buildingList.addElement(building);
 		  building.setCurrentFloor(buildingInfo.getFloor());
 		  building.setGameObjectPositionAsCenter(buildingInfo.getX(), buildingInfo.getY());
+		  /*if(objectInfo != null){
+		    float x = buildingInfo.getX() - objectInfo.getFloorX() - building.getWidth()/2;
+		    float y = buildingInfo.getY() - objectInfo.getFloorY() - building.getHeight();
+		    building.setPosition(x, y);
+		  }else{
+	        building.setGameObjectPositionAsCenter(buildingInfo.getX(), buildingInfo.getY());  
+		  }*/
 		  
 	      attachChild(building);
 	      
@@ -553,6 +639,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	        Building b = (Building) building;
 	        b.setActionNode(buildingInfo.getActionNode());
 	        b.setActionPatientNode(buildingInfo.getPatientActionNode());
+	        //b.setBuildingListener(this);
 	      }
 	      
 	      if(building instanceof Ward){
@@ -657,6 +744,22 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	  patientComeInTime -= pSecondsElapsed;	
 	}
 	super.onManagedUpdate(pSecondsElapsed);
+	
+	Enumeration<Patient> e = patientList.elements();
+	while(e.hasMoreElements()){
+      Patient patient = e.nextElement();
+      //Log.d("RokejitsX", "patient.getHealthLevel() = "+patient.getHealthLevel());
+      if(patient.getHealthLevel() <= 20 && !patientAlmostDeadList.contains(patient)){
+        patientAlmostDeadList.add(patient);
+        //add doughnut to hospital UI
+        hospitalListener.addPatientDoughnut(patient);
+      }else if(patient.getHealthLevel() > 20 && patientAlmostDeadList.contains(patient)){
+        patientAlmostDeadList.remove(patient);
+        //remove doughnut from hospital UI
+        hospitalListener.removePatientDoughnut(patient);
+      }
+	}
+	
   }
   
   
@@ -689,10 +792,35 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   }*/
 
   @Override
-protected void onDrawChildren(GL10 pGL, Camera pCamera) {
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {
   // TODO Auto-generated method stub
-  sortChildren();
-  super.onDrawChildren(pGL, pCamera);
+    sortChildren();
+    if(this.mChildren != null && this.mChildrenVisible) {
+	  //this.onManagedDrawChildren(pGL, pCamera);
+      final ArrayList<IEntity> children = this.mChildren;
+	  final int childCount = children.size();
+	  for(int i = 0; i < childCount; i++) {
+	    IEntity child = (IEntity) children.get(i); 
+	    if(!(child instanceof Patient)){
+	      child.onDraw(pGL, pCamera);
+	    }else{
+	      Patient patient = (Patient) child;
+	      if(patient.getCurrentBuilding() == null || patient.isOnPick())
+	        patient.onDraw(pGL, pCamera);
+	    }
+	  }
+	
+	  for(int i = 0; i < childCount; i++) {
+        IEntity child = (IEntity) children.get(i); 
+	    if(child instanceof Patient){
+		  Patient patient = (Patient) child;
+		  if(patient.isVisible() && patient.getCurrentFloor() == getFloor())
+		    patient.drawInterface(pGL, pCamera);
+	    }	
+	  }
+	  
+    }
+  //super.onDrawChildren(pGL, pCamera);
 /*	  detachSelf();
   int count = getChildCount();
   if(pickedPatient != null)
@@ -739,7 +867,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  	        Enumeration<GameObject> buildingElements = buildingList.elements(); 	      
  	        while(buildingElements.hasMoreElements()){
  	          GameObject obj = buildingElements.nextElement();
- 		      if(!(obj instanceof Building) || obj instanceof Chair || obj instanceof Outside || obj instanceof OutsideElevator)
+ 		      if(!(obj instanceof Building) || obj instanceof Chair || obj instanceof Outside || obj instanceof OutsideElevator || obj instanceof Triage)
  		        continue;
  		      Building building = (Building) obj;
  	          //Building building = (Building) buildingElements.nextElement();
@@ -784,6 +912,13 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 	            if(tranSporter.getTransportState() != Transporter.STATE_IDLE)
 	              continue;
 	          }*/
+	          if(building.isDirty() || building.isBroked())
+	            continue;
+	          if(building instanceof Ward){
+	            Ward ward = (Ward) building;
+	            if(ward.getBuildingType() != pickedPatient.getNextWardType() || ward.getState() != Ward.STATE_IDLE)
+	              continue;
+	          }
 	          if(building.isBuildingContain(patientX, patientY) != null && !building.equals(pickedPatient.getCurrentBuilding()) && building.isVisible()){	        	
 	        	if(currentCollide != null){
 	        	  if(currentCollide.equals(building))
@@ -842,9 +977,9 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  	      
  	    break;
  	    case TouchEvent.ACTION_UP:
- 	      Log.d("RokejitsX", "pickedPatient = "+pickedPatient);
- 		  Log.d("RokejitsX", "collideBuilding = "+collideBuilding);
- 	      if(pickedPatient != null && collideBuilding != null){
+ 	      /*Log.d("RokejitsX", "pickedPatient = "+pickedPatient);
+ 		  Log.d("RokejitsX", "collideBuilding = "+collideBuilding);*/
+ 	      /*if(pickedPatient != null && collideBuilding != null){
  	        Log.d("RokejitsX", "collideBuilding.getClass() = "+collideBuilding.getClass());
  		    Log.d("RokejitsX", "pickedPatient.collidesWith(collideBuilding) = "+pickedPatient.collidesWith(collideBuilding));
  		    Log.d("RokejitsX", "collideBuilding.equals(pickedPatient.getCurrentBuilding()) = "+collideBuilding.equals(pickedPatient.getCurrentBuilding()));
@@ -852,7 +987,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  		    Log.d("RokejitsX", "collideBuilding.isVisible() = "+collideBuilding.isVisible());
  		    Log.d("RokejitsX", "pickedPatient.getNextWardType() == collideBuilding.getBuildingType() = "+(pickedPatient.getNextWardType() == collideBuilding.getBuildingType()));
  		   
- 	      }
+ 	      }*/
  	      
  	      if(pickedPatient != null){
  	    	 pickedPatient.onUnPicked();	
@@ -891,8 +1026,8 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 
   @Override
   public void onFinishHealing(Ward ward, Patient patient) {    
-    patient.nextHealingRoute();	
-    if(!patient.isFinishHealing())
+    //patient.nextHealingRoute();	
+    /*if(!patient.isFinishHealing())
       if(ward instanceof Triage){        
         Item item = patient.getRequireItem();      
         item.setVisible(false);
@@ -902,16 +1037,18 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
           firstInfoWard.next();	
         }
         //patient.setPickable(true);
-      }
+      }*/
     	
   }
 
   @Override
   public void onPatientMoveOut(Patient patient) {
     Building building = patient.getCurrentBuilding();
-    building.removeCharactor(patient);
-    int routeIndex = building.getActionPatientnode();
+    if(building != null)
+      building.removeCharactor(patient);
+    int routeIndex = patient.getCurrentNode();
     patient.setGameCharactorPosition(routeManagerList[patient.getCurrentFloor()].getRouteX(routeIndex), routeManagerList[patient.getCurrentFloor()].getRouteY(routeIndex));
+    //int routeIndex = building.getActionPatientnode();
     patient.addGameCharactorListener(this);
     if(patient.getCurrentFloor() != 0){
       Elevator elevator = elevatorList[patient.getCurrentFloor()];      
@@ -920,13 +1057,42 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
       routeManagerList[0].findPath(routeIndex, 0, patient);
     }
     removeItem(patient);
+    patientList.remove(patient);
+    patientAlmostDeadList.remove(patient);
+    hospitalListener.removePatientDoughnut(patient);
     
-    if(patient.isFinishHealing())
-      hospitalListener.onPatientFinishHealing();
+    /*if(patient.isFinishHealing())
+      hospitalListener.onPatientFinishHealing();*/
       
 	
   } 
   
+  
+  
+  @Override
+  public void onPatientFinishHealing(Patient patient) {
+    Building building = patient.getCurrentBuilding();
+    building.removeCharactor(patient);
+    int routeIndex = building.getActionPatientnode();
+    patient.setGameCharactorPosition(routeManagerList[patient.getCurrentFloor()].getRouteX(routeIndex), routeManagerList[patient.getCurrentFloor()].getRouteY(routeIndex));
+    patient.jump();
+    hospitalListener.onPatientFinishHealing();
+  }
+  
+  
+
+  @Override
+  public void onPatientRequestItem(Patient patient) {	
+    Item item = patient.getRequireItem();      
+    item.setVisible(false);
+    if(item.getParent() == null)
+      attachChild(item);
+    firstInfoWard.addPrepareQueue(item);
+    if(getAvaiableItemSlot() != -1){
+      firstInfoWard.next();	
+    }
+  }
+
   @Override
   public void onGameCharactorFloorChanged(GameCharactor gameChar, int floor){
     if(floor != getFloor()){
@@ -970,8 +1136,9 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
       if(!patient.isInProgress()){
         patient.removeGameCharactorListener(this);
         if(!waitingChair.receiveCharator(gameChar)){
-          if(!frontWaitingQueue.receiveCharator(gameChar))
-            gameChar.setVisible(false);
+          if(!frontWaitingQueue.receiveCharator(gameChar)){
+            //gameChar.setVisible(false);
+          }
         }	  
       }else if(patient.isMoveout()){
     	if(patient.getCurrentFloor() != 0){
@@ -1003,8 +1170,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
       }else if(owner instanceof Nurse){
         nurse.handOut(item);	
       }
-      if(itemOnDesk.contains(item)){
-        itemOnDesk.remove(item);
+      if(removeItemOnDesk(item) != -1){        
         firstInfoWard.next();
       }
       
@@ -1024,6 +1190,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
       ambBuilding.setVisible(false);     
       ambulanceTime = System.currentTimeMillis();
       routeManager.findPath(12, 13, ambCharator);
+      
 	}else */if(building instanceof Elevator){
 	  if(gameChar instanceof Patient){
 		Patient patient = (Patient) gameChar;
@@ -1038,15 +1205,30 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		}				
 	  }
 	}else if(building instanceof Transporter){
-       Patient patient = (Patient) gameChar;       
-       if(patientCount >= 1)
-	     patientCount--;
-       patient.setVisible(false);
-       patient.removeGameCharactorListener(this);
-       patient.setGameCharactorFloorChangeListener(null);
-       removeFloorChangeListener(patient);	
-       removeItem(patient);
-	}
+      Patient patient = (Patient) gameChar;       
+      if(patientCount >= 1)
+	    patientCount--;
+      patient.setVisible(false);
+      patient.removeGameCharactorListener(this);
+      patient.setGameCharactorFloorChangeListener(null);
+      removeFloorChangeListener(patient);	
+      removeItem(patient);
+	}/*else if(building instanceof Ward){
+	  Patient patient = (Patient) gameChar;
+	  Log.d("rokejitsX", "onReceive3 = "+patient.isFinishHealing());
+	  Log.d("rokejitsX", "onReceive4 = "+patient.hasRequireItem());
+	  if(!patient.isFinishHealing() && patient.hasRequireItem()){	          
+	    Item item = patient.getRequireItem();      
+	    item.setVisible(false);
+	    if(item.getParent() == null)
+	      attachChild(item);
+	    firstInfoWard.addPrepareQueue(item);
+	    if(itemOnDesk.size() < 5){
+	      firstInfoWard.next();	
+	    }
+	        //patient.setPickable(true);
+	  }
+	}*/
   }
 
   @Override
@@ -1071,25 +1253,54 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 
   @Override
   public void onFinishPreparingItem(Item item) {	
-	itemOnDesk.add(item);
+	addItemOnDesk(item);
 	Pharmacy infoWard = infowardList[currentFloor];
 	infoWard.receiveItemToQueue(item);
-	if(itemOnDesk.size() < 5){
+	if(getAvaiableItemSlot() != -1){
 	  firstInfoWard.next();	
 	}
   }
 
   @Override
   public void onNursePickedItem(Item item) {
-	itemOnDesk.remove(item);
-	if(itemOnDesk.size() < 5){
+	int index = removeItemOnDesk(item);
+	if(index != -1)
+	  hospitalListener.removeItemOndesk(item, index);
+	if(getAvaiableItemSlot() != -1){
 	  firstInfoWard.next();	
     }	
   }
   
+  private void addItemOnDesk(Item item){
+    int index = getAvaiableItemSlot();
+    itemOnDesk[index] = item;
+    hospitalListener.addItemOndesk(item, index);
+  }
+  
+  private int removeItemOnDesk(Item item){
+    for(int i = 0;i < itemOnDesk.length;i++){
+      if(item.equals(itemOnDesk[i])){
+    	itemOnDesk[i] = null;   
+        return i;
+      }
+    }  	
+    return -1;
+  }
+  
+  private int getAvaiableItemSlot(){
+    for(int i = 0;i < itemOnDesk.length;i++){
+      if(itemOnDesk[i] == null)
+        return i;
+    }
+    return -1;
+  }
+  
+  
   @Override
   public void onFinishCleaning(Nurse nurse, Building building) {
 	Dust dust = new Dust();
+	if(getFloor() != nurse.getCurrentFloor())
+	  dust.setVisible(false);	
 	attachChild(dust);
 	nurse.setItemToPick(dust);
 	nurse.pickItem();
@@ -1101,6 +1312,18 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     public void onShowElevetorSelector(float x, float y);
     public void onHideElevetorSelector(); 
     public void onPatientFinishHealing();
+    public void addPatientDoughnut(Patient patient);
+    public void removePatientDoughnut(Patient patient);
+    public void addItemOndesk(Item item, int index);
+    public void removeItemOndesk(Item item, int index);
+  }
+
+
+
+  @Override
+  public void onItemSelected(int index) {
+	addNurseQueue(itemOnDesk[index]);
+	
   }
   
 }

@@ -1,27 +1,41 @@
 package com.rokejitsx.ui.building.waitingqueue;
 
-import org.anddev.andengine.entity.shape.Shape;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
-
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.ui.building.Building;
+import com.rokejitsx.ui.patient.Patient;
 
-public class Outside extends Building{
+public class Outside extends Building{  
   public Outside() {
-    super(OUTSIDE, 9);
-    setAlpha(0);
+    super(OUTSIDE, 15);
+    //setAlpha(0);
+    for(int i = 0;i < 15;i++){
+      addGameCharactorOnReceivedPosition(66 +(24 * i), 41 + (20 * i));	
+    }
+    
+    //setWidth(50);
+    //setHeight(50);
+    //setColor(1,1,1,1);
   }
 
   @Override
   public void onGameCharactorPathFinished(GameCharactor gameChar) {}
-
+  
+  
   @Override
-  public Shape onInitialBody(AnimatedSprite mainSprite) {
-   /* Rectangle body = new Rectangle(0, 0, 30 * 4, 50);
-	body.setColor(0, 1, 1);	*/
-	return null;
+  public boolean onReceive(GameCharactor gameChar) {    
+    return true;	  
   }
-
+  
+  @Override
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {
+	//Log.d("rokejitsX", "OutSide setGameChatactorOnReceived = "+gameChar.isVisible()+"***************************************************");
+	Patient patient = (Patient) gameChar;
+	patient.setPickable(true);
+    patient.idle(false);	  
+  }
+  
+  
+  
   
 
 }

@@ -108,7 +108,8 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
   }
   
   public Shape onInitialBody(AnimatedSprite mainSprite){
-    attachChild(mainSprite);
+	if(mainSprite != null)
+      attachChild(mainSprite);
 	return null;	  
   }
   

@@ -1,5 +1,12 @@
 package com.rokejitsx.ui.building;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
+
 import android.util.Log;
 
 import com.rokejitsx.data.GameCharactor;
@@ -19,6 +26,7 @@ import com.rokejitsx.ui.building.waitingqueue.Outside;
 import com.rokejitsx.ui.building.waitingqueue.OutsideElevator;
 import com.rokejitsx.ui.building.ward.BabyScan;
 import com.rokejitsx.ui.building.ward.Bed;
+import com.rokejitsx.ui.building.ward.Cardiology;
 import com.rokejitsx.ui.building.ward.Chemotherapy;
 import com.rokejitsx.ui.building.ward.Dentist;
 import com.rokejitsx.ui.building.ward.Operation;
@@ -28,6 +36,7 @@ import com.rokejitsx.ui.building.ward.Psychiatry;
 import com.rokejitsx.ui.building.ward.QuickTreat;
 import com.rokejitsx.ui.building.ward.TAC;
 import com.rokejitsx.ui.building.ward.Triage;
+import com.rokejitsx.ui.building.ward.UltraScan;
 import com.rokejitsx.ui.building.ward.Xray;
 import com.rokejitsx.ui.building.ward.pharmacy.FirstPharmacy;
 import com.rokejitsx.ui.building.ward.pharmacy.UpperPhamacy;
@@ -133,15 +142,22 @@ public abstract class Building extends GameObject implements GameCharactorListen
   private int[] animationIds = new int[4];
   
   private int focusTileIndex;
+  private Vector<float[]> gameCharactorOnReceivedPositionList;
   
   public Building(int type, int visitorCount){
 	super(buildingImgNameList[type]);
     this.buildingType = type;
     objInfo = ResourceManager.getInstance().getObjectInfo(getBuildingType());
     if(visitorCount > 0)
-      visitors = new GameObject[visitorCount];
-    //initLinkedObjectPosition();
+      visitors = new GameObject[visitorCount];    
+    
   } 
+  
+  protected void addGameCharactorOnReceivedPosition(float x, float y){
+    if(gameCharactorOnReceivedPositionList == null)
+      gameCharactorOnReceivedPositionList = new Vector<float[]>();
+    gameCharactorOnReceivedPositionList.add(new float[]{x , y});
+  }
   
   public void setBuildingCanBroke(){
     isCanBroke = true;  	  
@@ -191,23 +207,10 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   
   
-  public void setState(int state){
+  public void setState(int state){	
     this.buildingState = state;	  
-    AnimationInfo animationInfo = ResourceManager.getInstance().getAnimationInfo(animationIds[state]); 
-    Log.d("RokejitsX", "set state = "+state);
-    Log.d("RokejitsX", "animationIds[state] = "+animationIds[state]);
-    setAnimation(mainSprite, animationInfo);
-    /*switch(state){
-      case STATE_IDLE:
-      case STATE_DO_WORK:
-        AnimationInfo animationInfo = ResourceManager.getInstance().getAnimationInfo(animationIds[state]); 
-        setAnimation(mainSprite, animationInfo);	  
-      break;
-      case STATE_DIRTY:
-        mainSprite.setCurrentTileIndex(animationIds[state]);
-      break;
-    }*/
-    
+    AnimationInfo animationInfo = ResourceManager.getInstance().getAnimationInfo(animationIds[state]);   
+    setAnimation(mainSprite, animationInfo);   
     onSetState(state);
   }
   
@@ -219,7 +222,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   public boolean isCanReceiveVisitor(){
      return getAvailableLinkPoint() != -1;	  
-  }
+  }  
   
   public void onFocus(){
     mainSprite.stopAnimation(focusTileIndex);	  
@@ -360,7 +363,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
   protected int getGameObjectInVisitorQueueIndex(GameObject gameObject){
     if(visitors != null){
       for(int i = 0;i < visitors.length;i++){
-        if(visitors[i].equals(gameObject))
+        if(gameObject.equals(visitors[i]))
           return i;
       }
 	}
@@ -368,6 +371,8 @@ public abstract class Building extends GameObject implements GameCharactorListen
   }
   
   public boolean receiveCharator(GameCharactor gameChar){
+	if(isDirty() || isBroked())
+	  return false;
     /*if(availableLinkPoint == 0)
 	  return false;
     availableLinkPoint--;*/
@@ -381,11 +386,41 @@ public abstract class Building extends GameObject implements GameCharactorListen
     //Log.d("RokejitsX", "getAvailableLinkPoint() = "+getAvailableLinkPoint());    
 	visitors[index] = gameChar;	
 	gameChar.setCurrentFloor(this.getCurrentFloor());
-	gameChar.setCurrentBuilding(this);
+	gameChar.setCurrentBuilding(this);	
+	if(onReceive(gameChar)){
+	  onGameCharactorCallback(gameChar);     
+	}	
 	if(listener != null)
 	  listener.onReceive(this, gameChar);
-	onReceive(gameChar);	
     return true;		  
+  }
+  
+  protected abstract void setGameChatactorOnReceived(GameCharactor gameChar);
+  
+  private void setGameCharactorPositionOnReceived(GameCharactor gameChar,int index){
+    float[] position = gameCharactorOnReceivedPositionList.elementAt(index);
+    gameChar.setPositionOnBuildingReceived(position[0], position[1]);	  
+  }
+  
+  public void onGameCharactorCallback(GameCharactor gameChar){
+	int index = getGameObjectInVisitorQueueIndex(gameChar);
+    setGameChatactorOnReceived(gameChar);
+    setGameCharactorPositionOnReceived(gameChar,index);	  
+  }
+  
+  protected int getMaxVisitorCount(){
+    return visitors.length;	  
+  }
+  
+  protected int getVisitorCount(){
+	if(visitors == null)
+	  return 0;
+	int count = 0;
+	for(int i = 0;i < visitors.length;i++){
+	  if(visitors[i] != null)
+	    count++;
+	}
+    return count;	  
   }
   
   public GameObject getCharactor(int index){
@@ -398,21 +433,47 @@ public abstract class Building extends GameObject implements GameCharactorListen
 	for(int i = 0;i < visitors.length;i++){
 	  if(gameChar.equals(visitors[i])){
 	    visitors[i] = null;
+	    gameChar.setCurrentBuilding(null);
+	    onRemove(gameChar);
+	    if(listener != null)
+	  	  listener.onRemove(this, gameChar);
 	    //availableLinkPoint++;
 	    break;
 	  }		  
 	}    
-    onRemove(gameChar);
-    if(listener != null)
-  	  listener.onRemove(this, gameChar);
+    
   }
   
   
-  public void onPatientCallback(Patient patient){}
   
-  protected void onReceive(GameCharactor gameChar){}  
+  
+  protected boolean onReceive(GameCharactor gameChar){
+    return false;
+  }  
   protected void onRemove(GameCharactor gameChar){}
   
+  
+  @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {
+	super.onDrawChildren(pGL, pCamera);
+    //if(this.mChildren != null && this.mChildrenVisible) { 	   	  
+      if(visitors == null)
+        return;
+ 	  for(int i = 0;i < visitors.length;i++){
+ 	    Patient patient = (Patient) getCharactor(i);
+ 	    if(patient != null && !patient.isOnPick())
+ 	      patient.onDraw(pGL, pCamera);
+ 	    
+ 	    
+ 	  }
+ 	  
+ 	  
+ 	//}
+  }
+  
+  public void myOnApplyTransformations(GL10 pGL){
+    onApplyTransformations(pGL);	  
+  }
   
   
   
@@ -503,8 +564,12 @@ public abstract class Building extends GameObject implements GameCharactorListen
         return new BabyScan();
       case Building.DENTIST:				//24
         return new Dentist();
+      case Building.CARDIOLOGY:				//25
+        return new Cardiology();
       case Building.OPERATION:				//26
         return new Operation();       
+      case Building.ULTRASCAN:			    //31
+        return new UltraScan();
       case Building.UPPER_PHARMACY:			//32
         return new UpperPhamacy(hospitalLevel);
       case Building.TELEVISION:				//34

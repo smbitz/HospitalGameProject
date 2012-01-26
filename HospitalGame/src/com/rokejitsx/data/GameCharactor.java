@@ -60,13 +60,27 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
   
   public void setGameCharactorState(int state){
     this.state = state;
+    this.faceDirection = -1;
     onSetGameCharactorState(state);
   }
   
   protected void onSetGameCharactorState(int state){}
   
+  
+  
+  private int currentPatientActionNode;
+  public void setCurrentNode(int node){
+    currentPatientActionNode = node;	  
+  }
+  
+  public int getCurrentNode(){
+    return currentPatientActionNode;	  
+  }
+  
   public void setCurrentBuilding(Building building){
-    currentBuilding = building;	  
+    currentBuilding = building;
+    if(building != null)
+      setCurrentNode(building.getActionPatientnode());
   }
   
   public Building getCurrentBuilding(){
@@ -99,10 +113,8 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
 	float distanceX = Math.abs(startX - endX);	
 	float distanceY = Math.abs(startY - endY);	
 	float duration = (FloatMath.sqrt((distanceX * distanceX) + (distanceY * distanceY))) / getSpeed();		
-	MoveModifier movementModifier = new MoveModifier(duration, startX, endX, startY, endY);
-	movementModifier.setRemoveWhenFinished(true);	
-    movementModifier.addModifierListener(this);
-    registerEntityModifier(movementModifier);    
+	
+        
     int face;
     if(startX >= endX){
       if(startY >= endY)
@@ -119,11 +131,17 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
       faceDirection = face;	
       onSetFace(face);
     }
+    
+    MoveModifier movementModifier = new MoveModifier(duration, startX, endX, startY, endY);
+	movementModifier.setRemoveWhenFinished(true);	
+    movementModifier.addModifierListener(this);    
+    registerEntityModifier(movementModifier);
   }
   
   
   
-  protected abstract void onSetFace(int face);
+  public abstract void onSetFace(int face);
+  public void setPositionOnBuildingReceived(float x, float y){}
   
   @Override
   public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {

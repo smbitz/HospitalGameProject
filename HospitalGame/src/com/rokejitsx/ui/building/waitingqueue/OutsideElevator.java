@@ -1,26 +1,32 @@
 package com.rokejitsx.ui.building.waitingqueue;
 
-import org.anddev.andengine.entity.shape.Shape;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
-
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.ui.building.Building;
+import com.rokejitsx.ui.patient.Patient;
 
 public class OutsideElevator extends Building{
   public OutsideElevator() {
-	super(OUTSIDE_ELEVATOR, 9);
+	super(OUTSIDE_ELEVATOR, 15);
 	setAlpha(0);
+	for(int i = 0;i < 15;i++){
+      addGameCharactorOnReceivedPosition(0 +(24 * i), 41 + (20 * i));	
+	}
   }  
-  
-  @Override
-  public Shape onInitialBody(AnimatedSprite mainSprite) {
-   /* Rectangle body = new Rectangle(0, 0, 30, 30 * 5);
-	body.setColor(0, 0, 1);	*/
-	return null;	
-  }
 
   @Override
   public void onGameCharactorPathFinished(GameCharactor gameChar) {}
+  
+  @Override
+  public boolean onReceive(GameCharactor gameChar) {
+	
+    return true;	  
+  }
+  @Override
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {
+    Patient patient = (Patient) gameChar;
+    patient.setPickable(true);
+    patient.idle(false);	  	  
+  }
 
   @Override
   public void onFocus() {
@@ -30,6 +36,8 @@ public class OutsideElevator extends Building{
   @Override
   public void onUnFocus() {	
   }
+
+  
   
   
 

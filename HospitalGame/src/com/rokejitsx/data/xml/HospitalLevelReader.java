@@ -125,6 +125,7 @@ public class HospitalLevelReader extends XmlReader{
     Vector<String> actionNodeList 			= levelInfo.get("actionNode");
     Vector<String> nodePosList 				= levelInfo.get("nodePos");
     Vector<String> connectionList 			= levelInfo.get("connectsTo");
+    
     /*Vector actionEnabledList = levelInfo.get("ActionEnabled");
     Vector*/ 
     
@@ -145,6 +146,10 @@ public class HospitalLevelReader extends XmlReader{
     setBuildingActionNode(actionNodeList, fixBuildingList);
     setBuildingActionNode(actionNodeList, dropAreaBuildingList);
     setBuildingActionNode(actionNodeList, equipmentList);
+    
+    /*setBuildingFloor(buildingFloorList, fixBuildingList);
+    setBuildingFloor(buildingFloorList, dropAreaBuildingList);
+    setBuildingFloor(buildingFloorList, equipmentList);*/
     
     initRoute(nodePosList);
     setNodeConnection(connectionList);
@@ -176,6 +181,19 @@ public class HospitalLevelReader extends XmlReader{
       routeManager.addRoute(point.x, point.y);
     }
   }
+  
+  /*private void setBuildingFloor(Vector<String> buildingFloorList, Hashtable<String, BuildingInfo> buildingListInfo){
+    Enumeration<String> e = buildingFloorList.elements();
+    while(e.hasMoreElements()){
+      String[] info = StringUtil.stringToStringArray(e.nextElement());
+      String actionId = info[0];      
+      float x = Float.parseFloat(info[1]);
+      float y = Float.parseFloat(info[2]);
+      BuildingInfo building = (BuildingInfo) buildingListInfo.get(actionId);
+      if(building != null)
+        building.setBuildingFloor(x, y);
+    }
+  }*/
   
   private void setBuildingActionNode(Vector<String> actionNode, Hashtable<String, BuildingInfo> buildingListInfo){
     Enumeration<String> e = actionNode.elements();
@@ -309,10 +327,28 @@ public class HospitalLevelReader extends XmlReader{
     private int buildingId, floor, actionNode, patientActionNode;
     private float posX,posY;
     private boolean enable;
+    //private float buildingFloorX, buildingFloorY;
     
     public BuildingInfo(int id){
       this.buildingId = id;	
     }    
+    
+    /*public void setBuildingFloor(float x, float y){
+      buildingFloorX = x;
+      buildingFloorY = y;
+    }
+    
+    public float[] getBuildingFloor(){
+      return new float[]{buildingFloorX, buildingFloorY}; 	
+    }
+    
+    public float getBuildingFloorX(){
+      return buildingFloorX; 	
+    }
+    
+    public float getBuildingFloorY(){
+      return buildingFloorY; 	
+    }*/
     
     public void setActionNode(int node){
       actionNode = node;	

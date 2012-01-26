@@ -31,6 +31,8 @@ public abstract class Item extends GameObject{
 	this.patientNumber = patientNumber;
 	if(type < 9)
 	  mainSprite.setCurrentTileIndex(type);
+	setWidth(mainSprite.getBaseWidth());
+	setHeight(mainSprite.getBaseHeight());
   }
   
   public void setOwner(GameObject owner){
@@ -50,6 +52,19 @@ public abstract class Item extends GameObject{
   }
   
   public abstract Item deepCopy();
+  
+  public static Item createItemObject(int type, int patientNumber){
+    
+    switch(type){
+      case MEDICINE:
+        return new Medicine(patientNumber);	
+      case INFOPLATE:
+        return new InfoPlate(patientNumber);
+      case DUST:
+        return new Dust();      
+    }
+	return null;  
+  }
 
 
 }

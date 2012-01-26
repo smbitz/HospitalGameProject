@@ -29,19 +29,19 @@ public class PathFinder implements Runnable {
   }
   
   public void run(){
-	Log.d("RokejitsX", "START FIND PATH============================================");  
+	//Log.d("RokejitsX", "START FIND PATH============================================");  
     Vector<Route> result = find(fromRoute);
-    Log.d("RokejitsX", "END FIND PATH============================================");
+    //Log.d("RokejitsX", "END FIND PATH============================================");
     listener.onFindPath(result);
   }
   
   
   private Vector<Route> find(Route route){
 	//System.out.println("find "+route.getIndex());
-	Log.d("RokejitsX", "find "+route.getIndex());
+	//Log.d("RokejitsX", "find "+route.getIndex());
 	if(isInClose(route))
 	  return null;
-	Log.d("RokejitsX", route.getIndex()+ "not in close");
+	//Log.d("RokejitsX", route.getIndex()+ "not in close");
 	//System.out.println(route.getIndex()+ "not in close");
 	addToClose(route);
 	

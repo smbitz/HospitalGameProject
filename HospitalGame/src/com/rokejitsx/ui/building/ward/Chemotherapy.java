@@ -7,24 +7,34 @@ import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Chemotherapy extends Ward{
-
+  private AnimatedSprite chemoBaseSprite;
   public Chemotherapy() {
     super(CHEMOTHERAPY, 1);
+    chemoBaseSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CHEMOTHERAPY));
+    
     setBuildingCanBroke();
     setIdleAnimationId(38);
     setHealingAnimationId(39);
     setBrokedAnimationId(40);
     setFocusTileIndex(9);
+    chemoBaseSprite.setVisible(false);
+    attachChild(chemoBaseSprite);
+    attachChild(mainSprite);
     
     setState(STATE_IDLE);
+    addGameCharactorOnReceivedPosition(103, 101);
     
   }
 
   @Override
-  public void onWardReceivePatient(Patient patient) {
-	// TODO Auto-generated method stub
-	
+  public void onWardReceivePatient(Patient patient) {}
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.idle(false);	  
   }
+  
+  
 
   @Override
   public void onWardRemovePatient(Patient patient) {
@@ -35,6 +45,9 @@ public class Chemotherapy extends Ward{
   @Override
   public void onStartHealing() {
 	// TODO Auto-generated method stub
+	getCurrentPatient().setVisible(false);  
+    chemoBaseSprite.setVisible(true);
+    setAnimation(chemoBaseSprite, ResourceManager.getInstance().getAnimationInfo(38));
 	
   }
 
@@ -46,16 +59,20 @@ public class Chemotherapy extends Ward{
 
   @Override
   public void onfinishHealing() {
-	// TODO Auto-generated method stub
+	chemoBaseSprite.stopAnimation(0);  
+    chemoBaseSprite.setVisible(false);
+    if(isVisible())
+      getCurrentPatient().setVisible(true);
+	
 	
   }
 
   @Override
   public Shape onInitialBody(AnimatedSprite mainSprite) {
-	AnimatedSprite chemo = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CHEMOTHERAPY));
+	/*AnimatedSprite chemo = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CHEMOTHERAPY));
 	chemo.setCurrentTileIndex(0);
 	attachChild(chemo);
-	attachChild(mainSprite);
+	attachChild(mainSprite);*/
 	return null;
   }
 

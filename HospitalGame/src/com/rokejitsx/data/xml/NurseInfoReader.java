@@ -33,7 +33,7 @@ public class NurseInfoReader extends XmlReader{
       }      
       
       int sequenceCount = parseInt(info[7]);
-      AnimationInfo animationInfo = new AnimationInfo(info[6], parseFloat(info[3]), parseInt(info[1]) == 1, true, sequenceCount);
+      AnimationInfo animationInfo = new AnimationInfo(info[0], info[6], parseFloat(info[3]), parseInt(info[1]) == 1, true, sequenceCount);
       for(int i = 0;i < sequenceCount;i++){
         animationInfo.addSequence(parseInt(info[8 + i]));	  
       }		  

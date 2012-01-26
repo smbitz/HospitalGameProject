@@ -57,7 +57,7 @@ public class CourseInfoReader extends TagXmlReader{
   @Override
   protected boolean parseTagNode(int index, String tagName) {
 	  
-	Log.d("RokejitsX", "CourseInfo read tagName = "+tagName); 
+	//Log.d("RokejitsX", "CourseInfo read tagName = "+tagName); 
     if(index == -1){
       return true;	
     }	
@@ -121,20 +121,46 @@ public class CourseInfoReader extends TagXmlReader{
 	return true;
   }
   
+  public void print(int hospitalId,int level){
+    Vector<String> list = new Vector<String>();
+    Enumeration<CourseInfo> e = courseInfoList.elements();
+    while(e.hasMoreElements()){
+      CourseInfo cInfo = e.nextElement();
+      if(cInfo.getPercent(hospitalId, level) != 0){
+        int[] machineList = cInfo.getMachineList();
+        for(int i = 0; i < machineList.length;i++){
+          if(list.contains(""+machineList[i]))
+            continue;
+          list.add(""+machineList[i]);
+        }
+      }
+    }
+    
+    Enumeration<String> mList = list.elements();
+    
+    String mString = "";
+    while(mList.hasMoreElements()){
+      mString += mList.nextElement() +",";    	
+    }
+    
+    Log.d("RokejitsX", "Machine in hospital "+(hospitalId + 1)+" level "+ (level + 1)+" = "+mString);
+    
+  }
+  
   private void readHosptipalInfo(int hospitalId){
     String tagName = "H"+(hospitalId + 1);
     
     int eventType;
     int level = 0;
     try {
-      Log.d("RokejitsX", "CourseInfo read level tagName0 = "+getName());	
+      //Log.d("RokejitsX", "CourseInfo read level tagName0 = "+getName());	
       int[] data = StringUtil.stringToIntArray(getStringValue());
 	  courseInfo.setHospitalInfo(hospitalId, level, data[0], data[1], data[2]); 
 	  level++;
 	  while(!((eventType = next()) == XmlResourceParser.END_TAG && getName().equals(tagName))){
-		Log.d("RokejitsX", "CourseInfo read level tagName = "+getName());  
+		//Log.d("RokejitsX", "CourseInfo read level tagName = "+getName());  
 	    if(eventType == XmlResourceParser.START_TAG){
-	      Log.d("RokejitsX", "CourseInfo read level tagName2 = "+getName()); 
+	      //Log.d("RokejitsX", "CourseInfo read level tagName2 = "+getName()); 
 	      data = StringUtil.stringToIntArray(getStringValue());
 		  courseInfo.setHospitalInfo(hospitalId, level, data[0], data[1], data[2]); 
 		  level++;

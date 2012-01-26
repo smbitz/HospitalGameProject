@@ -2,6 +2,7 @@ package com.rokejitsx.ui.building.elevator;
 
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.ui.building.Building;
+import com.rokejitsx.ui.patient.Patient;
 
 public class Elevator extends Building{   	
   public Elevator() {
@@ -10,28 +11,22 @@ public class Elevator extends Building{
   }
 
   @Override
-  public void onGameCharactorPathFinished(GameCharactor gameChar) {}  
-
-  /*@Override
-  public Shape onInitialBody(AnimatedSprite mainSprite) {
-    Rectangle body = new Rectangle(0, 0, 70, 70);
-	body.setColor(1, 0, 1);
-	Text infoText = new Text(0, 0, GameFonts.getInstance().getFont(), "Elevator "+"("+getCurrentFloor()+")", HorizontalAlign.CENTER);
-	body.attachChild(infoText);
-	return body;
-  }*/
+  public void onGameCharactorPathFinished(GameCharactor gameChar) {}
+  
+  @Override  
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {
+    if(gameChar instanceof Patient){
+      Patient patient = (Patient) gameChar;
+      patient.idle(false);
+    }	  
+    //gameChar.setVisible(false);
+  }
+  
+  @Override
+  public void onFocus() {}
 
   @Override
-  public void onFocus() {
-	/*// TODO Auto-generated method stub
-	super.onFocus();*/
-  }
-
-  @Override
-  public void onUnFocus() {
-	/*// TODO Auto-generated method stub
-	super.onUnFocus();*/
-  }
+  public void onUnFocus() {}
   
   
 

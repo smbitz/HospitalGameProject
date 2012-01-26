@@ -181,4 +181,12 @@ public class Pharmacy extends Building{
       
     }
   }
+
+
+
+@Override
+protected void setGameChatactorOnReceived(GameCharactor gameChar) {
+	// TODO Auto-generated method stub
+	
+}
 }

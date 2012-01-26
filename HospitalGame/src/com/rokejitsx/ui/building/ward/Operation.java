@@ -13,14 +13,18 @@ public class Operation extends Ward{
 	setFocusTileIndex(23);
 	
 	setState(STATE_IDLE);
+	addGameCharactorOnReceivedPosition(95, 169);
 	
   }
 
   @Override
   public void onWardReceivePatient(Patient patient) {
-	// TODO Auto-generated method stub
+	patient.idle(true);
 	
   }
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {}
 
   @Override
   public void onWardRemovePatient(Patient patient) {
@@ -42,7 +46,8 @@ public class Operation extends Ward{
 
   @Override
   public void onfinishHealing() {
-	
+    if(isVisible())
+      getCurrentPatient().setVisible(true);
 	  
 	
   }

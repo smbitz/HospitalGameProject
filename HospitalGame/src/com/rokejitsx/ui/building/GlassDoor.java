@@ -1,30 +1,23 @@
 package com.rokejitsx.ui.building;
 
-import org.anddev.andengine.entity.shape.Shape;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
-
 import com.rokejitsx.data.GameCharactor;
+import com.rokejitsx.data.GameObject;
 
-public class GlassDoor extends Building{
-  private AnimatedSprite glassdoorSprite;	
-	  
+public class GlassDoor extends Building{	  
   	
   public GlassDoor() {
-	super(GLASSDOOR, 0);
-	/*glassdoorSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_GLASSDOOR));	  
-    attachChild(glassdoorSprite);*/
+	super(GLASSDOOR, 0);	
   }
 
   @Override
-  public void onGameCharactorPathFinished(GameCharactor gameChar) {
-	// TODO Auto-generated method stub
-	
-  }
+  public void onGameCharactorPathFinished(GameCharactor gameChar) {} 
 
   @Override
-  public Shape onInitialBody(AnimatedSprite mainSprite) {
-    attachChild(mainSprite);	
-	return null;
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {}
+  
+  @Override
+  public GameObject isBuildingContain(float x, float y){	    
+    return null;
   }
 
 }

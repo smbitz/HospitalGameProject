@@ -68,8 +68,40 @@ public interface ImageResource {
   public final static String PATIENT_0_BODY	  	  		= "patient_0_body.png";
   public final static String PATIENT_0_WALK	  	  		= "patient_0_walk.png";
   public final static String PATIENT_0_CURED  	  		= "patient_0_cured.png";  
+  public final static String PATIENT_1_BODY	  	  		= "patient_1_body.png";
+  public final static String PATIENT_1_WALK	  	  		= "patient_1_walk.png";
+  public final static String PATIENT_1_CURED  	  		= "patient_1_cured.png";
+  public final static String PATIENT_2_BODY	  	  		= "patient_2_body.png";
+  public final static String PATIENT_2_WALK	  	  		= "patient_2_walk.png";
+  public final static String PATIENT_2_CURED  	  		= "patient_2_cured.png";
+  public final static String PATIENT_3_BODY	  	  		= "patient_3_body.png";
+  public final static String PATIENT_3_WALK	  	  		= "patient_3_walk.png";
+  public final static String PATIENT_3_CURED  	  		= "patient_3_cured.png";
+  public final static String PATIENT_4_BODY	  	  		= "patient_4_body.png";
+  public final static String PATIENT_4_WALK	  	  		= "patient_4_walk.png";
+  public final static String PATIENT_4_CURED  	  		= "patient_4_cured.png";
+  public final static String PATIENT_8_BODY	  	  		= "patient_8_body.png";
+  public final static String PATIENT_8_WALK	  	  		= "patient_8_walk.png";
+  public final static String PATIENT_8_CURED  	  		= "patient_8_cured.png";
+  public final static String PATIENT_9_BODY	  	  		= "patient_9_body.png";
+  public final static String PATIENT_9_WALK	  	  		= "patient_9_walk.png";
+  public final static String PATIENT_9_CURED  	  		= "patient_9_cured.png";
+  public final static String PATIENT_10_BODY	  		= "patient_10_body.png";
+  public final static String PATIENT_10_WALK	  		= "patient_10_walk.png";
+  public final static String PATIENT_10_CURED  	  		= "patient_10_cured.png";
   
   public final static String PATIENT_HEAD_0  	  		= "patienthead_0.png";
+  public final static String PATIENT_HEAD_1  	  		= "patienthead_1.png";
+  public final static String PATIENT_HEAD_2  	  		= "patienthead_2.png";
+  public final static String PATIENT_HEAD_3  	  		= "patienthead_3.png";
+  public final static String PATIENT_HEAD_4  	  		= "patienthead_4.png";
+  public final static String PATIENT_HEAD_5  	  		= "patienthead_5.png";
+  public final static String PATIENT_HEAD_6  	  		= "patienthead_6.png";
+  public final static String PATIENT_HEAD_7  	  		= "patienthead_7.png";
+  public final static String PATIENT_HEAD_8  	  		= "patienthead_8.png";
+  public final static String PATIENT_HEAD_10  	  		= "patienthead_10.png";
+  public final static String PATIENT_HEAD_11  	  		= "patienthead_11.png";
+  public final static String PATIENT_HEAD_12  	  		= "patienthead_12.png";
   
   
   public final static String MACHINES  	  				= "machines.png";
@@ -339,11 +371,44 @@ public interface ImageResource {
 	  },
 	  {//set3
 	    PATIENT_0_BODY,
+	    PATIENT_1_BODY,	    
+	    PATIENT_2_BODY,
+	    PATIENT_3_BODY,
+	    PATIENT_4_BODY,
+	    PATIENT_8_BODY,
+	    PATIENT_9_BODY,
+	    PATIENT_10_BODY,
 	    PATIENT_0_WALK,
-	    PATIENT_0_CURED
+	    PATIENT_1_WALK,
+	    PATIENT_2_WALK,
+	    PATIENT_3_WALK,
+	    PATIENT_4_WALK,
+	    PATIENT_8_WALK,
+	    PATIENT_9_WALK,
+	    PATIENT_10_WALK,
+	    PATIENT_0_CURED,	    
+	    PATIENT_1_CURED,	    
+	    PATIENT_2_CURED,	    
+	    PATIENT_3_CURED,    
+	    PATIENT_4_CURED,	    
+	    PATIENT_8_CURED,    
+	    PATIENT_9_CURED,    
+	    PATIENT_10_CURED,
+	    
 	  },
 	  {// set4
-	    PATIENT_HEAD_0	  
+	    PATIENT_HEAD_0,
+	    PATIENT_HEAD_1,
+	    PATIENT_HEAD_2,
+	    PATIENT_HEAD_3,
+	    PATIENT_HEAD_4,
+	    PATIENT_HEAD_5,
+	    PATIENT_HEAD_6,
+	    PATIENT_HEAD_7,
+	    PATIENT_HEAD_8,
+	    PATIENT_HEAD_10,
+	    PATIENT_HEAD_11,
+	    PATIENT_HEAD_12,
 	  },
 	  {// set5
 		MACHINES,
@@ -399,8 +464,8 @@ public interface ImageResource {
   public final static int[][] staticTextureAtlasSize = {
 	  {1024, 1024},
 	  {2048, 2048},	  
+	  {2048, 2048},
 	  {1024, 512},
-	  {256, 128},
 	  {1024, 512},
 	  {1024, 2048},
 	  {4096, 2048},
@@ -433,11 +498,43 @@ public interface ImageResource {
     },
     {//set3
       {4, 3},				//PATIENT_0_BODY 416x318
+      {4, 3},				//PATIENT_1_BODY 304x270
+      {4, 3},				//PATIENT_2_BODY 344x330
+      {4, 3},				//PATIENT_3_BODY 352x279
+      {3, 3},				//PATIENT_4_BODY 297x282
+      {3, 3},				//PATIENT_8_BODY 231x282
+      {3, 3},				//PATIENT_9_BODY 240x285
+      {4, 3},				//PATIENT_10_BODY 332x324      
   	  {4, 4},				//PATIENT_0_WALK 324x428
-  	  {2, 2},				//PATIENT_0_CURED 174x316	
+  	  {4, 4},				//PATIENT_1_WALK 268x388
+  	  {4, 4},				//PATIENT_2_WALK 232x432
+  	  {4, 4},				//PATIENT_3_WALK 216x368
+  	  {4, 4},				//PATIENT_4_WALK 180x364
+  	  {4, 4},				//PATIENT_8_WALK 264x392
+  	  {4, 4},				//PATIENT_9_WALK 252x392
+  	  {4, 4},				//PATIENT_10_WALK 208x424  	  
+  	  {2, 2},				//PATIENT_0_CURED 174x316	  
+	  {2, 2},				//PATIENT_1_CURED 142x252  
+	  {2, 2},				//PATIENT_2_CURED 132x268  
+	  {2, 2},				//PATIENT_3_CURED 132x212  
+	  {2, 2},				//PATIENT_4_CURED 148x196	  
+	  {2, 2},				//PATIENT_8_CURED 142x248  
+	  {2, 2},				//PATIENT_9_CURED 138x246  
+	  {2, 2},				//PATIENT_10_CURED 124x258
     },
     {//set4
-      {5, 3}				//PATIENT_HEAD_0 	
+      {5, 3},				//PATIENT_HEAD_0 	170x124
+      {5, 3},				//PATIENT_HEAD_1    160 x 120
+      {5, 3},				//PATIENT_HEAD_2    160 x 105
+      {5, 3},				//PATIENT_HEAD_3    160 x 145
+      {5, 3},				//PATIENT_HEAD_4    140 x 135
+      {5, 3},				//PATIENT_HEAD_5    175 x 129
+      {5, 3},				//PATIENT_HEAD_6    195 x 111
+      {5, 3},				//PATIENT_HEAD_7    220 x126
+      {5, 3},				//PATIENT_HEAD_8    115 x87
+      {5, 3},				//PATIENT_HEAD_10    160 x 117
+      {5, 3},				//PATIENT_HEAD_11    135 x 105
+      {5, 3},				//PATIENT_HEAD_12    175 x 138
     },
     {//set5
       {7,5}, 				//MACHINES 497x375
@@ -514,12 +611,45 @@ public interface ImageResource {
 	  {748,788 + 506 + 258}
 	}, 
 	{ //set3
-	  {0 ,0},				//PATIENT_0_BODY 416x318
-	  {416 ,0},				//PATIENT_0_WALK 324x428
-	  {416 + 324 ,0},		//PATIENT_0_CURED 174x316
+   	  {0, 0},													//PATIENT_0_BODY 416x318
+	  {416, 0},													//PATIENT_1_BODY 304x270
+	  {416 + 304, 0},											//PATIENT_2_BODY 344x330
+	  {416 + 304 + 344, 0},										//PATIENT_3_BODY 352x279
+	  {416 + 304 + 344 + 352, 0},								//PATIENT_4_BODY 297x282
+	  {416 + 304 + 344 + 352 + 297, 0},							//PATIENT_8_BODY 231x282
+	  {0, 330},													//PATIENT_9_BODY 240x285
+	  {240, 330},										  	    //PATIENT_10_BODY 332x324      
+	  {0, 330 + 324},											//PATIENT_0_WALK 324x428
+	  {324, 330 + 324},											//PATIENT_1_WALK 268x388
+	  {324 + 268, 330 + 324},									//PATIENT_2_WALK 232x432
+	  {324 + 268 + 232, 330 + 324},								//PATIENT_3_WALK 216x368
+	  {324 + 268 + 232 + 216, 330 + 324},						//PATIENT_4_WALK 180x364
+	  {324 + 268 + 232 + 216 + 180, 330 + 324},					//PATIENT_8_WALK 264x392
+	  {324 + 268 + 232 + 216 + 180 + 264, 330 + 324},			//PATIENT_9_WALK 252x392
+	  {324 + 268 + 232 + 216 + 180 + 264 + 252, 330 + 324},		//PATIENT_10_WALK 208x424  	  
+	  {0, 330 + 324 + 432},										//PATIENT_0_CURED 174x316	  
+	  {174, 330 + 324 + 432},									//PATIENT_1_CURED 142x252  
+	  {174 + 142, 330 + 324 + 432},								//PATIENT_2_CURED 132x268  
+	  {174 + 142 + 132, 330 + 324 + 432},						//PATIENT_3_CURED 132x212  
+	  {174 + 142 + 132 + 132, 330 + 324 + 432},					//PATIENT_4_CURED 148x196	  
+	  {174 + 142 + 132 + 132 + 148, 330 + 324 + 432},			//PATIENT_8_CURED 142x248  
+	  {174 + 142 + 132 + 132 + 148 + 142, 330 + 324 + 432},		//PATIENT_9_CURED 138x246  
+	  {174 + 142 + 132 + 132 + 148 + 142 + 138, 330 + 324 + 432},//PATIENT_10_CURED 124x258
+	  
 	}, 
-	{ //set4
-	  {0 ,0},				//PATIENT_HEAD_0
+	{ //set4	  
+	  {0, 0},									//PATIENT_HEAD_0 	170x124
+	  {170, 0},									//PATIENT_HEAD_1    160 x 120
+	  {170 + 160, 0},							//PATIENT_HEAD_2    160 x 105
+	  {170 + 160 + 160, 0},						//PATIENT_HEAD_3    160 x 145
+	  {170 + 160 + 160 + 160, 0},				//PATIENT_HEAD_4    140 x 135
+	  {170 + 160 + 160 + 160 +140, 0},			//PATIENT_HEAD_5    175 x 129
+	  {0, 135},									//PATIENT_HEAD_6    195 x 111
+	  {195, 135},								//PATIENT_HEAD_7    220 x126
+	  {195 + 220, 135},							//PATIENT_HEAD_8    115 x87
+	  {195 + 220 + 115, 135},					//PATIENT_HEAD_10    160 x 117
+	  {195 + 220 + 115 +160, 135},				//PATIENT_HEAD_11    135 x 105
+	  {195 + 220 + 115 +160 + 135, 135},		//PATIENT_HEAD_12    175 x 138
 	},
 	{// set5
 	  {0,0}, 				//MACHINES 497x375

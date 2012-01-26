@@ -6,8 +6,10 @@ public class AnimationInfo {
 	private int[] sequenceList;
 	private int sequenceIndex;
 	private float fps;
+	private String id;
 	
-    public AnimationInfo(String imgName, float fps, boolean flip,boolean doLoop,int sequenceCount){   	
+    public AnimationInfo(String id, String imgName, float fps, boolean flip,boolean doLoop,int sequenceCount){
+      this.id = id;
       this.imgName = imgName.toLowerCase();
       this.fps =  fps;
       this.flip = flip;
@@ -15,6 +17,18 @@ public class AnimationInfo {
       sequenceList = new int[sequenceCount];
       sequenceIndex = 0;
     }    
+    
+    public String getId(){
+      return id;  	
+    }
+    
+    public float getFPS(){
+      return fps; 	
+    }
+    
+    public void setFPS(float fps){
+      this.fps = fps; 	
+    }
     
     public void setDoLoop(boolean loop){
       doLoop = loop;	
@@ -59,12 +73,9 @@ public class AnimationInfo {
     }
     
     public AnimationInfo deepCopy(){
-      AnimationInfo animInfo = new AnimationInfo(imgName, fps, flip, doLoop, getSequenceCount());
+      AnimationInfo animInfo = new AnimationInfo(id, imgName, fps, flip, doLoop, getSequenceCount());
       animInfo.setSequence(getSequence());
       return animInfo;  	
     }
-    
-    
-    
-    
   }
+   

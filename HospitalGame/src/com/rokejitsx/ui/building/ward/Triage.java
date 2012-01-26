@@ -32,7 +32,16 @@ public class Triage extends Ward{
     {       
       MONTAGE_MESATRIAGEM_7	
     }
-  };	
+  };
+  private float[][] counterOffset = {
+    {0, 0},		  
+    {-25, 0},
+    {-25, 0},
+    {-40, -5},
+    {-43, -2},
+    {-45, -15},
+    {-35, -20},
+  };
   private AnimatedSprite counterSprite;
   private String counterImgName;
   private int hospitalLevel;
@@ -40,7 +49,8 @@ public class Triage extends Ward{
 	super(TRIAGE, 1);
 	String[] list = LEVEL_IMG_NAME_LIST[hospitalLevel];    
     counterImgName = list[0];
-    counterSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(counterImgName));
+    float[] offset = counterOffset[hospitalLevel];
+    counterSprite = new AnimatedSprite(offset[0], offset[1], ResourceManager.getInstance().getTexture(counterImgName));
     setWidth(counterSprite.getBaseWidth());
     setHeight(counterSprite.getBaseHeight());
     
@@ -55,8 +65,8 @@ public class Triage extends Ward{
     
     setIdleAnimationId(13);
     setHealingAnimationId(14);
-    setState(STATE_IDLE);
-    
+    setState(STATE_IDLE);    
+    addGameCharactorOnReceivedPosition(getWidth() - 50, getHeight() - 50);
 	
     
   }
@@ -83,8 +93,7 @@ public class Triage extends Ward{
   public Shape onInitialBody(AnimatedSprite mainSprite) {
 		
 	return null;
-  }
-  
+  }  
   
   /*@Override
   protected void initLinkedObjectPosition(){    
@@ -131,14 +140,16 @@ public class Triage extends Ward{
 
   @Override
   public void onWardReceivePatient(Patient patient) {	
-    patient.setPosition(getX() + getWidth() - patient.getWidth(), getY() + getHeight() - patient.getHeight());	
-    patient.idle();
+    	
+    
   }
   
   @Override
-  public void onPatientCallback(Patient patient) {
-	onWardReceivePatient(patient);	
+  protected void setPatientOnReceived(Patient patient) {
+    patient.idle(false);	  
   }
+  
+  
   
   @Override
   public void onWardRemovePatient(Patient patient) {}

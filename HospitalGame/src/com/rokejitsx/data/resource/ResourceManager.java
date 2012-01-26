@@ -10,6 +10,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
@@ -17,10 +18,7 @@ import com.rokejitsx.data.route.RouteManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.data.xml.AnimationInfoReader;
 import com.rokejitsx.data.xml.CourseInfoReader;
-import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
 import com.rokejitsx.data.xml.HospitalInfoReader;
-import com.rokejitsx.data.xml.LevelInfoReader;
-import com.rokejitsx.data.xml.LevelInfoReader.LevelInfo;
 import com.rokejitsx.data.xml.NurseInfoReader;
 import com.rokejitsx.data.xml.ObjectInfosReader;
 import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
@@ -100,6 +98,14 @@ public class ResourceManager implements ImageResource{
     return animateInfoReader.getAnimation(animateId);	  
   }
   
+  public Hashtable<String, float[]> getFrameLink(int animationId){
+    return animateInfoReader.getFrameLink(animationId);	  
+  }
+  
+  public Hashtable<String, float[]> getFrameLink(String animationId){
+    return animateInfoReader.getFrameLink(animationId);	  
+  }
+  
   public AnimationInfo getNurseAnimationInfo(int id){
     return nurseInfoReader.getAnimation(id);	  
   }
@@ -123,7 +129,25 @@ public class ResourceManager implements ImageResource{
 	  infoReader.startParse();  
 	  courseReader.startParse();  
 	  hospitalReader.startParse();
-	  
+	  /*int id = 6;
+	  courseReader.print(id, 0);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 1);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 2);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 3);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 4);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 5);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 6);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 7);
+	  Log.d("RokejitsX", "=========================");
+	  courseReader.print(id, 8);
+	  Log.d("RokejitsX", "=========================");*/
 	  
 	} catch (XmlPullParserException e) {
 		

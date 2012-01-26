@@ -17,7 +17,8 @@ public class QuickTreat extends Ward{
     
     //setColor(1,1,1,1);
     //quickSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MON));	  
-    //attachChild(quickSprite);
+    //attachChild(quickSprite);    
+    addGameCharactorOnReceivedPosition(79, 173);
     
   }
   
@@ -54,8 +55,13 @@ public class QuickTreat extends Ward{
   
   @Override
   public void onWardReceivePatient(Patient patient) {
-    patient.setPosition(getX() + getWidth()/2 - patient.getWidth()/2 - 15, getY() + getHeight()/2 - patient.getHeight()/2 + 45);	
-    patient.layIn();
+    //patient.setPosition();	
+    
+  }
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.layIn(false);	  
   }
 
   @Override

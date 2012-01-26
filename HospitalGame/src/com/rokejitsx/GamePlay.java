@@ -126,6 +126,9 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospital.initRouteManager(routeManagerList);
     hospital.initialNurse();
     
+    /*186x1057
+    210x1077*/
+    
     
     initHospitalUi(hospitalId,level,maxFloor);
     hospitalUI.setElevetorSelectorListener(hospital);
@@ -140,7 +143,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
   private void initHospitalUi(int hospitalId, int level, int maxFloor){
     LevelInfoReader levelInfoReader = new LevelInfoReader();
     LevelInfo levelInfo = levelInfoReader.readLevel(hospitalId, level);
-    hospitalUI = new HospitalUI(maxFloor);
+    hospitalUI = new HospitalUI(maxFloor, hospital);
     hospitalUI.setHospitalTimerListener(this);
     hospitalUI.setHospitalFloorListener(this);   
     

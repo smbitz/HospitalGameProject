@@ -128,11 +128,14 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   
   
   public void clean(){
+	if(leftItem != null && rightItem != null)
+	  return;
     hideAllSprite();
     healSprite.setVisible(true);
     AnimationInfo animInfo  = ResourceManager.getInstance().getNurseAnimationInfo(17);    
     setAnimation(healSprite, animInfo.getEachFrameDuration(), animInfo.getSequence(), 1, false, this);
     isCleaning = true;
+    return;
   }
   
   public boolean isCleaning(){
@@ -155,7 +158,7 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 
 
   @Override
-  protected void onSetFace(int face) {  	
+  public void onSetFace(int face) {  	
     hideAllSprite();
     int set;
     if(leftItem == null && rightItem == null){
@@ -173,6 +176,11 @@ public class Nurse extends GameCharactor implements IAnimationListener {
     setAnimation(anim, getNurseAnimationInfo(movementAnimationSetIds[set][face]));
   }
   
+  
+  
+ 
+
+
   private void hideAllSprite(){
     hideMovementSprite();
     mainSprite.setVisible(false);

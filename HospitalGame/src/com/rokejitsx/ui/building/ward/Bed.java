@@ -1,16 +1,23 @@
 package com.rokejitsx.ui.building.ward;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
+import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Bed extends Ward{
-  private AnimatedSprite graficoSprite;	
+  private AnimatedSprite graficoSprite,bedSprite;	
   public Bed(){    	  
 	super(BED, 1);
 	graficoSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_GRAFICO));
+	bedSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CAMAS));
+	bedSprite.setCurrentTileIndex(3);
+	bedSprite.setVisible(false);
     
     
     /*setWidth(mainSprite.getBaseWidth());
@@ -29,8 +36,13 @@ public class Bed extends Ward{
     setFocusTileIndex(4);  
     attachChild(mainSprite);
     attachChild(graficoSprite);
+    attachChild(bedSprite);
     setState(STATE_IDLE);
     setOperationTime(5000);
+    
+    
+    addGameCharactorOnReceivedPosition(90, 44);
+    
   } 
   
   /*@Override
@@ -83,14 +95,30 @@ public class Bed extends Ward{
   
   @Override
   public void onWardReceivePatient(Patient patient) {
-    patient.setPosition(getX(), getY());	
-    patient.layIn();
+	bedSprite.setVisible(true);    	
+    
+  }
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.layIn(false);	
   }
 
   @Override
   public void onWardRemovePatient(Patient patient) {
-	
-	
+    bedSprite.setVisible(false);	
+  }
+  
+  
+  
+  @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {
+    mainSprite.onDraw(pGL, pCamera);
+    graficoSprite.onDraw(pGL, pCamera);
+    if(getCurrentPatient() != null)
+      getCurrentPatient().onDraw(pGL, pCamera);
+    bedSprite.onDraw(pGL, pCamera);
+    
   }
 
   @Override
@@ -101,5 +129,7 @@ public class Bed extends Ward{
 	body.attachChild(infoText);*/
 	return null;
   }
+
+ 
   
 }

@@ -41,7 +41,7 @@ public class ObjectInfosReader extends TagXmlReader{
 
   @Override
   protected boolean parseTagNode(int index, String tagName) {
-	Log.d("RokejitsX", "tagName = "+tagName+"/"+index);
+	//Log.d("RokejitsX", "tagName = "+tagName+"/"+index);
 	if(tagName.equals("ObjectInfo"))
 	  return true;
 	String[] info = null;
@@ -81,7 +81,7 @@ public class ObjectInfosReader extends TagXmlReader{
         objInfo.setObjectCheckBoxPosition(parseFloat(info[1]), parseFloat(info[2]));     	       
       break;
       case 4: //bedInformationObject
-    	Log.d("Rokejitsx", "bedInformationObject = "+info[7]);
+    	//Log.d("Rokejitsx", "bedInformationObject = "+info[7]);
         objInfo.addLinkedObject(parseInt(info[0]), 		// type
        		                    parseFloat(info[1]), 	// x
 	                  		    parseFloat(info[2]), 	// y
@@ -146,7 +146,7 @@ public class ObjectInfosReader extends TagXmlReader{
     }
     
     public int[] getFrameSize(String imageName){
-      Log.d("RokejitsX", "getFrameSize = "+objectImg);
+      //Log.d("RokejitsX", "getFrameSize = "+objectImg);
       if(objectImg.equals(imageName)){
         return new int[]{cellCountX, cellCountY};	  
       }
@@ -154,7 +154,7 @@ public class ObjectInfosReader extends TagXmlReader{
         Enumeration<LinkedObject> e = linkedObjectList.elements();
         while(e.hasMoreElements()){
           LinkedObject lObj = e.nextElement();
-          Log.d("RokejitsX", "lObj.getImageName() = "+lObj.getImageName());
+         // Log.d("RokejitsX", "lObj.getImageName() = "+lObj.getImageName());
           if(lObj.getImageName().equals(imageName)){
             return new int[]{lObj.getCellContX(), lObj.getCellCountY()};	  
           }
@@ -200,6 +200,14 @@ public class ObjectInfosReader extends TagXmlReader{
     public void setFloorPosition(float x, float y){
       objFloorX = x;
       objFloorY = y;
+    }
+    
+    public float getFloorX(){
+      return objFloorX;  	
+    }
+    
+    public float getFloorY(){
+      return objFloorY;  	
     }
     
   }

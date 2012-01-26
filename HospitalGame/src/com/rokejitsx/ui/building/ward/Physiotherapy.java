@@ -1,9 +1,11 @@
 package com.rokejitsx.ui.building.ward;
 
+import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Physiotherapy extends Ward{
 
+  	
   public Physiotherapy() {
 	super(PHYSIOTHERAPY, 1);
 	
@@ -16,6 +18,7 @@ public class Physiotherapy extends Ward{
 	
 	setOperationTime(4000);
 	setState(STATE_IDLE);
+	addGameCharactorOnReceivedPosition(17, 133);
 	
 	//setColor(1, 1, 1, 1);
   }
@@ -25,6 +28,10 @@ public class Physiotherapy extends Ward{
 	// TODO Auto-generated method stub
 	
   }
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.idle(true);	  
+  }
 
   @Override
   public void onWardRemovePatient(Patient patient) {
@@ -33,21 +40,26 @@ public class Physiotherapy extends Ward{
   }
 
   @Override
-  public void onStartHealing() {
-	// TODO Auto-generated method stub
-	getCurrentPatient().setVisible(false);  
-	
+  public void onStartHealing() { 
+	Patient patient = getCurrentPatient();
+	patient.setPosition(83, 64);
+	patient.onSetFace(Patient.FACE_UP_R);
+		
   }
 
   @Override
   public void onHealing(float pSecondsElapsed) {
-	// TODO Auto-generated method stub
+	if(getCurrentHealingTime() >= 2 && getCurrentPatient().isVisible()){
+	  setAnimation(mainSprite, ResourceManager.getInstance().getAnimationInfo(25));
+	  getCurrentPatient().setVisible(false);
+	}
 	
   }
 
   @Override
   public void onfinishHealing() {
-	// TODO Auto-generated method stub
+	if(this.isVisible())
+      getCurrentPatient().setVisible(true);
 	
   }
 

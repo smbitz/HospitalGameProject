@@ -1,5 +1,8 @@
 package com.rokejitsx.ui.building.ward;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
@@ -7,22 +10,29 @@ import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Cardiology extends Ward{
-
+  private AnimatedSprite cadio;
   public Cardiology() {
 	super(CARDIOLOGY, 1);
+	
+	cadio = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CARDIO));
+	cadio.setVisible(false);
+	attachChild(cadio);
+	attachChild(mainSprite);
 	setBuildingCanBroke();
 	setIdleAnimationId(52);
-	setHealingAnimationId(54);
+	setHealingAnimationId(55);
 	setBrokedAnimationId(56);
 	setFocusTileIndex(26);
 	setState(STATE_IDLE);
+	addGameCharactorOnReceivedPosition(119, 103);
   }
 
   @Override
-  public void onWardReceivePatient(Patient patient) {
-    patient.setPosition(getX() + getWidth()/2 - patient.getWidth()/2 - 15, getY() + getHeight()/2 - patient.getHeight()/2 + 45);	
-    patient.layIn();
-	
+  public void onWardReceivePatient(Patient patient) {}
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.layIn(false);	  
   }
 
   @Override
@@ -33,7 +43,9 @@ public class Cardiology extends Ward{
 
   @Override
   public void onStartHealing() {
-    getCurrentPatient().setVisible(false);
+    //getCurrentPatient().setVisible(false);
+	setAnimation(cadio, ResourceManager.getInstance().getAnimationInfo(53));
+    cadio.setVisible(true);
 	
   }
 
@@ -45,16 +57,35 @@ public class Cardiology extends Ward{
 
   @Override
   public void onfinishHealing() {
-	// TODO Auto-generated method stub
+	cadio.stopAnimation();
+	cadio.setVisible(false);
 	
+  }
+  @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {
+    cadio.onDraw(pGL, pCamera);
+    Patient patient = getCurrentPatient(); 
+    if(patient != null){
+      if(patient.isOnHealing()){
+        patient.onDraw(pGL, pCamera);
+        mainSprite.onDraw(pGL, pCamera);
+      }else{
+        mainSprite.onDraw(pGL, pCamera);
+        patient.onDraw(pGL, pCamera);
+      }
+      
+      
+    }else{
+      mainSprite.onDraw(pGL, pCamera);
+    }
+    
   }
 
   @Override
   public Shape onInitialBody(AnimatedSprite mainSprite) {
-    AnimatedSprite cadio = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_CARDIO));
-    attachChild(cadio);
-    attachChild(cadio);
-    attachChild(mainSprite);
+    
+    /*attachChild(cadio);    
+    attachChild(mainSprite);*/
 	return null;
   }
   

@@ -13,17 +13,10 @@ public class Laundry extends Building{
 	if(gameChar instanceof Nurse){
 	  Nurse nurse = (Nurse) gameChar;	
 	  nurse.handOutDust();
-	}
-	
+	}	
   }
   
-  
-
-  /*@Override
-  public Shape onInitialBody(AnimatedSprite mainSprite) {
-    attachChild(mainSprite);   
-	return null;
-  }	*/
-	
+  @Override
+  protected void setGameChatactorOnReceived(GameCharactor gameChar) {}
   	
 }

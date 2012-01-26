@@ -74,7 +74,7 @@ public class TransportInfoReader extends TagXmlReader implements ImageResource{
         else
           animationList = helicopterAnimationList;
         int sequenceCount = parseInt(info[7]);
-        AnimationInfo animation = new AnimationInfo(info[6], 
+        AnimationInfo animation = new AnimationInfo(info[0], info[6], 
       		                                      parseFloat(info[3]), 
       		                                      false,
       		                                      false,

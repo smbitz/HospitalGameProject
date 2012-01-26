@@ -235,11 +235,11 @@ public class PatientInfoReader extends TagXmlReader{
     }
     
     public void setLinkPointPosition(String linkPointType, float x, float y){
-      put(linkPointType, new PointF(x, y));  
+      put(linkPointType, new float[]{x, y});  
     }
     
-    public PointF getLinkPointPosition(String linkPointType){
-      return (PointF) get(linkPointType);	
+    public float[] getLinkPointPosition(String linkPointType){
+      return (float[]) get(linkPointType);	
     }    
   }
   
@@ -283,24 +283,24 @@ public class PatientInfoReader extends TagXmlReader{
     }
 	
     public void setLinkPointPosition(String linkPointType, float x, float y){
-      put(linkPointType, new PointF(x, y));  
+      put(linkPointType, new float[]{x, y});  
     }
       
-    public PointF getLinkPointPosition(String linkPointType){
-      return (PointF) get(linkPointType);	
+    public float[] getLinkPointPosition(String linkPointType){
+      return (float[]) get(linkPointType);	
     }
   }
 
-public int[] getFrameSize(String imgName) {
-  if(imgName.indexOf("body") != -1){
-    return new int[]{4, 3};	  
-  }else if(imgName.indexOf("walk") != -1){
-    return new int[]{4, 4};	  
-  }else if(imgName.indexOf("cured") != -1){
-    return new int[]{2, 2};	  
-  }else if(imgName.indexOf("head") != -1){
-	return new int[]{5, 3};	  
-  }	
+  public int[] getFrameSize(String imgName) {
+    if(imgName.indexOf("body") != -1){
+      return new int[]{4, 3};	  
+    }else if(imgName.indexOf("walk") != -1){
+      return new int[]{4, 4};	  
+    }else if(imgName.indexOf("cured") != -1){
+      return new int[]{2, 2};	  
+    }else if(imgName.indexOf("head") != -1){
+	  return new int[]{5, 3};	  
+    }	
   return null;
 }
 	

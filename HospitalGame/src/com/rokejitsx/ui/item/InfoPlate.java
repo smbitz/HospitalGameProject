@@ -26,7 +26,7 @@ public class InfoPlate extends Item{
   @Override
   public Item deepCopy() {	
 	return new InfoPlate(getPatientNumber());
-  }  
+  }
   
 
 }

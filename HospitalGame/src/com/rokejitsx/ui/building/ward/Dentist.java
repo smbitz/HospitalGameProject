@@ -13,12 +13,17 @@ public class Dentist extends Ward{
 	setFocusTileIndex(16);
 	
 	setState(STATE_IDLE);
+	addGameCharactorOnReceivedPosition(69, 101);
   }
 
   @Override
   public void onWardReceivePatient(Patient patient) {
 	// TODO Auto-generated method stub
 	
+  }
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.sit(true);	  
   }
 
   @Override

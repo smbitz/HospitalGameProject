@@ -13,13 +13,18 @@ public class Psychiatry extends Ward{
     setIdleAnimationId(33);
     
     setState(STATE_IDLE);
-    
+    addGameCharactorOnReceivedPosition(148, 75);
   }
 
   @Override
   public void onWardReceivePatient(Patient patient) {
 	// TODO Auto-generated method stub
 	
+  }
+  
+  @Override
+  protected void setPatientOnReceived(Patient patient) {
+    patient.layIn(true);	  
   }
 
   @Override
