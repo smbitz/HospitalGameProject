@@ -7,6 +7,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Xray extends Ward{
@@ -20,6 +21,8 @@ public class Xray extends Ward{
     setBrokedAnimationId(3);    
     setState(STATE_IDLE);
     addGameCharactorOnReceivedPosition(151, 120);
+    
+    initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_XRAY);
   } 
 
   @Override
@@ -60,8 +63,9 @@ public class Xray extends Ward{
   
   @Override
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {
-	if(getCurrentPatient() != null){
-	  getCurrentPatient().onDraw(pGL, pCamera);	
+	Patient patient = getCurrentPatient();
+	if(patient != null && !patient.isOnPick()){
+	  patient.onDraw(pGL, pCamera);	
 	}
 	mainSprite.onDraw(pGL, pCamera);
   }

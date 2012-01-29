@@ -80,6 +80,20 @@ public interface ImageResource {
   public final static String PATIENT_4_BODY	  	  		= "patient_4_body.png";
   public final static String PATIENT_4_WALK	  	  		= "patient_4_walk.png";
   public final static String PATIENT_4_CURED  	  		= "patient_4_cured.png";
+  
+  public final static String PATIENT_5_BODY	  	  		= "patient_5_body.png";
+  public final static String PATIENT_5_WALK	  	  		= "patient_5_walk.png";
+  
+  public final static String PATIENT_6_BODY	  	  		= "patient_6_body.png";
+  public final static String PATIENT_6_WALK	  	  		= "patient_6_walk.png";
+  public final static String PATIENT_6_CURED  	  		= "patient_6_cured.png";
+  
+  
+  public final static String PATIENT_7_WALK	  	  		= "patient_7_walk.png";
+  public final static String PATIENT_7_CURED  	  		= "patient_7_cured.png";
+  
+  
+  
   public final static String PATIENT_8_BODY	  	  		= "patient_8_body.png";
   public final static String PATIENT_8_WALK	  	  		= "patient_8_walk.png";
   public final static String PATIENT_8_CURED  	  		= "patient_8_cured.png";
@@ -394,6 +408,13 @@ public interface ImageResource {
 	    PATIENT_8_CURED,    
 	    PATIENT_9_CURED,    
 	    PATIENT_10_CURED,
+	    PATIENT_5_BODY,
+	    PATIENT_5_WALK,
+	    PATIENT_6_BODY,
+	    PATIENT_6_WALK,
+	    PATIENT_6_CURED,
+	    PATIENT_7_WALK,
+	    PATIENT_7_CURED,
 	    
 	  },
 	  {// set4
@@ -521,6 +542,16 @@ public interface ImageResource {
 	  {2, 2},				//PATIENT_8_CURED 142x248  
 	  {2, 2},				//PATIENT_9_CURED 138x246  
 	  {2, 2},				//PATIENT_10_CURED 124x258
+	  
+	  {4, 3},				//PATIENT_5_BODY 336x330
+	  {4, 4},				//PATIENT_5_WALK 236x600
+	  {3, 3},				//PATIENT_6_BODY 167x184	
+	  {4, 4},				//PATIENT_6_WALK 192x324
+	  {2, 2},				//PATIENT_6_CURED 107x163
+	  {4, 4},				//PATIENT_7_WALK 208x420
+	  {2, 2},				//PATIENT_7_CURED 130x260
+	  
+	  
     },
     {//set4
       {5, 3},				//PATIENT_HEAD_0 	170x124
@@ -540,7 +571,8 @@ public interface ImageResource {
       {7,5}, 				//MACHINES 497x375
   	  {3, 3},				//COMPOSE_PRESCRIPTION 195x165
   	  {5, 4},				//RECIPIES 305x180
-  	  {3, 1},				//HEART 72x20
+  	  //{3, 1},				//HEART 72x20
+  	  {12, 1},				//HEART 72x20
   	  {3, 1},				//CHECKBOXES 150x50
   	  {1, 1}, 				//BALLOON 110x94
   	  {4, 3} 				//NUMBERS  68x69	
@@ -635,6 +667,14 @@ public interface ImageResource {
 	  {174 + 142 + 132 + 132 + 148, 330 + 324 + 432},			//PATIENT_8_CURED 142x248  
 	  {174 + 142 + 132 + 132 + 148 + 142, 330 + 324 + 432},		//PATIENT_9_CURED 138x246  
 	  {174 + 142 + 132 + 132 + 148 + 142 + 138, 330 + 324 + 432},//PATIENT_10_CURED 124x258
+	  
+	  {236, 2048 - 600},							//PATIENT_5_BODY 336x330
+	  {0, 2048 - 600},								//PATIENT_5_WALK 236x600
+	  {236, 2048 - 600 + 330},						//PATIENT_6_BODY 167x184	
+	  {236 + 336 + 208 + 130, 2048 - 600},			//PATIENT_6_WALK 192x324
+	  {236 + 167, 2048 - 600 + 330},				//PATIENT_6_CURED 107x163
+	  {236 + 336, 2048 - 600},						//PATIENT_7_WALK 208x420
+	  {236 + 336 + 208, 2048 - 600},				//PATIENT_7_CURED 130x260
 	  
 	}, 
 	{ //set4	  

@@ -163,14 +163,14 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
   
   @Override
   public void setCurrentFloor(int floor) {
-	if(floor == getCurrentFloor())
-	  return;
+	/*if(floor == getCurrentFloor())
+	  return;*/
 	super.setCurrentFloor(floor);
 	if(floorChangeListener != null)
 	  floorChangeListener.onGameCharactorFloorChanged(this, floor);
   }
 
-public void setGameCharactorFloorChangeListener(GameCharatorFloorChangedListener floorChangeListener){
+  public void setGameCharactorFloorChangeListener(GameCharatorFloorChangedListener floorChangeListener){
     this.floorChangeListener = floorChangeListener;	  
   }
   

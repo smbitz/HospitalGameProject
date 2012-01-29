@@ -5,4 +5,5 @@ import com.rokejitsx.ui.building.Building;
 
 public interface NurseListener { 	
   public void onFinishCleaning(Nurse nurse, Building building);
+  public void onFinishRepairing(Nurse nurse, Building building);
 }

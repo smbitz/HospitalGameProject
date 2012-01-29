@@ -7,6 +7,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Cardiology extends Ward{
@@ -25,6 +26,8 @@ public class Cardiology extends Ward{
 	setFocusTileIndex(26);
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(119, 103);
+	
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CARDIOLOGY);
   }
 
   @Override
@@ -65,7 +68,7 @@ public class Cardiology extends Ward{
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {
     cadio.onDraw(pGL, pCamera);
     Patient patient = getCurrentPatient(); 
-    if(patient != null){
+    if(patient != null && !patient.isOnPick()){
       if(patient.isOnHealing()){
         patient.onDraw(pGL, pCamera);
         mainSprite.onDraw(pGL, pCamera);

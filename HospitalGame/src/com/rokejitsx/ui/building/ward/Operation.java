@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.building.ward;
 
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Operation extends Ward{
@@ -13,13 +14,15 @@ public class Operation extends Ward{
 	setFocusTileIndex(23);
 	
 	setState(STATE_IDLE);
-	addGameCharactorOnReceivedPosition(95, 169);
+	addGameCharactorOnReceivedPosition(190, 154);
+	
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPERATION);
 	
   }
 
   @Override
   public void onWardReceivePatient(Patient patient) {
-	patient.idle(true);
+	patient.sit(true);
 	
   }
   

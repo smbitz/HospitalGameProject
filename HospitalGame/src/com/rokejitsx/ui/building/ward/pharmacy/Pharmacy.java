@@ -171,9 +171,8 @@ public class Pharmacy extends Building{
 	
     if(gameChar instanceof Nurse){
       Nurse nurse = (Nurse) gameChar;
-      Item item = nurse.getItemToPick();
-      Log.d("RokejitsX", "nurseItem = "+item);
-      if(item == null)
+      Item item = nurse.getItemToPick();      
+      if(item == null || !nurse.isHasAvailableHand())
         return;
       removeItemFromQueue(item);
       nurse.pickItem();

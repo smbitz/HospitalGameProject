@@ -2,6 +2,7 @@ package com.rokejitsx.ui.building.ward;
 
 import android.util.Log;
 
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class TAC extends Ward{
@@ -13,10 +14,11 @@ public class TAC extends Ward{
 	setFocusTileIndex(6);
 	setIdleAnimationId(19);
 	setHealingAnimationId(20);
-	setBrokedAnimationId(22);
+	setBrokedAnimationId(21);
 	setOperationTime(3500);
 	setState(STATE_IDLE);
-	addGameCharactorOnReceivedPosition(61, 100);
+	addGameCharactorOnReceivedPosition(84, 101);
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CAT);
   }
 
   @Override
@@ -26,7 +28,7 @@ public class TAC extends Ward{
   }
   @Override
   protected void setPatientOnReceived(Patient patient) {
-    patient.idle(false);	  
+    patient.sit(true);	  
   }
 
   @Override

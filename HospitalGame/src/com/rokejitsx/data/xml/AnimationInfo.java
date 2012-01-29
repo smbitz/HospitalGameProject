@@ -69,7 +69,7 @@ public class AnimationInfo {
     public int doLoop(){
       if(doLoop)
         return -1;
-      return 1; 	
+      return 0; 	
     }
     
     public AnimationInfo deepCopy(){

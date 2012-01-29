@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.building.ward;
 
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Dentist extends Ward{
@@ -14,6 +15,8 @@ public class Dentist extends Ward{
 	
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(69, 101);
+	
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_DENTIST);
   }
 
   @Override

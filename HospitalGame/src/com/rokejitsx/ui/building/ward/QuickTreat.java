@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.building.ward;
 
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class QuickTreat extends Ward{
@@ -19,6 +20,8 @@ public class QuickTreat extends Ward{
     //quickSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MON));	  
     //attachChild(quickSprite);    
     addGameCharactorOnReceivedPosition(79, 173);
+    
+    initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_QUICKTREAT);
     
   }
   

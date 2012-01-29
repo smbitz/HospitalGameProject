@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.building.ward;
 
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Psychiatry extends Ward{
@@ -13,7 +14,8 @@ public class Psychiatry extends Ward{
     setIdleAnimationId(33);
     
     setState(STATE_IDLE);
-    addGameCharactorOnReceivedPosition(148, 75);
+    addGameCharactorOnReceivedPosition(168, 85);
+    initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PSYCHIATRY);
   }
 
   @Override

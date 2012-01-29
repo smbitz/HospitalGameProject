@@ -8,8 +8,14 @@ public class Outside extends Building{
   public Outside() {
     super(OUTSIDE, 15);
     //setAlpha(0);
-    for(int i = 0;i < 15;i++){
-      addGameCharactorOnReceivedPosition(66 +(24 * i), 41 + (20 * i));	
+    int x = 66;
+    int y = 0;
+    for(int i = 0;i < 15;i++, y++){
+      addGameCharactorOnReceivedPosition(x +(24 * y), 41 + (20 * y));
+      if(i != 0 && i % 4 == 0){
+        x = x - 30;	  
+        y = 0;
+      }
     }
     
     //setWidth(50);
@@ -23,6 +29,18 @@ public class Outside extends Building{
   
   @Override
   public boolean onReceive(GameCharactor gameChar) {    
+	Patient patient = (Patient) gameChar;
+    //Log.d("RokejitsX", "Chair receive patient = "+patient.getQueue());
+    if(patient.getPatientId() != 5){
+	  patient.setPickable(true);	
+	  if(!patient.isInProgress())
+        patient.nextHealingRoute();
+    }else{
+      patient.setPickable(true);
+      patient.getBabyPatient().nextHealingRoute();
+      patient.getBabyPatient().setShowBubble(false);
+      //patient.getBabyPatient().setVisible(true);
+    }
     return true;	  
   }
   

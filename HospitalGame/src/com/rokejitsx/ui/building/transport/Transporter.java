@@ -21,6 +21,7 @@ import com.rokejitsx.data.route.Route;
 import com.rokejitsx.data.route.RouteManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.ui.building.Building;
+import com.rokejitsx.ui.patient.Patient;
 
 public class Transporter extends Building implements PathFinderListener, IModifierListener<IEntity>, IAnimationListener{
 
@@ -35,7 +36,7 @@ public class Transporter extends Building implements PathFinderListener, IModifi
   private int pathIndex;
   private Vector<PointF> route;
   private RouteManager routeManager;
-  private Vector<TransportListener> transportListener;
+ // private Vector<TransportListener> transportListener;
   private float comeInTime = 0;
   
   private AnimationInfo idleAnimationInfo, moveOutAnimationInfo, moveInAnimationInfo, openDoorAnimationInfo, closeDoorAnimationInfo;
@@ -43,6 +44,7 @@ public class Transporter extends Building implements PathFinderListener, IModifi
   public Transporter(int type){
     super(type, 1); 
     routeManager = ResourceManager.getInstance().getTransportPath(type);
+   // transportListener = new Vector<TransportListener>();
     
     
     //comeIn();
@@ -50,9 +52,13 @@ public class Transporter extends Building implements PathFinderListener, IModifi
   }
   	
   
-  /*public void initPosition(){
-    setPosition(routeManager.getRouteX(0) - getWidth()/2, routeManager.getRouteY(0) - getHeight()/2);	    
-  }*/
+ /* public void addTransporterListener(TransportListener listener){ 
+    if(transportListener.contains(listener))
+      return;
+    transportListener.add(listener);
+  }
+  */
+  
   
   @Override
   public void onUnFocus() {	 
@@ -89,9 +95,23 @@ public class Transporter extends Building implements PathFinderListener, IModifi
     setTransportState(STATE_CLOSE_DOOR);
 		  
   }
+  
+  public boolean receiveCharator(GameCharactor gameChar){
+	Patient patient = (Patient) gameChar;
+	patient.setVisible(false);
+	if(patient.getPatientId() != 6)
+	  return super.receiveCharator(gameChar);	
+	if(gameChar.getCurrentBuilding() != null)
+	  gameChar.getCurrentBuilding().removeCharactor(gameChar);
+	if(this.getBuildingListener() != null)
+	  this.getBuildingListener().onReceive(this, gameChar);
+	
+    return true;		  
+  }
+  
   @Override
   protected boolean onReceive(GameCharactor gameChar) {
-	gameChar.setVisible(false);
+	gameChar.setVisible(false);	
 	setTransportState(STATE_CLOSE_DOOR);	
 	return false;
   }
@@ -111,7 +131,7 @@ public class Transporter extends Building implements PathFinderListener, IModifi
       case STATE_MOVE_IN:
     	if(hospitalFloor == getCurrentFloor()){  
     	  setVisible(true);
-    	  mainSprite.setVisible(true);
+    	  //mainSprite.setVisible(true);
     	}
         routeManager.findPath(0, 1, this);
       break;
@@ -142,21 +162,20 @@ public class Transporter extends Building implements PathFinderListener, IModifi
 	mainSprite.stopAnimation();
 	switch(getTransportState()){
 	  case STATE_MOVE_OUT:
-	    mainSprite.setVisible(false); 
+	    setVisible(false); 
 	    comeInTime = 2;
+	    /*for(Enumeration<TransportListener> e = transportListener.elements();e.hasMoreElements();){
+	      TransportListener listener = e.nextElement();
+	      listener.onSentPatientComplete(this);
+	    }*/
 	  break;
 	  case STATE_MOVE_IN:
 	    setTransportState(STATE_OPEN_DOOR);
 		//goOut();
 	  break;
 	}
-	//setTransportState(STATE_IDLE);
-    if(transportListener == null)
-      return;
-    for(Enumeration<TransportListener> e = transportListener.elements();e.hasMoreElements();){
-      TransportListener listener = e.nextElement();
-      listener.onTransportPathFinished(this);
-    }
+	
+    
   }
   
   
@@ -167,9 +186,7 @@ public class Transporter extends Building implements PathFinderListener, IModifi
   }
   
   private void startMove(){
-	AnimationInfo animInfo;
-	Log.d("rokejitsX", "moveInAnimationInfo = "+moveInAnimationInfo);
-	Log.d("rokejitsX", "moveOutAnimationInfo = "+moveOutAnimationInfo);
+	AnimationInfo animInfo;	
 	if(state == STATE_MOVE_IN)
 	  animInfo = moveInAnimationInfo;
 	else
@@ -188,17 +205,14 @@ public class Transporter extends Building implements PathFinderListener, IModifi
   }
   
   private void moveTo(float x, float y){	
-	Log.d("RokejitsX", "0 "+routeManager.getRouteX(0)+"/"+routeManager.getRouteY(0));
-	Log.d("RokejitsX", "1 "+routeManager.getRouteX(1)+"/"+routeManager.getRouteY(1));
-	Log.d("RokejitsX", "2 "+routeManager.getRouteX(2)+"/"+routeManager.getRouteY(2));
-	Log.d("RokejitsX", "move to "+x+"/"+y+"/"+isVisible()+"/"+mainSprite.isVisible());
+	
 	
     float startX = getX();
 	float startY = getY();
-	Log.d("RokejitsX", "from "+startX+"/"+startY);
+	
 	float endX = x - getWidth()/2;
 	float endY = y - getHeight()/2;	
-	Log.d("RokejitsX", "to "+endX+"/"+endY);
+	
 	float distanceX = Math.abs(startX - endX);	
 	float distanceY = Math.abs(startY - endY);	
 	float duration = (FloatMath.sqrt((distanceX * distanceX) + (distanceY * distanceY))) / getSpeed();		

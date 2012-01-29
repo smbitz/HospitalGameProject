@@ -10,6 +10,7 @@ import android.content.res.XmlResourceParser;
 import android.util.Log;
 
 import com.rokejitsx.R;
+import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.util.StringUtil;
 
 public class CourseInfoReader extends TagXmlReader{
@@ -43,7 +44,7 @@ public class CourseInfoReader extends TagXmlReader{
       CourseInfo info = e.nextElement();
       int percent = info.getPercent(hospital, level);
       if(percent != 0){
-        result.add(info);	  
+        result.add(info.deepCopy());	  
       }
     }
     if(result.size() == 0)
@@ -229,6 +230,14 @@ public class CourseInfoReader extends TagXmlReader{
       return machines; 	
     }
     
+    public boolean isHasBabyScanInList(){
+      for(int i = 0;i < machines.length;i++){
+        if(machines[i] == Building.BABY_SCAN)
+          return true;
+      } 	
+      return false;
+    }
+    
     public void setHospitalInfo(int hospitalId, int level, int percent, int patientCount, int priority){
       int[]data = hospitalData[hospitalId][level];
       data[0] = percent;
@@ -246,6 +255,25 @@ public class CourseInfoReader extends TagXmlReader{
     
     public int getPriority(int hospitalId, int level){
       return hospitalData[hospitalId][level][2];	
+    }
+    
+    public CourseInfo deepCopy(){
+      CourseInfo copy = new CourseInfo(getId());
+      copy.setBehaviorId(getBehaviorId());       
+      copy.setStartHealth(getStartHealth());        
+      copy.setDamageAmount(getDamageAmount());
+      copy.setMachine(getMachineList());
+      for(int hospitalId = 0; hospitalId < hospitalData.length; hospitalId++){
+        for(int level = 0; level < hospitalData[hospitalId].length;level++){
+          copy.setHospitalInfo(hospitalId, level, 
+        		               getPercent(hospitalId, level), 
+        		               getPatientCount(hospitalId, level), 
+        		               getPriority(hospitalId, level));	
+        }	  
+      }
+      
+      
+      return copy;
     }
     
     

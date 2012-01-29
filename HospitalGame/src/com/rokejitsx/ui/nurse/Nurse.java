@@ -1,14 +1,17 @@
 package com.rokejitsx.ui.nurse;
 
+import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 
+import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.ui.building.Building;
+import com.rokejitsx.ui.building.ward.Ward;
 import com.rokejitsx.ui.item.Dust;
 import com.rokejitsx.ui.item.Item;
 
@@ -72,7 +75,7 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   private AnimatedSprite[] walkSprite;
   private AnimatedSprite healSprite, repairSprite;
   private NurseListener listener;
-  private boolean isCleaning;
+  private boolean isCleaning, isRepairing;
   //private int currentRouteIndex = -1; 
   
   
@@ -126,16 +129,78 @@ public class Nurse extends GameCharactor implements IAnimationListener {
     this.listener = listener;	   
   }
   
+  public boolean isHasAvailableHand(){
+    return leftItem == null || rightItem == null;	  
+  }
   
-  public void clean(){
-	if(leftItem != null && rightItem != null)
+  private float nurseOperationTime, nurseOperationMaxTime;
+  public void repair(){
+    if(!isHasRepairToolInHand())
+      return;
+    
+    hideAllSprite();
+    hideAllItemInHand();
+    repairSprite.setVisible(true);
+    AnimationInfo animInfo  = ResourceManager.getInstance().getNurseAnimationInfo(18);    
+    setAnimation(repairSprite, animInfo.getEachFrameDuration(), animInfo.getSequence(), 1, false);
+    isRepairing = true;
+    nurseOperationTime = 0;
+    nurseOperationMaxTime = ((Ward)getCurrentBuilding()).getRepairTime() / 1000;
+  }
+  
+  
+  private void hideAllItemInHand(){
+    if(leftItem != null)
+      leftItem.setVisible(false);	
+    
+    if(rightItem != null)
+      rightItem.setVisible(false);
+  }
+  
+  private void showAllItemInHand(){
+    if(!this.isVisible())
+      return;
+    if(leftItem != null)
+      leftItem.setVisible(true);	
+      
+    if(rightItem != null)
+      rightItem.setVisible(true);
+    
+  }
+  
+  
+  public boolean isRepairing(){
+    return isRepairing;	  
+  }
+  
+  private boolean isHasRepairToolInHand(){
+    if(leftItem != null){
+      if(leftItem.getType() == Item.REPAIR_TOOL)
+        return true;
+    }	  
+    
+    if(rightItem != null){
+      if(rightItem.getType() == Item.REPAIR_TOOL)
+        return true;
+    }
+    return false;
+  }
+  
+  public void clean(){	 
+	if(!isHasAvailableHand())
 	  return;
     hideAllSprite();
+    hideAllItemInHand();
     healSprite.setVisible(true);
-    AnimationInfo animInfo  = ResourceManager.getInstance().getNurseAnimationInfo(17);    
-    setAnimation(healSprite, animInfo.getEachFrameDuration(), animInfo.getSequence(), 1, false, this);
+    AnimationInfo animInfo  = ResourceManager.getInstance().getNurseAnimationInfo(17); 
+    Building building = getCurrentBuilding();
+    float centerX = building.getX() + building.getWidth()/2;
+    boolean flip = false;
+    if(centerX < getX() + getWidth()/2)
+      flip = true;
+    setAnimation(healSprite, animInfo.getEachFrameDuration(), animInfo.getSequence(), 0, flip, this);
     isCleaning = true;
-    return;
+    
   }
   
   public boolean isCleaning(){
@@ -266,9 +331,11 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   public void handOut(Item item){
     if(item.equals(leftItem)){
       leftItem.setVisible(false);
+      HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) leftItem.getParent(), leftItem);
       leftItem = null;      
     }else if(item.equals(rightItem)){
       rightItem.setVisible(false);
+      HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) rightItem.getParent(), rightItem);
       rightItem = null;	
     }
   }
@@ -303,12 +370,40 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   protected void onManagedUpdate(float pSecondsElapsed) {
 	if(leftItem != null){
 	  leftItem.setPosition(this.getX() - leftItem.getWidth()/2, this.getY() + getHeight()/2 - leftItem.getHeight()/2);	
-	}
-	
+	}	
 	if(rightItem != null){
 	  rightItem.setPosition(this.getX() + getWidth()/2, this.getY() + getHeight()/2 - rightItem.getHeight()/2);	
     }
+		
 	super.onManagedUpdate(pSecondsElapsed);
+	
+    if(isRepairing){
+	  nurseOperationTime += pSecondsElapsed;
+	  if(nurseOperationTime >= nurseOperationMaxTime){
+		isRepairing = false;
+		hideAllSprite();
+		showAllItemInHand();
+		repairSprite.stopAnimation();	
+		setGameCharactorState(STATE_IDLE);
+	    Building building = getCurrentBuilding();
+		building.setState(Building.STATE_IDLE);	  
+		if(leftItem != null){
+		  if(leftItem.getType() == Item.REPAIR_TOOL){
+			HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) leftItem.getParent(), leftItem);
+		    leftItem = null;
+		  }
+		}
+		
+		if(rightItem != null){
+		  if(rightItem.getType() == Item.REPAIR_TOOL){
+			HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) rightItem.getParent(), rightItem);
+			rightItem = null;
+		  }
+		}
+		if(listener != null)
+		  listener.onFinishRepairing(this, building);
+	  }
+	}
   }
 
 
@@ -317,6 +412,7 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   public void onAnimationEnd(AnimatedSprite pAnimatedSprite) {	
 	if(pAnimatedSprite.equals(healSprite)){
 	  isCleaning = false;
+	  showAllItemInHand();
 	  Building building = getCurrentBuilding();
 	  building.setState(Building.STATE_IDLE);
 	  if(listener != null)

@@ -1,6 +1,7 @@
 package com.rokejitsx.ui.building.ward;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Physiotherapy extends Ward{
@@ -13,13 +14,13 @@ public class Physiotherapy extends Ward{
 	setFocusTileIndex(16);
 	setIdleAnimationId(23);
 	setHealingAnimationId(24);	
-	setBrokedAnimationId(11);
+	setBrokedAnimationId(26);
 	
 	
 	setOperationTime(4000);
 	setState(STATE_IDLE);
-	addGameCharactorOnReceivedPosition(17, 133);
-	
+	addGameCharactorOnReceivedPosition(116, 109);
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PHYSIOTHERAPY);
 	//setColor(1, 1, 1, 1);
   }
 
@@ -30,7 +31,7 @@ public class Physiotherapy extends Ward{
   }
   @Override
   protected void setPatientOnReceived(Patient patient) {
-    patient.idle(true);	  
+    patient.idle(false);	  
   }
 
   @Override
@@ -42,7 +43,11 @@ public class Physiotherapy extends Ward{
   @Override
   public void onStartHealing() { 
 	Patient patient = getCurrentPatient();
-	patient.setPosition(83, 64);
+	if(patient.whoIsYourMom() == null){
+	  patient.setPosition(83, 64);
+    }else{
+      patient.setPosition(103, 84);	
+    }
 	patient.onSetFace(Patient.FACE_UP_R);
 		
   }

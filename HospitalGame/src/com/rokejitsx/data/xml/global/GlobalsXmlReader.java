@@ -117,6 +117,13 @@ public class GlobalsXmlReader extends DataXmlReader{
     super(R.xml.globals);
     datas = new DataHolder[globalList.length];
   }
+  
+  public DataHolder getGlobalData(String tagName){
+    int index = StringUtil.stringIndexInStringArray(tagName, globalList);
+    if(index == -1)
+      return null;
+    return datas[index];
+  }
 
   @Override
   public DataHolder parseData(String tagName) {

@@ -6,6 +6,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Triage extends Ward{
@@ -52,8 +53,7 @@ public class Triage extends Ward{
     float[] offset = counterOffset[hospitalLevel];
     counterSprite = new AnimatedSprite(offset[0], offset[1], ResourceManager.getInstance().getTexture(counterImgName));
     setWidth(counterSprite.getBaseWidth());
-    setHeight(counterSprite.getBaseHeight());
-    
+    setHeight(counterSprite.getBaseHeight());    
     mainSprite.setPosition(40, -9);
 	attachChild(counterSprite);
 	attachChild(mainSprite);
@@ -67,7 +67,9 @@ public class Triage extends Ward{
     setHealingAnimationId(14);
     setState(STATE_IDLE);    
     addGameCharactorOnReceivedPosition(getWidth() - 50, getHeight() - 50);
-	
+    
+    //ResourceManager.getInstance().getGlobalData(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
     
   }
   

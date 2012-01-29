@@ -7,6 +7,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class UltraScan extends Ward{
@@ -32,6 +33,7 @@ public class UltraScan extends Ward{
 	
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(119, 140);
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_ULTRA_SCAN);
   }
 
   @Override
@@ -77,7 +79,7 @@ public class UltraScan extends Ward{
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {	
 	mainSprite.onDraw(pGL, pCamera);
 	Patient patient = getCurrentPatient();
-	if(patient != null){
+	if(patient != null && !patient.isOnPick()){
 	  patient.onDraw(pGL, pCamera);  	
 	}
 	ultraScan.onDraw(pGL, pCamera);

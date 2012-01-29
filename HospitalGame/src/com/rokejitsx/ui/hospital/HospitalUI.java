@@ -113,8 +113,9 @@ public class HospitalUI extends Entity implements HospitalListener{
   }
   
   public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
-    if(hospitalFloorSelector.onSceneTouchEvent(pScene, pSceneTouchEvent))
-      return true;
+	if(!elevatorFloorSelector.isVisible())
+      if(hospitalFloorSelector.onSceneTouchEvent(pScene, pSceneTouchEvent))
+        return true;
     if(elevatorFloorSelector.onSceneTouchEvent(pScene, pSceneTouchEvent))
   	  return true;
     int action = pSceneTouchEvent.getAction();
@@ -145,8 +146,8 @@ public class HospitalUI extends Entity implements HospitalListener{
   }
 
   @Override
-  public void onPatientFinishHealing() {
-	hospitalStat.increaseMoney(100);
+  public void onPatientFinishHealing(Patient patient) {
+	hospitalStat.increaseMoney(patient.getBillCost());
 	hospitalStat.increaseThreatedPatient(1);
 	
   }

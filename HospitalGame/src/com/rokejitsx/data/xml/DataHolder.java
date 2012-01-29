@@ -55,8 +55,8 @@ public class DataHolder {
   public long getLong(String key){		
     Object value = get(key);
 	if(value instanceof String)
-	  return Integer.parseInt((String)value);
-    return ((Integer)value).intValue(); 	  
+	  return Long.parseLong((String)value);
+    return ((Long)value).longValue(); 	  
   }
   
   public float getFloat(String key){		

@@ -3,10 +3,11 @@ package com.rokejitsx.ui.item;
 import com.rokejitsx.data.GameObject;
 
 public abstract class Item extends GameObject{  	
-  public static final int MEDICINE  = 0;
-  public static final int COFFEE	= 2;
-  public static final int DUST		= 3;  
-  public static final int INFOPLATE = 9;
+  public static final int MEDICINE  		= 0;
+  public static final int COFFEE			= 2;
+  public static final int DUST				= 3;  
+  public static final int REPAIR_TOOL		= 4;
+  public static final int INFOPLATE 		= 9;
   
   private final static String[] imgName = {    
 	COMPOSE_PRESCRIPTION,
@@ -62,6 +63,8 @@ public abstract class Item extends GameObject{
         return new InfoPlate(patientNumber);
       case DUST:
         return new Dust();      
+      case REPAIR_TOOL:
+        return new RepairTool();
     }
 	return null;  
   }

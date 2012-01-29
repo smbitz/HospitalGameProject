@@ -8,6 +8,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class BabyScan extends Ward{
@@ -27,6 +28,8 @@ public class BabyScan extends Ward{
 	setState(STATE_IDLE);
 	
 	addGameCharactorOnReceivedPosition(110, 99);
+	
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BABYSCAN);
   }
 
   @Override
@@ -69,7 +72,7 @@ public class BabyScan extends Ward{
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {
     babyScan.onDraw(pGL, pCamera);
     Patient patient = getCurrentPatient(); 
-    if(patient != null){
+    if(patient != null && !patient.isOnPick()){
       if(patient.isOnHealing()){
         patient.onDraw(pGL, pCamera);
         mainSprite.onDraw(pGL, pCamera);

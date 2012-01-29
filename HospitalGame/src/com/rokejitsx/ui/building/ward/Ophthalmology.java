@@ -7,6 +7,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Ophthalmology extends Ward{ 
@@ -27,6 +28,8 @@ public class Ophthalmology extends Ward{
 	
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(149, 90);
+	
+	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPHTHALMOLOGY);
   }
 
   @Override
@@ -66,7 +69,7 @@ public class Ophthalmology extends Ward{
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {	
 	ophBaseSprite.onDraw(pGL, pCamera);
 	Patient patient = getCurrentPatient();
-	if(patient != null){
+	if(patient != null && !patient.isOnPick()){
 	  if(patient.isOnHealing()){
 	    getCurrentPatient().onDraw(pGL, pCamera);
 	    mainSprite.onDraw(pGL, pCamera);

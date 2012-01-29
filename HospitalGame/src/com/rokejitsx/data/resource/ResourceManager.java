@@ -10,7 +10,6 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.xmlpull.v1.XmlPullParserException;
 
-import android.graphics.PointF;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
@@ -18,6 +17,8 @@ import com.rokejitsx.data.route.RouteManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.data.xml.AnimationInfoReader;
 import com.rokejitsx.data.xml.CourseInfoReader;
+import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
+import com.rokejitsx.data.xml.DataHolder;
 import com.rokejitsx.data.xml.HospitalInfoReader;
 import com.rokejitsx.data.xml.NurseInfoReader;
 import com.rokejitsx.data.xml.ObjectInfosReader;
@@ -26,6 +27,7 @@ import com.rokejitsx.data.xml.PatientInfoReader;
 import com.rokejitsx.data.xml.PatientInfoReader.PatientHeadInfo;
 import com.rokejitsx.data.xml.PatientInfoReader.PatientInfo;
 import com.rokejitsx.data.xml.TransportInfoReader;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 
 public class ResourceManager implements ImageResource{
   private static ResourceManager self;
@@ -39,6 +41,7 @@ public class ResourceManager implements ImageResource{
   private Hashtable<String, TiledTextureRegion> staticTextureList, dinamicTextureList;
   private Vector<BitmapTextureAtlas> staticAtlasList;
   private BitmapTextureAtlas levelAtlas;
+  private GlobalsXmlReader globalReader;
   
   public static ResourceManager getInstance(){
    if(self == null){
@@ -110,6 +113,10 @@ public class ResourceManager implements ImageResource{
     return nurseInfoReader.getAnimation(id);	  
   }
   
+  public DataHolder getGlobalData(String tagName){
+    return globalReader.getGlobalData(tagName);	  
+  }
+  
   
   public void init(){
     infoReader = new ObjectInfosReader();
@@ -119,6 +126,7 @@ public class ResourceManager implements ImageResource{
     nurseInfoReader = new NurseInfoReader();
     courseReader = new CourseInfoReader();  
     hospitalReader = new HospitalInfoReader();
+    globalReader = new GlobalsXmlReader();
     
     try {
 	  
@@ -129,6 +137,7 @@ public class ResourceManager implements ImageResource{
 	  infoReader.startParse();  
 	  courseReader.startParse();  
 	  hospitalReader.startParse();
+	  globalReader.startParse();
 	  /*int id = 6;
 	  courseReader.print(id, 0);
 	  Log.d("RokejitsX", "=========================");
@@ -158,6 +167,10 @@ public class ResourceManager implements ImageResource{
 	}
     
     initStaticResource();
+  }
+  
+  public CourseInfo[] getCourseInfoListForHospital(int hospital, int level){
+    return courseReader.getCourseInfoForHospital(hospital, level);	   
   }
   
   public void loadLevel(int hospitalLevel){

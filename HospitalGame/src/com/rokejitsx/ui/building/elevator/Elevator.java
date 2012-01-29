@@ -1,13 +1,21 @@
 package com.rokejitsx.ui.building.elevator;
 
 import com.rokejitsx.data.GameCharactor;
+import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Elevator extends Building{   	
+  private AnimationInfo openAnim, closeAnim;
   public Elevator() {
 	super(Building.ELEVATOR, 1);	
-	mainSprite.setCurrentTileIndex(2);
+	openAnim = new AnimationInfo("", "", 20, false, false, 4);
+	openAnim.setSequence(new int[]{3 ,2, 1, 0});
+	
+	closeAnim = new AnimationInfo("", "", 20, false, false, 4);
+	closeAnim.setSequence(new int[]{0, 1, 2, 3});
+	
+	mainSprite.setCurrentTileIndex(3);
   }
 
   @Override
@@ -23,10 +31,14 @@ public class Elevator extends Building{
   }
   
   @Override
-  public void onFocus() {}
+  public void onFocus() {
+    setAnimation(mainSprite, openAnim);	  
+  }
 
   @Override
-  public void onUnFocus() {}
+  public void onUnFocus() {
+    setAnimation(mainSprite, closeAnim);	  
+  }
   
   
 

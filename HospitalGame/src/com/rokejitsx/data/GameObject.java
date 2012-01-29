@@ -7,6 +7,8 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
 import org.anddev.andengine.entity.text.ChangeableText;
 import org.anddev.andengine.util.HorizontalAlign;
 
+import android.util.Log;
+
 import com.rokejitsx.data.resource.ImageResource;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
@@ -54,6 +56,8 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
   
   protected void setAnimation(AnimatedSprite sprite, AnimationInfo animInfo, IAnimationListener listener){
     //AnimationInfo animInfo = ResourceManager.getInstance().getAnimationInfo(animationId);		
+	Log.d("RokejitsX", "sprite = "+sprite);
+	Log.d("RokejitsX", "animInfo = "+animInfo);
     sprite.setFlippedHorizontal(animInfo.isFlip());    
     sprite.animate(animInfo.getEachFrameDuration(), animInfo.getSequence(), animInfo.doLoop(), listener);	  
   }

@@ -121,7 +121,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
     MONTAGE_HELICOPTER,			// HELICOPTER
   };
  
-  private GameObject[] visitors;
+  protected GameObject[] visitors;
  // protected int availableLinkPoint;
   //private PointF[] linkPoint;
   private BuildingListener listener; 
@@ -328,6 +328,10 @@ public abstract class Building extends GameObject implements GameCharactorListen
     this.listener = listener;	  
   }
   
+  public BuildingListener getBuildingListener(){
+    return listener;	  
+  }
+  
   public void setActionPatientNode(int index){
     this.actionPatientNode = index;	  
   }
@@ -350,7 +354,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
     return null;
   } 
   
-  private int getAvailableLinkPoint(){
+  protected int getAvailableLinkPoint(){
 	if(visitors != null){
       for(int i = 0;i < visitors.length;i++){
         if(visitors[i] == null)
@@ -395,6 +399,12 @@ public abstract class Building extends GameObject implements GameCharactorListen
     return true;		  
   }
   
+  public void onGameCharactorCallback(GameCharactor gameChar){
+	int index = getGameObjectInVisitorQueueIndex(gameChar);    
+    setGameCharactorPositionOnReceived(gameChar,index);	  
+    setGameChatactorOnReceived(gameChar);
+  }
+  
   protected abstract void setGameChatactorOnReceived(GameCharactor gameChar);
   
   private void setGameCharactorPositionOnReceived(GameCharactor gameChar,int index){
@@ -402,11 +412,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
     gameChar.setPositionOnBuildingReceived(position[0], position[1]);	  
   }
   
-  public void onGameCharactorCallback(GameCharactor gameChar){
-	int index = getGameObjectInVisitorQueueIndex(gameChar);
-    setGameChatactorOnReceived(gameChar);
-    setGameCharactorPositionOnReceived(gameChar,index);	  
-  }
+  
   
   protected int getMaxVisitorCount(){
     return visitors.length;	  
@@ -546,7 +552,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
       case Building.PLANT:					//13
         return new Plant();
       case Building.WATER:					//15
-        return new Water();
+        return null;/*new Water();*/
       case Building.FOOD:					//16
         return new Food();
       case Building.TAC:					//17

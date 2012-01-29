@@ -4,6 +4,7 @@ import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Chemotherapy extends Ward{
@@ -23,6 +24,8 @@ public class Chemotherapy extends Ward{
     
     setState(STATE_IDLE);
     addGameCharactorOnReceivedPosition(103, 101);
+    
+    initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CHEMOTHERAPY);
     
   }
 

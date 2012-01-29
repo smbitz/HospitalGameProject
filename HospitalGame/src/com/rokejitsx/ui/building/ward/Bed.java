@@ -8,6 +8,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Bed extends Ward{
@@ -42,6 +43,7 @@ public class Bed extends Ward{
     
     
     addGameCharactorOnReceivedPosition(90, 44);
+    initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BED);
     
   } 
   
@@ -115,7 +117,7 @@ public class Bed extends Ward{
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {
     mainSprite.onDraw(pGL, pCamera);
     graficoSprite.onDraw(pGL, pCamera);
-    if(getCurrentPatient() != null)
+    if(getCurrentPatient() != null && !getCurrentPatient().isOnPick())
       getCurrentPatient().onDraw(pGL, pCamera);
     bedSprite.onDraw(pGL, pCamera);
     

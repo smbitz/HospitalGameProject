@@ -30,7 +30,7 @@ public class PatientDoughnut extends GameObject implements ImageResource, IModif
     super(0, 0, 0, 0, DOUGHNUT);
     this.patient = patient;
     PatientHeadInfo headInfo = patient.getHeadInfo();   
-    headAnimInfo = ResourceManager.getInstance().getAnimationInfo(headInfo.getAnimationId(PatientHeadInfo.MAD_DOWN_L_ID)).deepCopy();    
+    headAnimInfo = ResourceManager.getInstance().getAnimationInfo(headInfo.getAnimationId(PatientHeadInfo.MAD_ID)).deepCopy();    
     doughnutAnimInfo = new AnimationInfo("", "", 1, false, true, 2);
     doughnutAnimInfo.setSequence(new int[]{0, 1});
     

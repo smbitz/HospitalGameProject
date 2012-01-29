@@ -6,6 +6,9 @@ import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
+import com.rokejitsx.data.xml.DataHolder;
+import com.rokejitsx.data.xml.global.GiActionPoint;
+import com.rokejitsx.data.xml.global.giactionpoint.GiActionPointBuilding;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.item.Item;
 import com.rokejitsx.ui.nurse.Nurse;
@@ -18,8 +21,9 @@ public abstract class Ward extends Building{
   
   
   private double healingEffectiveLevel; 
-  private long operationTime,endHealingTime;
+  private long operationTime,endHealingTime, repairTime;
   private WardListener listener; 
+  private int billCost;
   //private int wardType;
   
   
@@ -36,11 +40,41 @@ public abstract class Ward extends Building{
   
   
   
+  protected void initialFromGlobal(String tagName){
+    DataHolder dHolder = ResourceManager.getInstance().getGlobalData(tagName);	  
+    if(dHolder.get(GiActionPointBuilding.IN_USE_TIME) != null){
+      Log.d("RokejitsX", "dHolder.get(GiActionPointBuilding.IN_USE_TIME) = "+dHolder.get(GiActionPointBuilding.IN_USE_TIME));
+      setOperationTime((long) (dHolder.getFloat(GiActionPointBuilding.IN_USE_TIME) * 1000));	
+    }
+    
+    if(dHolder.get(GiActionPointBuilding.DAMAGE) != null){
+      setHealingEffectiveLevel(dHolder.getDouble(GiActionPointBuilding.DAMAGE));	
+    }
+    
+    if(dHolder.get(GiActionPointBuilding.REPAIR_TIME) != null){
+      setRepairTime((long) (dHolder.getFloat(GiActionPointBuilding.REPAIR_TIME) * 1000));	
+    }
+    
+    if(dHolder.get(GiActionPointBuilding.BILL) != null){
+      setBillCost((int) dHolder.getFloat(GiActionPointBuilding.BILL));	
+    }
+  }
   
+  private void setBillCost(int cost){
+    billCost = cost;  	  
+  }
   
 
   
-
+  private void setRepairTime(long time){
+    repairTime = time;
+    if(repairTime != 0)
+      this.setBuildingCanBroke();
+  }
+  
+  public long getRepairTime(){
+    return repairTime;	  
+  }
 
 
 
@@ -106,6 +140,7 @@ public abstract class Ward extends Building{
     setState(STATE_IDLE);    
     onfinishHealing();
     Patient patient = getCurrentPatient();
+    patient.addBillCost(billCost);
     onGameCharactorCallback(patient);
     if(listener != null)
       listener.onFinishHealing(this, getCurrentPatient());    

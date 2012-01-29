@@ -27,6 +27,8 @@ import android.graphics.Color;
 import com.rokejitsx.HospitalGameActivity.DeAttachChildThread;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.route.RouteManager;
+import com.rokejitsx.data.xml.CourseInfoReader;
+import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
 import com.rokejitsx.data.xml.HospitalLevelReader;
 import com.rokejitsx.data.xml.HospitalLevelReader.BuildingInfo;
 import com.rokejitsx.data.xml.LevelInfoReader;
@@ -124,16 +126,15 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospital.initialBg(hospitalId, maxFloor);
     hospital.loadBuilding(hospitalId, buildingInfoList);
     hospital.initRouteManager(routeManagerList);
-    hospital.initialNurse();
+    hospital.initialNurse();    
     
-    /*186x1057
-    210x1077*/
     
     
     initHospitalUi(hospitalId,level,maxFloor);
     hospitalUI.setElevetorSelectorListener(hospital);
     hospital.setHospitalListener(hospitalUI);
-    hospital.setFloor(0);
+    hospital.setFloor(0);    
+    hospital.setCourseInfoList(ResourceManager.getInstance().getCourseInfoListForHospital(hospitalId, level), hospitalId, level);    
     attachChild(hospital);    
     attachChild(hospitalUI);
     hospitalUI.startTimer();
@@ -151,6 +152,9 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospitalUI.setGoalPatient(levelInfo.getObjective());
     hospitalUI.setExpertPatient(levelInfo.getExpertObjective());
     hospitalUI.setMoney(0);
+    
+    hospital.setMachineBreakCount(levelInfo.getMachineBreakCount());
+    hospital.setPatientMaxCount(levelInfo.getPatientCount(), levelInfo.getTime());
     
     
   }
