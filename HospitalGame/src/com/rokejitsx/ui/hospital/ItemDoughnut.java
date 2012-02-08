@@ -17,6 +17,14 @@ public class ItemDoughnut extends GameObject{
     attachChild(this.item);	  
   }
   
+  public void check(){
+    item.checked();	  
+  }
+  
+  public void unCheck(){
+    item.unChecked();	  
+  }
+  
   public void clear(){
     if(item == null)
       return;

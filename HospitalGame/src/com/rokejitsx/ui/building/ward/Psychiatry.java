@@ -16,6 +16,7 @@ public class Psychiatry extends Ward{
     setState(STATE_IDLE);
     addGameCharactorOnReceivedPosition(168, 85);
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PSYCHIATRY);
+    setCheckPosition(0, 0);
   }
 
   @Override

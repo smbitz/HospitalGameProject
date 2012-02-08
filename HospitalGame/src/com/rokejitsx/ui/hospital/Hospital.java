@@ -9,6 +9,8 @@ import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
+import org.anddev.andengine.audio.music.Music;
+import org.anddev.andengine.audio.sound.Sound;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.IEntity;
@@ -24,6 +26,8 @@ import android.util.FloatMath;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.audio.SoundList;
+import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameCharactorListener;
 import com.rokejitsx.data.GameCharatorFloorChangedListener;
@@ -60,7 +64,242 @@ import com.rokejitsx.ui.patient.Patient;
 import com.rokejitsx.ui.patient.Patient.HealingRoute;
 import com.rokejitsx.ui.patient.PatientListener;
 
-public class Hospital extends Entity implements WardListener, PatientListener, GameCharactorListener, BuildingListener, ElevatorSelectorListener, GameCharatorFloorChangedListener, FirstPharmacyListener, PharmacyListener, NurseListener, HospitalUIListener {
+public class Hospital extends Entity implements WardListener, PatientListener, 
+                                                GameCharactorListener, BuildingListener, 
+                                                ElevatorSelectorListener, GameCharatorFloorChangedListener, 
+                                                FirstPharmacyListener, PharmacyListener, 
+                                                NurseListener, HospitalUIListener,
+                                                SoundList {
+  
+	private static final int PATIENT_FAILED_AFRO 		= 0;
+	private static final int PATIENT_FAILED_ARAB 		= 1;
+	private static final int PATIENT_FAILED_BOY 		= 2;
+	private static final int PATIENT_FAILED_GRANDPA 	= 3;
+	private static final int PATIENT_FAILED_GRANNY 		= 4;
+	private static final int PATIENT_FAILED_WOMAN 		= 5;
+	private static final int PATIENT_LEAVE 				= 6;
+	private static final int PATIENT_PICKUP 			= 7;
+	private static final int PATIENT_SHAKE_AFRO 		= 8;
+	private static final int PATIENT_SHAKE_ARAB 		= 9;
+	private static final int PATIENT_SHAKE_BOY 			= 10;
+	private static final int PATIENT_SHAKE_GRANDPA 		= 11;
+	private static final int PATIENT_SHAKE_GRANNY 		= 12;
+	private static final int PATIENT_SHAKE_WOMAN 		= 13;
+	private static final int PATIENT_SHAKE_HARD 		= 14;
+	private static final int PATIENT_SUCCESS_AFRO 		= 15;
+	private static final int PATIENT_SUCCESS_ARAB 		= 16;
+	private static final int PATIENT_SUCCESS_BOY 		= 17;
+	private static final int PATIENT_SUCCESS_GRANDPA 	= 18;
+	private static final int PATIENT_SUCCESS_GRANNY 	= 19;
+	private static final int PATIENT_SUCCESS_WOMAN 		= 20;
+	private static final int PATIENT_THANKS 			= 21;    
+	
+	private static final String[][] patientSoundList = {
+	  {
+	    PATIENT_FAILED_AFRO1,
+	    PATIENT_FAILED_AFRO2,
+	    PATIENT_FAILED_AFRO3,
+	    PATIENT_FAILED_AFRO4,
+	    PATIENT_FAILED_AFRO5,
+	    PATIENT_FAILED_AFRO6,
+	    PATIENT_FAILED_AFRO7
+	  },
+	  {	  
+		PATIENT_FAILED_ARAB1,
+		PATIENT_FAILED_ARAB2,
+		PATIENT_FAILED_ARAB3,
+		PATIENT_FAILED_ARAB4
+	  },
+	  {	
+		PATIENT_FAILED_BOY1,
+		PATIENT_FAILED_BOY2,
+		PATIENT_FAILED_BOY3,
+		PATIENT_FAILED_BOY4
+	  },
+	  {
+	    PATIENT_FAILED_GRANDPA1,
+	    PATIENT_FAILED_GRANDPA2,
+	    PATIENT_FAILED_GRANDPA3,
+	    PATIENT_FAILED_GRANDPA4,
+	    PATIENT_FAILED_GRANDPA5
+	  },
+	  {
+        PATIENT_FAILED_GRANNY1,
+        PATIENT_FAILED_GRANNY2,
+        PATIENT_FAILED_GRANNY3,
+        PATIENT_FAILED_GRANNY4
+	  },
+	  {
+	    PATIENT_FAILED_WOMAN1,
+	    PATIENT_FAILED_WOMAN2
+	  },	    
+	  {
+	    PATIENT_LEAVE1,
+	    PATIENT_LEAVE2,
+	    PATIENT_LEAVE3,
+	    PATIENT_LEAVE4,
+	    PATIENT_LEAVE5
+	  },
+	  {
+	    PATIENT_PICKUP1,
+	    PATIENT_PICKUP2,
+	    PATIENT_PICKUP3,
+	    PATIENT_PICKUP4,
+	    PATIENT_PICKUP5,
+	    PATIENT_PICKUP6,
+	    PATIENT_PICKUP7,
+	    PATIENT_PICKUP8,
+	    PATIENT_PICKUP9,
+	    PATIENT_PICKUP10
+	  },
+	  {
+	    PATIENT_SHAKE_AFRO1,
+	    PATIENT_SHAKE_AFRO2,
+	    PATIENT_SHAKE_AFRO3,
+	    PATIENT_SHAKE_AFRO4,
+	    PATIENT_SHAKE_AFRO5,
+	    PATIENT_SHAKE_AFRO6,
+	    PATIENT_SHAKE_AFRO7,
+	    PATIENT_SHAKE_AFRO8,
+	    PATIENT_SHAKE_AFRO9
+	  },
+	  {
+	    PATIENT_SHAKE_ARAB1,
+	    PATIENT_SHAKE_ARAB2,
+	    PATIENT_SHAKE_ARAB3,
+	    PATIENT_SHAKE_ARAB4,
+	    PATIENT_SHAKE_ARAB5,
+	    PATIENT_SHAKE_ARAB6,
+	    PATIENT_SHAKE_ARAB7,
+	    PATIENT_SHAKE_ARAB8,
+	    PATIENT_SHAKE_ARAB9
+	  },
+	  {
+	    PATIENT_SHAKE_BOY1,
+	    PATIENT_SHAKE_BOY2,
+	    PATIENT_SHAKE_BOY3,
+	    PATIENT_SHAKE_BOY4,
+	    PATIENT_SHAKE_BOY5
+	  },
+	  {
+	    PATIENT_SHAKE_GRANDPA1,
+	    PATIENT_SHAKE_GRANDPA2,
+	    PATIENT_SHAKE_GRANDPA3,
+	    PATIENT_SHAKE_GRANDPA4,
+	    PATIENT_SHAKE_GRANDPA5
+	  },
+	  {
+		PATIENT_SHAKE_GRANNY1,
+		PATIENT_SHAKE_GRANNY2,
+		PATIENT_SHAKE_GRANNY3,
+		PATIENT_SHAKE_GRANNY4,
+		PATIENT_SHAKE_GRANNY5,
+		PATIENT_SHAKE_GRANNY6,
+		PATIENT_SHAKE_GRANNY7
+      },
+      {
+		PATIENT_SHAKE_WOMAN1,
+		PATIENT_SHAKE_WOMAN2,
+		PATIENT_SHAKE_WOMAN3
+      },
+      {		  
+		PATIENT_SHAKE_HARD1,
+		PATIENT_SHAKE_HARD2,
+		PATIENT_SHAKE_HARD3,
+		PATIENT_SHAKE_HARD4
+      },
+      {
+		PATIENT_SUCCESS_AFRO1,
+		PATIENT_SUCCESS_AFRO2,
+		PATIENT_SUCCESS_AFRO3,
+		PATIENT_SUCCESS_AFRO4,
+		PATIENT_SUCCESS_AFRO5,
+		PATIENT_SUCCESS_AFRO6
+	  },
+	  {
+		PATIENT_SUCCESS_ARAB1,
+		PATIENT_SUCCESS_ARAB2,
+		PATIENT_SUCCESS_ARAB3,
+		PATIENT_SUCCESS_ARAB4
+	  },
+	  {
+		PATIENT_SUCCESS_BOY1,
+		PATIENT_SUCCESS_BOY2,
+		PATIENT_SUCCESS_BOY3,
+		PATIENT_SUCCESS_BOY4,
+		PATIENT_SUCCESS_BOY5,
+		PATIENT_SUCCESS_BOY6
+      },
+      {
+    	PATIENT_SUCCESS_GRANDPA1,
+    	PATIENT_SUCCESS_GRANDPA2,
+    	PATIENT_SUCCESS_GRANDPA3,
+    	PATIENT_SUCCESS_GRANDPA4,
+    	PATIENT_SUCCESS_GRANDPA5,
+    	PATIENT_SUCCESS_GRANDPA6
+      },
+      {
+		PATIENT_SUCCESS_GRANNY1,
+		PATIENT_SUCCESS_GRANNY2,
+		PATIENT_SUCCESS_GRANNY3,
+		PATIENT_SUCCESS_GRANNY4,
+		PATIENT_SUCCESS_GRANNY5,
+		PATIENT_SUCCESS_GRANNY6
+      },
+      {
+		PATIENT_SUCCESS_WOMAN1,
+		PATIENT_SUCCESS_WOMAN2,
+		PATIENT_SUCCESS_WOMAN3
+      },
+      {
+		PATIENT_THANKS1,
+		PATIENT_THANKS2,
+		PATIENT_THANKS3,
+		PATIENT_THANKS4,
+		PATIENT_THANKS5
+      }
+		  
+		    
+	};	
+	
+  private static final String[] nurseSoundList = {
+    SARAH_GO1,
+    SARAH_GO2,
+    SARAH_GO3,
+    SARAH_GO4,
+    SARAH_GO5	  
+  };
+  
+  private static final String[] hospitalBgSoundList = {
+    HOSPITAL_1,	  
+    HOSPITAL_2,
+    HOSPITAL_3,
+    HOSPITAL_4,
+    HOSPITAL_5,
+    HOSPITAL_6,
+    HOSPITAL_7,
+  };
+  
+  private static final String[] stressHospitalBgSoundList = {
+    STRESS_HOSPITAL1,	  
+    STRESS_HOSPITAL2,
+    STRESS_HOSPITAL3,
+    STRESS_HOSPITAL4,
+    STRESS_HOSPITAL5,
+    STRESS_HOSPITAL6,
+    STRESS_HOSPITAL7,
+ 
+  };
+  
+  
+  
+	  
+  private Sound[][] patientSound;
+  private Sound[] nurseGoSound;
+  private Sound patientFailedSound, patientTreatedSound, patientSymtomShow, nurseClick;
+  private long patientShakeSoundStartPlayTime = -1;
+  private Music hospitalSound, hospitalStressSound;
+	
   private RouteManager[] routeManagerList;  
   private Triage analizeWard;    
   private Chair waitingChair;
@@ -73,35 +312,25 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   private int patientInHospitalCount, patientMaxCount, patientCount;  
   private float patientComeInTime, patientComeInCountTime;
   private Vector<Patient> patientList,healedPatientList;
-  private Vector<GameObject> buildingList;
-  
+  private Vector<GameObject> buildingList;  
   private Nurse nurse;
   private Vector<GameObject> nurseQueue;
   private Patient pickedPatient;
-  private Building collideBuilding;
-  
-  private int patientQueueNumber = 1;
-  
-  private int currentFloor,maxFloor;
-  
+  private Building collideBuilding;  
+  private int patientQueueNumber = 1;  
+  private int currentFloor,maxFloor;  
   private Vector<FloorChangeListener> floorListener;
   private HospitalListener hospitalListener;  
-  private Elevator selectedElevator;
-  
-  private Item[] itemOnDesk;
-  
-  
+  private Elevator selectedElevator;  
+  private Item[] itemOnDesk;  
   private Ambulance ambulance;
-  private Helicopter helicopter;
-  
-  
-  private Vector<Patient> patientAlmostDeadList;
-  
-  private CourseInfo[] courseInfoList;
-  
+  private Helicopter helicopter; 
+  private Vector<Patient> patientAlmostDeadList;  
+  private CourseInfo[] courseInfoList;  
   private int machineBreakCount;
-  
-  
+  private int[] patinetIdList = {0, 1, 2 , 3, 4, 5, 7, 8, 9, 10};
+  private int[] patinetWomanIdList = {2, 7, 10};
+  private Random random = new Random();
   
   
   public Hospital(int maxFloor){
@@ -119,11 +348,137 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     
   } 
   
+  public void loadSound(int hospitalId){
+	SoundPlayerManager soundManager = SoundPlayerManager.getInstance(); 
+    patientSound = new Sound[patientSoundList.length][];
+    for(int i = 0;i < patientSoundList.length;i++){
+      patientSound[i] = new Sound[patientSoundList[i].length];
+      for(int j = 0;j < patientSoundList[i].length;j++){
+        patientSound[i][j] = soundManager.createSound(patientSoundList[i][j]);	  
+      }
+    }   
+    
+    nurseGoSound = new Sound[nurseSoundList.length];
+    for(int i = 0;i < nurseSoundList.length;i++){
+      nurseGoSound[i] = soundManager.createSound(nurseSoundList[i]); 	
+    }
+    
+    
+    patientFailedSound = soundManager.createSound(PATIENT_FAILED);
+    patientTreatedSound = soundManager.createSound(PATIENT_TREATED);
+    patientSymtomShow = soundManager.createSound(PATIENT_SYMTOM_SHOW);
+    nurseClick = soundManager.createSound(SARAH_CLICK); 
+    
+    
+    hospitalSound = soundManager.createMusic(hospitalBgSoundList[hospitalId]);
+    hospitalStressSound = soundManager.createMusic(stressHospitalBgSoundList[hospitalId]);
+    
+    hospitalSound.setLooping(true);
+    hospitalStressSound.setLooping(true);
+    
+    hospitalSound.setVolume(70);
+    hospitalStressSound.setVolume(70);
+    
+    
+    
+  }
+  
+  private void playPatientOnPickedSound(Patient patient){
+	if(patientShakeSoundStartPlayTime != -1 && System.currentTimeMillis() - patientShakeSoundStartPlayTime < 2000){
+	  return;	
+	}  
+    int soundListId = -1;
+    if(patient.isArab()){
+      soundListId = PATIENT_SHAKE_ARAB;   	
+    }else if(patient.isAfro()){
+      soundListId = PATIENT_SHAKE_AFRO;   	
+    }if(patient.isBoy()){
+      soundListId = PATIENT_SHAKE_BOY;   	
+    }if(patient.isGrandpa()){
+      soundListId = PATIENT_SHAKE_GRANDPA;   	
+    }if(patient.isGranny()){
+      soundListId = PATIENT_SHAKE_GRANNY;   	
+    }if(patient.isMan()){
+      soundListId = PATIENT_SHAKE_HARD;   	
+    }if(patient.isWoman()){
+      soundListId = PATIENT_SHAKE_WOMAN;   	
+    }
+    
+    if(soundListId == -1)
+      return;
+    patientShakeSoundStartPlayTime = System.currentTimeMillis();
+    playRandomSound(patientSound[soundListId]);    
+  }
+  
+  private void playPatientFinishHealingSound(Patient patient){
+    int soundListId = -1;
+    if(patient.isArab()){
+      soundListId = PATIENT_SUCCESS_ARAB;   	
+    }else if(patient.isAfro()){
+      soundListId = PATIENT_SUCCESS_AFRO;   	
+    }if(patient.isBoy()){
+      soundListId = PATIENT_SUCCESS_BOY;   	
+    }if(patient.isGrandpa()){
+      soundListId = PATIENT_SUCCESS_GRANDPA;   	
+    }if(patient.isGranny()){
+      soundListId = PATIENT_SUCCESS_GRANNY;   	
+    }if(patient.isMan()){
+      soundListId = PATIENT_THANKS;   	
+    }if(patient.isWoman()){
+      soundListId = PATIENT_SUCCESS_WOMAN;   	
+    }
+	    
+    if(soundListId == -1)
+      return;
+    playRandomSound(patientSound[soundListId]);	  
+  }
+  
+  private void playPatientUnFinishHealingSound(Patient patient){
+    int soundListId = -1;
+    if(patient.isArab()){
+      soundListId = PATIENT_FAILED_ARAB;   	
+    }else if(patient.isAfro()){
+      soundListId = PATIENT_FAILED_AFRO;   	
+    }if(patient.isBoy()){
+      soundListId = PATIENT_FAILED_BOY;   	
+    }if(patient.isGrandpa()){
+	  soundListId = PATIENT_FAILED_GRANDPA;   	
+    }if(patient.isGranny()){
+      soundListId = PATIENT_FAILED_GRANNY;   	
+    }if(patient.isMan()){
+      soundListId = PATIENT_LEAVE;   	
+    }if(patient.isWoman()){
+      soundListId = PATIENT_FAILED_WOMAN;   	
+    }
+		    
+    if(soundListId == -1)
+      return;
+    playRandomSound(patientSound[soundListId]);	  
+  }
+  
+  
+  private void playNurseClickSound(){
+    nurseClick.play();
+    playRandomSound(nurseGoSound);
+    
+    
+  }
+  
+  private void playRandomSound(Sound[] soundList){    
+    getRandomSound(soundList).play();	  
+  }
+  
+  private Sound getRandomSound(Sound[] soundList){
+    int id = Math.abs(random.nextInt() % soundList.length);
+	return soundList[id]; 	  
+  }
+  
   public void startPlay(){
     if(ambulance != null)
       ambulance.comeIn();
     if(helicopter != null)
       helicopter.comeIn();
+    //hospitalSound.play();
   }
   
   public void setMachineBreakCount(int count){
@@ -172,7 +527,22 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   }
   
   
-  public void setFloor(int floor){    
+  public void setFloor(int floor){
+	  /*float x = 0;
+      float y = 0;     
+      
+      float x1 = -1;
+      float y1 = -1;     
+      
+      
+      float x3 = x + x1;
+      float y3 = y + y1;    		
+      double distance = Math.sqrt((x3 * x3) + (y3 * y3));    
+      double cos = x3 / distance;    
+      double angle = Math.toDegrees(Math.acos(cos));    	    
+      if(y1 < y)
+        angle = 360 - angle;*/
+      //Log.d("RokejitsX", "angle = "+getAngle(123, 151, 199, 121));
     currentFloor = floor;
     if(bg != null)
     for(int i = 0;i < bg.length;i++){
@@ -288,9 +658,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     
   }
   
-  private int[] patinetIdList = {0, 1, 2 , 3, 4, 5, 7, 8, 9, 10};
-  private int[] patinetWomanIdList = {2, 7, 10};
-  private Random random = new Random();
+  
   public void patientComein(CourseInfo courseInfo){
 	int iid = Math.abs(random.nextInt());	
 	int pId;
@@ -363,7 +731,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
       babyPatient.setShowFloorNumberInBubbleBox(maxFloor > 2);
       //babyPatient.setShowFloorNumberInBubbleBox(true);
       babyPatient.setPatientListener(this);
-      babyPatient.setHealthLevel(50); 
+      //babyPatient.setHealthLevel(50); 
       babyPatient.setQueue(patientQueueNumber++);
     }
     
@@ -404,23 +772,19 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   }
  
   
-  private void addNurseQueue(GameObject obj){
-	/*Log.d("RokejitsX", "add nurse queue===============================================================");
-	Log.d("RokejitsX", "obj = "+obj);
-	Log.d("RokejitsX", "nurseQueue.contains(obj) = "+nurseQueue.contains(obj));
-	Log.d("RokejitsX", "nurse.getItemToPick() = "+nurse.getItemToPick());
-	
-	
-	
-	Enumeration<GameObject> e = nurseQueue.elements();
-	while(e.hasMoreElements()){
-	  Log.d("RokejitsX", "Item in queue = "+e.nextElement());	
-	}
-	Log.d("RokejitsX", "add nurse queue===============================================================2");*/
-	if(nurseQueue.contains(obj) || obj.equals(nurse.getItemToPick()))
+  private boolean isCanAddToNurseQueue(){
+    if(nurseQueue.size() == 15)
+	  return false;
+    return true;
+  }
+  
+  private void addNurseQueue(GameObject obj){	
+	if(!isCanAddToNurseQueue())
 	  return;
+	playNurseClickSound();
     nurseQueue.add(obj);    
     startNurseQueue();
+    //return true;
   }
   
   private void startNurseQueue(){
@@ -429,12 +793,12 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     nurse.setGameCharactorState(nurse.STATE_PREPARE);
     nextQueue();
   }
-  
+  private GameObject toTarget;
   private void nextQueue(){
 	
     if(nurseQueue.size() == 0 || nurse.isCleaning() || nurse.isRepairing())
       return;    
-    GameObject toTarget = nurseQueue.elementAt(0);
+    toTarget = nurseQueue.elementAt(0);
     
     if(toTarget instanceof Item){
       Item item = (Item) toTarget;	
@@ -444,8 +808,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
       if(infoWard.getCurrentFloor() != nurse.getCurrentFloor()){
         toTarget = elevatorList[nurse.getCurrentFloor()];	
     
-      }else{
-      
+      }else{      
         nurseQueue.remove(0);
       }
       
@@ -461,6 +824,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
     int fromRouteIndex = nurse.getCurrentRouteIndex();
     if(toTarget instanceof Building){
       Building building = (Building) toTarget;      
+      nurse.setItemToPick(null);
       nurse.setCurrentBuilding(building);
       nurse.addGameCharactorListener(building);
       toRouteIndex = ((Building)toTarget).getActionnode();
@@ -701,6 +1065,10 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
   Comparator<? super GameObject> objComparator = new Comparator<GameObject>(){	 
      @Override
 	 public int compare(GameObject lhs, GameObject rhs) {
+       if(lhs instanceof Helicopter)
+         return 1;
+       if(rhs instanceof Helicopter)
+         return -1;
        float x = lhs.getX() + lhs.getWidth()/2;
        float y = lhs.getY() + lhs.getHeight()/2;
        
@@ -713,8 +1081,8 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
        if(rhs instanceof Patient || rhs instanceof Nurse)
          y1 += rhs.getHeight() / 2;
        
-       float x3 = x + x1;
-       float y3 = y + y1;    		
+       float x3 = x - x1;
+       float y3 = y - y1;    		
        double distance = Math.sqrt((x3 * x3) + (y3 * y3));    
        double cos = x3 / distance;    
        double angle = Math.toDegrees(Math.acos(cos));    	    
@@ -723,12 +1091,34 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
        
        
        
-       if(angle >= 315 || angle <= 135)
+       if(angle >= 337.5 || angle <= 157.5)
          return -1;
-       return 1;   
+       return 1;
+       /*double angle1 = getAngle(600, 0, lhs.getX() + lhs.getWidth(), lhs.getY());	 
+       double angle2 = getAngle(600, 0, rhs.getX() + rhs.getWidth(), rhs.getY());
+       
+       
+       
+       if(angle1 > angle2)
+         return 1;
+    	 
+       return -1;*/	 
     	
 	 } 
   };
+  
+  
+  private double getAngle(float x1, float y1, float x2, float y2){
+    float x3 = x1 - x2;
+    float y3 = y1 - y2;    		
+    double distance = Math.sqrt((x3 * x3) + (y3 * y3));
+    
+    double cos = x3 / distance;    
+    double angle = Math.toDegrees(Math.acos(cos));    	    
+    if(y2 < y1)
+      angle = 360 - angle;
+    return angle;
+  }
   
   
   
@@ -756,7 +1146,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	  tmp.add(e.nextElement());	
 	}
 	
-	/*final ArrayList<IEntity> children = this.mChildren;
+	final ArrayList<IEntity> children = this.mChildren;
 	final int childCount = children.size();
 	for(int i = 0; i < childCount; i++) {
 	  IEntity child = (IEntity) children.get(i);
@@ -769,7 +1159,7 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	    if((patient.getCurrentBuilding() == null || patient.isOnPick()) && patient.getCurrentFloor() == getFloor())
 	      tmp.add(patient);
 	  }
-	}*/
+	}
 	
 	GameObject[] list = new GameObject[tmp.size()];
 	tmp.copyInto(list);
@@ -779,29 +1169,33 @@ public class Hospital extends Entity implements WardListener, PatientListener, G
 	
     if(this.mChildren != null && this.mChildrenVisible) {
 	  //this.onManagedDrawChildren(pGL, pCamera);
-      final ArrayList<IEntity> children = this.mChildren;
-	  final int childCount = children.size();
+     // final ArrayList<IEntity> children = this.mChildren;
+	  //final int childCount = children.size();
 	  for(int i = 0; i < childCount; i++) {
 	    IEntity child = (IEntity) children.get(i); 
 	    if(!(child instanceof Patient)){
 	      if(!(buildingList.contains(child)) && !(child instanceof Nurse) && !(child instanceof Item))
 	        child.onDraw(pGL, pCamera);
 	    }else{
-	      Patient patient = (Patient) child;
+	     /* Patient patient = (Patient) child;
 	      if((patient.getCurrentBuilding() == null || patient.isOnPick()) && patient.getCurrentFloor() == getFloor())
-	        patient.onDraw(pGL, pCamera);
+	        patient.onDraw(pGL, pCamera);*/
 	    }
 	  }
 	  
 	  Arrays.sort(list, objComparator);
       for(int i = 0;i < list.length;i++){
+    	 if(list[i] instanceof Building){
+           Building b = (Building) list[i];
+           b.setNum(i);
+    	 }
 	    (list[i]).onDraw(pGL, pCamera);	
 		  
 	  }
       
       for(int i = 0; i < childCount; i++) {
   	    IEntity child = (IEntity) children.get(i);
-  	    if(child instanceof Nurse || child instanceof Item){
+  	    if(child instanceof Nurse/* || child instanceof Item*/){
   	      child.onDraw(pGL, pCamera);
   	      continue;
   	    }
@@ -860,7 +1254,8 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  	        Patient patient = e.nextElement();	 
  	        if(patient.isVisible() && patient.canPick() && patient.isContain(touchX, touchY)){ 	         
  	          pickedPatient = patient;	
- 	          pickedPatient.onPicked(touchX, touchY); 	           
+ 	          pickedPatient.onPicked(touchX, touchY);
+ 	          playPatientOnPickedSound(pickedPatient);
  	          break;
  	        }
  	      }
@@ -879,8 +1274,23 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  	          obj = building.isBuildingContain(touchX, touchY); 
  	          if(building.equals(waitingChair))
  	            obj = null;
- 	          if(obj != null){ 	            
- 	            addNurseQueue(obj);
+ 	          if(obj != null){ 	       
+ 	        	if(obj instanceof Building){
+ 	        	  building = (Building) obj;
+ 	        	  if(building.isCanCheck() && isCanAddToNurseQueue()){
+ 	        	    building.checked();
+ 	        	   addNurseQueue(obj);
+ 	        	  }
+ 	        	}else if(obj instanceof Item){
+ 	        	  Item item = (Item) obj;
+ 	        	  if(item.isCanCheck() && isCanAddToNurseQueue()){
+ 	        	    item.checked();
+ 	        	   addNurseQueue(obj);
+ 	        	  }
+ 	        	}
+ 	            
+ 	        	
+ 	            //hospitalSound.play();
  	            return true;
  	          }
  	          //}
@@ -892,7 +1302,10 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
  	    break;	    
  	    case TouchEvent.ACTION_MOVE:
  	      if(pickedPatient != null){
- 	        pickedPatient.onDraged(touchX, touchY);
+ 	        if(pickedPatient.onDraged(touchX, touchY)){
+ 	          Log.d("RokejitsX", "FORCE IS DANGEROUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss 222222222222222222222");
+ 	          playPatientOnPickedSound(pickedPatient);
+ 	        }
  	       float patientX = pickedPatient.getX() + pickedPatient.getWidth()/2;
      	   float patientY = pickedPatient.getY() + pickedPatient.getHeight()/2;
  	        Enumeration<GameObject> buildingElements = buildingList.elements(); 
@@ -1040,6 +1453,8 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 	return false;
   }
 
+  
+
   @Override
   public void onFinishHealing(Ward ward, Patient patient) {
 	if(ward instanceof Triage){
@@ -1062,6 +1477,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 
   @Override
   public void onPatientMoveOut(Patient patient) {
+	 
     Building building = patient.getCurrentBuilding();
     if(building != null)
       building.removeCharactor(patient);
@@ -1077,12 +1493,12 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
         routeManagerList[0].findPath(routeIndex, 0, patient);
       }else{
     	Building momBuilding = patient.whoIsYourMom().getCurrentBuilding();
-    	Log.d("RokejitsX", "momBuilding = "+momBuilding);
+    	//Log.d("RokejitsX", "momBuilding = "+momBuilding);
     	if(momBuilding instanceof Outside){    	  
-    	  Log.d("RokejitsX", "momBuilding = OutSide");
+    	 // Log.d("RokejitsX", "momBuilding = OutSide");
     	  patient.whoIsYourMom().moveOut();    	  
     	}else{
-    	  Log.d("RokejitsX", "momBuilding not = OutSide "+patient.getPatientId());
+    	  //Log.d("RokejitsX", "momBuilding not = OutSide "+patient.getPatientId());
     	  if(!waitingChair.equals(patient.getCurrentBuilding()))
             routeManagerList[0].findPath(routeIndex, waitingChair.getActionPatientnode(), patient);
     	  else
@@ -1092,10 +1508,22 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     }
     removeFromPatientList(patient);
     
-    /*if(patient.isFinishHealing())
-      hospitalListener.onPatientFinishHealing();*/
-      
-	
+   
+    if(patient.getBabyPatient() == null){
+      if(patient.isBoy()){
+        if(!patient.isFinishHealing())
+          if(!waitingChair.equals(patient.getCurrentBuilding()) && patient.whoIsYourMom().getCurrentBuilding() != null)
+            playPatientUnFinishHealingSound(patient);
+      }else{
+        if(!patient.isFinishHealing()){
+         playPatientUnFinishHealingSound(patient);	
+        }
+      }
+    }else{
+      Patient babyPatient = patient.getBabyPatient();
+      if(!babyPatient.isFinishHealing())
+        playPatientUnFinishHealingSound(patient);	  
+    }
   } 
   
   
@@ -1108,6 +1536,7 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     patient.setGameCharactorPosition(routeManagerList[patient.getCurrentFloor()].getRouteX(routeIndex), routeManagerList[patient.getCurrentFloor()].getRouteY(routeIndex));
     patient.jump();
     hospitalListener.onPatientFinishHealing(patient);
+    playPatientFinishHealingSound(patient);
   }
   
   
@@ -1144,6 +1573,22 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
   	  }else if(nurse.getCurrentBuilding().isBroked()){
   	    nurse.repair();	  
   	  }
+      Log.d("RokejitsX", "toTargetttttttttttttttttttttttttttttttttttttt = "+toTarget);
+      if(toTarget instanceof Item){
+        Item item = (Item) toTarget;	  
+        item.unChecked();
+        int index = getItemOnDeskIndex(item);
+        if(index != -1){
+          hospitalListener.onItemOnDeskUnCheck(index);	
+        }
+        
+      }else if(toTarget instanceof Building){
+    	Log.d("RokejitsX", "toTargetttttttttttttttttttttttttttttttttttttt2 = "+toTarget);
+        Building building = (Building) toTarget;
+        building.unChecked();
+        Log.d("RokejitsX", "toTargetttttttttttttttttttttttttttttttttttttt3 = "+toTarget);
+      }
+      
       nextQueue();
     }/*else if(gameChar.equals(ambCharator)){
       if(ambulanceTime == 0){
@@ -1367,14 +1812,21 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     hospitalListener.addItemOndesk(item, index);
   }
   
-  private int removeItemOnDesk(Item item){
+  private int getItemOnDeskIndex(Item item){
     for(int i = 0;i < itemOnDesk.length;i++){
-      if(item.equals(itemOnDesk[i])){
-    	itemOnDesk[i] = null;   
+      if(item.equals(itemOnDesk[i])){    	   
         return i;
       }
     }  	
-    return -1;
+    return -1;	  
+  }
+  
+  private int removeItemOnDesk(Item item){
+	int index = getItemOnDeskIndex(item);
+	if(index != -1)
+      itemOnDesk[index] = null;
+	return index;
+    
   }
   
   private int getAvaiableItemSlot(){
@@ -1411,13 +1863,21 @@ public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
     public void removePatientDoughnut(Patient patient);
     public void addItemOndesk(Item item, int index);
     public void removeItemOndesk(Item item, int index);
+    public void onItemOnDeskUnCheck(int index);
   }
 
 
 
   @Override
-  public void onItemSelected(int index) {
-	addNurseQueue(itemOnDesk[index]);
+  public boolean onItemSelected(int index) {
+	Item item = itemOnDesk[index];
+	if(item.isCanCheck() && isCanAddToNurseQueue()){
+	  item.checked();
+	  addNurseQueue(item);
+	  return true;
+	}
+	
+	return false;
 	
   }
 

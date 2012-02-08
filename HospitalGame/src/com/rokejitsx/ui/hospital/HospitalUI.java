@@ -125,7 +125,8 @@ public class HospitalUI extends Entity implements HospitalListener{
       for(int i = 0;i < itemDoughnutList.length;i++){
         ItemDoughnut itemDo = itemDoughnutList[i];      
         if(itemDo.contains(touchX, touchY) && itemDo.containItem()){
-          listener.onItemSelected(i);
+          if(listener.onItemSelected(i))
+            itemDo.check();
           return true;
         }
       }
@@ -200,6 +201,12 @@ public class HospitalUI extends Entity implements HospitalListener{
   @Override
   public void removeItemOndesk(Item item, int index) {
     itemDoughnutList[index].clear();	
+	
+  }
+
+  @Override
+  public void onItemOnDeskUnCheck(int index) {
+    itemDoughnutList[index].unCheck();
 	
   }
 	

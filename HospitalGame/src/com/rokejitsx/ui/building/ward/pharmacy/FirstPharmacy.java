@@ -156,7 +156,7 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
   public void setItemPosition(Item item, int prepareQueue) {
 	Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
 	float[] off = offset[prepareQueue];
-	item.setPosition(getX() + off[0] - item.getWidth()/2, getY() + off[1] - item.getHeight()/2);			
+	item.setPosition(/*getX() + */off[0] - item.getWidth()/2, /*getY() + */off[1] - item.getHeight()/2);			
   }
   
   @Override

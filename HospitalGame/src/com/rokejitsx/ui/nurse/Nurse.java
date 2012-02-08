@@ -1,10 +1,15 @@
 package com.rokejitsx.ui.nurse;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.AnimatedSprite.IAnimationListener;
+
+import android.graphics.PointF;
 
 import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.data.GameCharactor;
@@ -229,9 +234,9 @@ public class Nurse extends GameCharactor implements IAnimationListener {
     if(leftItem == null && rightItem == null){
       set = 0; 	
     }else{
-      if(rightItem != null)
+      if(rightItem != null && leftItem == null)
         set = 1;
-      else if(leftItem != null)
+      else if(leftItem != null && rightItem == null)
         set = 2;
       else
     	set = 3;
@@ -368,12 +373,51 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 
   @Override
   protected void onManagedUpdate(float pSecondsElapsed) {
-	if(leftItem != null){
+	/*if(leftItem != null){
 	  leftItem.setPosition(this.getX() - leftItem.getWidth()/2, this.getY() + getHeight()/2 - leftItem.getHeight()/2);	
 	}	
 	if(rightItem != null){
 	  rightItem.setPosition(this.getX() + getWidth()/2, this.getY() + getHeight()/2 - rightItem.getHeight()/2);	
-    }
+    }*/
+	int face = getFaceDirection();
+	PointF rightHandPosition = new PointF();
+	PointF leftHandPosition = new PointF();
+	switch(face){
+	  case FACE_DOWN_R:
+	    rightHandPosition.x = 44;  
+	    rightHandPosition.y = 71;
+	    leftHandPosition.x = 70;  
+	    leftHandPosition.y = 59;
+	  break;
+	  case FACE_UP_R:
+	    rightHandPosition.x = 70;  
+	    rightHandPosition.y = 60;
+	    leftHandPosition.x = 52;  
+	    leftHandPosition.y = 42;
+	  break;
+	  case FACE_DOWN_L:
+	    rightHandPosition.x = 26;  
+	    rightHandPosition.y = 63;
+	    leftHandPosition.x = 43;  
+	    leftHandPosition.y = 70;
+	  break;
+	  case FACE_UP_L:
+	    rightHandPosition.x = 16;  
+	    rightHandPosition.y = 54;
+	    leftHandPosition.x = 38;  
+	    leftHandPosition.y = 42;
+	  break;
+	  default:	
+		rightHandPosition.x = 45;  
+	    rightHandPosition.y = 100;
+		leftHandPosition.x = 80;  
+	    leftHandPosition.y = 100;  
+	}
+	
+	if(leftItem != null)
+	  leftItem.setGameObjectPositionAsCenter(leftHandPosition.x, leftHandPosition.y);
+	if(rightItem != null)
+	  rightItem.setGameObjectPositionAsCenter(rightHandPosition.x, rightHandPosition.y);
 		
 	super.onManagedUpdate(pSecondsElapsed);
 	
@@ -405,10 +449,55 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 	  }
 	}
   }
-
-
-
   @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {	  
+	int face = getFaceDirection();
+    switch(face){
+	  case FACE_DOWN_R:
+	    super.onDrawChildren(pGL, pCamera);
+	    drawRightItem(pGL, pCamera);
+	    drawLeftItem(pGL, pCamera);
+	      
+	  break;
+	  case FACE_UP_R:	    
+		drawLeftItem(pGL, pCamera);
+	    super.onDrawChildren(pGL, pCamera);
+	    drawRightItem(pGL, pCamera);
+	    
+	  break;
+	  case FACE_DOWN_L:
+		super.onDrawChildren(pGL, pCamera);
+		drawRightItem(pGL, pCamera);
+	    drawLeftItem(pGL, pCamera);		    
+	  break;
+	  case FACE_UP_L:	    
+	    drawRightItem(pGL, pCamera);
+	    super.onDrawChildren(pGL, pCamera);
+	    drawLeftItem(pGL, pCamera);
+	  break;
+	  default:		
+	    super.onDrawChildren(pGL, pCamera);
+	    drawLeftItem(pGL, pCamera);
+	    drawRightItem(pGL, pCamera);
+	}
+	
+		
+	
+	
+  }
+  
+  private void drawRightItem(GL10 pGL, Camera pCamera){
+    if(rightItem != null)
+      rightItem.onDraw(pGL, pCamera);
+  }
+  
+  private void drawLeftItem(GL10 pGL, Camera pCamera){
+    if(leftItem != null)
+      leftItem.onDraw(pGL, pCamera);
+  }
+
+
+@Override
   public void onAnimationEnd(AnimatedSprite pAnimatedSprite) {	
 	if(pAnimatedSprite.equals(healSprite)){
 	  isCleaning = false;

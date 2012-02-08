@@ -19,6 +19,7 @@ public class TAC extends Ward{
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(84, 101);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CAT);
+	setCheckPosition(0, 0);
   }
 
   @Override

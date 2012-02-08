@@ -125,6 +125,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospital = new Hospital(maxFloor);
     hospital.initialBg(hospitalId, maxFloor);
     hospital.loadBuilding(hospitalId, buildingInfoList);
+    hospital.loadSound(hospitalId);
     hospital.initRouteManager(routeManagerList);
     hospital.initialNurse();    
     
@@ -134,7 +135,8 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospitalUI.setElevetorSelectorListener(hospital);
     hospital.setHospitalListener(hospitalUI);
     hospital.setFloor(0);    
-    hospital.setCourseInfoList(ResourceManager.getInstance().getCourseInfoListForHospital(hospitalId, level), hospitalId, level);    
+    hospital.setCourseInfoList(ResourceManager.getInstance().getCourseInfoListForHospital(hospitalId, level), hospitalId, level);
+    
     attachChild(hospital);    
     attachChild(hospitalUI);
     hospitalUI.startTimer();

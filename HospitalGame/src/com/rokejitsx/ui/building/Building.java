@@ -1,11 +1,12 @@
 package com.rokejitsx.ui.building;
 
-import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.entity.primitive.Rectangle;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import android.util.Log;
 
@@ -19,7 +20,6 @@ import com.rokejitsx.ui.building.elevator.Elevator;
 import com.rokejitsx.ui.building.others.Food;
 import com.rokejitsx.ui.building.others.Plant;
 import com.rokejitsx.ui.building.others.Television;
-import com.rokejitsx.ui.building.others.Water;
 import com.rokejitsx.ui.building.transport.Ambulance;
 import com.rokejitsx.ui.building.transport.Helicopter;
 import com.rokejitsx.ui.building.waitingqueue.Outside;
@@ -40,6 +40,7 @@ import com.rokejitsx.ui.building.ward.UltraScan;
 import com.rokejitsx.ui.building.ward.Xray;
 import com.rokejitsx.ui.building.ward.pharmacy.FirstPharmacy;
 import com.rokejitsx.ui.building.ward.pharmacy.UpperPhamacy;
+import com.rokejitsx.ui.patient.NumberLineField;
 import com.rokejitsx.ui.patient.Patient;
 
 public abstract class Building extends GameObject implements GameCharactorListener{
@@ -143,6 +144,10 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   private int focusTileIndex;
   private Vector<float[]> gameCharactorOnReceivedPositionList;
+  protected NumberLineField numField;
+  private Checker checker;
+  
+  
   
   public Building(int type, int visitorCount){
 	super(buildingImgNameList[type]);
@@ -151,7 +156,41 @@ public abstract class Building extends GameObject implements GameCharactorListen
     if(visitorCount > 0)
       visitors = new GameObject[visitorCount];    
     
+    numField = new NumberLineField(2);
+    numField.setPosition(0, 0);
+    numField.setNumber(1);
+    attachChild(numField);    
   } 
+  
+  protected void setCheckPosition(float x, float y){
+	if(checker == null){
+      checker = new Checker(5);
+      attachChild(checker);
+	}	
+	checker.setPosition(x, y);
+  }  
+  
+  public boolean isCanCheck(){
+    if(checker != null)
+      return checker.isCanCheck();
+    return false;	  
+  }
+  
+  public boolean checked(){
+    if(checker != null)
+      return checker.checked();
+    return false;
+  }
+  
+  public void unChecked(){
+    if(checker != null)
+      checker.unChecked();
+  }
+  
+  
+  public void setNum(int num){
+    numField.setNumber(num);	   
+  }
   
   protected void addGameCharactorOnReceivedPosition(float x, float y){
     if(gameCharactorOnReceivedPositionList == null)
@@ -450,13 +489,12 @@ public abstract class Building extends GameObject implements GameCharactorListen
     
   }
   
-  
-  
-  
   protected boolean onReceive(GameCharactor gameChar){
     return false;
   }  
   protected void onRemove(GameCharactor gameChar){}
+  
+  
   
   
   @Override
@@ -473,9 +511,17 @@ public abstract class Building extends GameObject implements GameCharactorListen
  	    
  	  }
  	  
+ 	  drawChecker(pGL, pCamera);
  	  
  	//}
   }
+  
+  protected void drawChecker(GL10 pGL, Camera pCamera){
+    if(checker != null)
+      checker.onDraw(pGL, pCamera);
+  }
+  
+  
   
   public void myOnApplyTransformations(GL10 pGL){
     onApplyTransformations(pGL);	  
@@ -596,5 +642,58 @@ public abstract class Building extends GameObject implements GameCharactorListen
 	
 	
   }
+  
+  public static AnimatedSprite getMachineThumbnail(int buildingType){
+    AnimatedSprite machineField = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MACHINES));
+    int frame = 0;
+    switch(buildingType){
+      case Building.PHYSIOTHERAPY:
+        frame = 1;
+      break;
+      case Building.OPHTHALMOLOGY:
+        frame = 3;
+      break;
+      case Building.OPERATION:
+        frame = 5;
+      break;
+      case Building.CHEMOTHERAPY:
+        frame = 7;
+      break;
+      case Building.TAC:
+        frame = 9;
+      break;
+      case Building.PSYCHIATRY:
+        frame = 11;
+      break;
+      case Building.ULTRASCAN:
+        frame = 13;
+      break;
+      case Building.BABY_SCAN:
+        frame = 15;
+      break;
+      case Building.CARDIOLOGY:
+        frame = 17;
+      break;
+      case Building.DENTIST:
+        frame = 19;
+      break;
+      case Building.XRAY:
+        frame = 21;
+      break;
+      case Building.BED:
+        frame = 23;
+      break;
+      case Building.QUICKTREAT:
+        frame = 31;
+      break;
+      case Building.TRIAGE:
+        frame = 32;
+      break;      
+    }
+    machineField.setCurrentTileIndex(frame);
+    return machineField;
+  }
+  
+  
   
 }

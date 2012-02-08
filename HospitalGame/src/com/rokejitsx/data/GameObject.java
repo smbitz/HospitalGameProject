@@ -9,16 +9,19 @@ import org.anddev.andengine.util.HorizontalAlign;
 
 import android.util.Log;
 
+import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.data.resource.ImageResource;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.ui.hospital.Hospital.FloorChangeListener;
+import com.rokejitsx.ui.patient.NumberField;
 
-public class GameObject extends Rectangle implements FloorChangeListener, ImageResource{
+public class GameObject extends Rectangle implements FloorChangeListener, ImageResource, SoundList{
   private int currentFloor;
     
   private ChangeableText infoText;
   protected AnimatedSprite mainSprite;
+  //private NumberField numField;
   public GameObject(String spriteName){
     this(0, 0, 0, 0, spriteName);	  
     	  

@@ -1,5 +1,8 @@
 package com.rokejitsx.ui.building.ward.pharmacy;
 
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
@@ -176,6 +179,7 @@ public class Pharmacy extends Building{
         return;
       removeItemFromQueue(item);
       nurse.pickItem();
+      item.unChecked();
       listener.onNursePickedItem(item);
       
     }
@@ -188,4 +192,20 @@ protected void setGameChatactorOnReceived(GameCharactor gameChar) {
 	// TODO Auto-generated method stub
 	
 }
+
+
+
+  @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {	
+	super.onDrawChildren(pGL, pCamera);
+	for(int i = 0;i < preparedItem.length;i++){
+	  Item item = preparedItem[i];
+	  if(item != null){
+	    item.onDraw(pGL, pCamera);	  
+	  }
+	}
+  }
+
+
+
 }

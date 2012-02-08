@@ -1,7 +1,6 @@
 
 package com.rokejitsx;
 
-import java.util.ArrayList;
 import java.util.Vector;
 
 import org.anddev.andengine.engine.Engine;
@@ -49,7 +48,7 @@ public class HospitalGameActivity extends BaseGameActivity {
   public Engine onLoadEngine() {
 	gameAct = this;
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-	return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(4, 3), this.mCamera));
+	return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(4, 3), this.mCamera).setNeedsSound(true).setNeedsMusic(true));	
   }
 
   @Override
