@@ -659,8 +659,8 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
       listener.onPatientMoveOut(this);
   } 
 
-  public HealingRoute addWardHealingRoute(int wardType, int floor){
-	HealingRoute healingRoute = new HealingRoute(wardType, floor);
+  public HealingRoute addWardHealingRoute(int wardType){
+	HealingRoute healingRoute = new HealingRoute(wardType);
 	healingRouteList.add(healingRoute);
     return healingRoute;
   }  
@@ -677,9 +677,10 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	onWaiting();	
 	setPickable(true);
     currentHealingRoute = healingRouteList.elementAt(0);
-    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), currentHealingRoute.getFloor());
+    int floor = listener.onPatientRequestWard(currentHealingRoute.getWardType(), getCurrentFloor());
+    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), floor);
     setShowBubble(true);
-    if(hasRequireItem() && currentHealingRoute.getFloor() != -1){
+    if(hasRequireItem() && floor != -1){
       if(listener != null)
         listener.onPatientRequestItem(this);
       
@@ -1179,17 +1180,17 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   
   public class HealingRoute{
     private int wardType;
-    private int floor; //-1 not have
+    //private int floor; //-1 not have
     private Vector<Item> itemList;    
-    public HealingRoute(int wardType, int floor){
+    public HealingRoute(int wardType){
       this.wardType = wardType;	
       itemList = new Vector<Item>();
-      this.floor = floor;
+      //this.floor = floor;
     }	  
     
-    public int getFloor(){
+    /*public int getFloor(){
       return floor;	
-    }
+    }*/
     
     public int getWardType(){
       return wardType;      	

@@ -111,11 +111,11 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
 	  
   private void finishPreparing(){
     setState(STATE_IDLE);
-    Item item = prepareQueue.elementAt(0);
+    /*Item item = prepareQueue.elementAt(0);
     //receiveItemToQueue(item);
     
-    prepareQueue.remove(0);
-    listener.onFinishPreparingItem(item);
+    prepareQueue.remove(0);*/
+    listener.onFinishPreparingItem(prepareQueue);
     //next();
     
   }

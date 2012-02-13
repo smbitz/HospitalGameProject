@@ -246,6 +246,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   
   
+  
   public void setState(int state){	
     this.buildingState = state;	  
     AnimationInfo animationInfo = ResourceManager.getInstance().getAnimationInfo(animationIds[state]);   

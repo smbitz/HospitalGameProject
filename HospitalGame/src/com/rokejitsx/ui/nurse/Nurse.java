@@ -125,10 +125,30 @@ public class Nurse extends GameCharactor implements IAnimationListener {
     
     setGameCharactorState(STATE_IDLE);
     setAnimation(mainSprite, getNurseAnimationInfo(IDLE_LOOK_SIDES));
-    setSpeed(300);
+    //setSpeed(300);
+    unBoost();
     
   }
   
+  
+  public AnimatedSprite getNurseTail(){
+    if(getGameCharactorState()== STATE_MOVE){
+      return walkSprite[walkAnimSet];   	
+    }
+    return null;
+  }
+  
+  public boolean isBoost(){
+    return getSpeed() == 600;	  
+  }
+  
+  public void boost(){
+    setSpeed(600);	  
+  }
+  
+  public void unBoost(){
+    setSpeed(300);	  
+  }
   
   public void setNurseListener(NurseListener listener){
     this.listener = listener;	   
@@ -226,24 +246,23 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   }
 
 
-
+  private int walkAnimSet;
   @Override
   public void onSetFace(int face) {  	
-    hideAllSprite();
-    int set;
+    hideAllSprite();    
     if(leftItem == null && rightItem == null){
-      set = 0; 	
+      walkAnimSet = 0; 	
     }else{
       if(rightItem != null && leftItem == null)
-        set = 1;
+    	walkAnimSet = 1;
       else if(leftItem != null && rightItem == null)
-        set = 2;
+    	walkAnimSet = 2;
       else
-    	set = 3;
+    	walkAnimSet = 3;
     }   
-    AnimatedSprite anim = walkSprite[set];
+    AnimatedSprite anim = walkSprite[walkAnimSet];
     anim.setVisible(true);
-    setAnimation(anim, getNurseAnimationInfo(movementAnimationSetIds[set][face]));
+    setAnimation(anim, getNurseAnimationInfo(movementAnimationSetIds[walkAnimSet][face]));
   }
   
   
@@ -294,7 +313,22 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 	  rightItem.setCurrentFloor(floor);
 	super.setCurrentFloor(floor);
   }
+  
+  public Item[] getAllItemInHand(){
+    Item[] items = new Item[2];
+    items[0] = getLeftItem();
+    items[1] = getRightItem();
+    return items;
+  }
 
+  public Item getLeftItem(){
+    return leftItem;	  
+  }
+  
+  public Item getRightItem(){
+    return rightItem;	  
+  }
+  
   public Item getItemToPick(){
     return itemToPick;	  
   }
@@ -336,11 +370,11 @@ public class Nurse extends GameCharactor implements IAnimationListener {
   public void handOut(Item item){
     if(item.equals(leftItem)){
       leftItem.setVisible(false);
-      HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) leftItem.getParent(), leftItem);
+      HospitalGameActivity.getGameActivity().sendDeattachChild(leftItem);
       leftItem = null;      
     }else if(item.equals(rightItem)){
       rightItem.setVisible(false);
-      HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) rightItem.getParent(), rightItem);
+      HospitalGameActivity.getGameActivity().sendDeattachChild(rightItem);
       rightItem = null;	
     }
   }
@@ -433,14 +467,14 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 		building.setState(Building.STATE_IDLE);	  
 		if(leftItem != null){
 		  if(leftItem.getType() == Item.REPAIR_TOOL){
-			HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) leftItem.getParent(), leftItem);
+			HospitalGameActivity.getGameActivity().sendDeattachChild(leftItem);
 		    leftItem = null;
 		  }
 		}
 		
 		if(rightItem != null){
 		  if(rightItem.getType() == Item.REPAIR_TOOL){
-			HospitalGameActivity.getGameActivity().sendDeattachChild((Entity) rightItem.getParent(), rightItem);
+			HospitalGameActivity.getGameActivity().sendDeattachChild(rightItem);
 			rightItem = null;
 		  }
 		}

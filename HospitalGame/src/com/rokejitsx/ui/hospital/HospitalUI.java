@@ -11,7 +11,7 @@ import org.anddev.andengine.input.touch.TouchEvent;
 import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector;
 import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector.ElevatorSelectorListener;
-import com.rokejitsx.ui.hospital.Hospital.HospitalListener;
+import com.rokejitsx.ui.hospital.HospitalGamePlay.HospitalListener;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
 import com.rokejitsx.ui.hospital.HospitalTimer.HospitalTimerListener;
 import com.rokejitsx.ui.item.Item;

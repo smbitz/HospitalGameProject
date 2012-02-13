@@ -83,6 +83,8 @@ public abstract class Item extends GameObject{
         return new Dust();      
       case REPAIR_TOOL:
         return new RepairTool();
+      case COFFEE:
+        return new Coffee();
     }
 	return null;  
   }

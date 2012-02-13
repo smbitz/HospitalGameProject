@@ -13,6 +13,8 @@ import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.util.Log;
+
 import com.rokejitsx.data.GameFonts;
 import com.rokejitsx.data.resource.ResourceManager;
 
@@ -92,14 +94,14 @@ public class HospitalGameActivity extends BaseGameActivity {
     runOnUpdateThread(new AttachChildThread(parent, list));	  
   }
   
-  public void sendDeattachChild(Entity parent, Entity entity){
+  public void sendDeattachChild(Entity entity){
 	Vector<Entity> list = new Vector<Entity>();
 	list.add(entity);
-    sendDeattachChild(parent, list);  	  
+    sendDeattachChild(list);  	  
   }
   
-  public void sendDeattachChild(Entity parent, Vector<Entity> list){
-    runOnUpdateThread(new DeAttachChildThread(parent, list));	  
+  public void sendDeattachChild(Vector<Entity> list){
+    runOnUpdateThread(new DeAttachChildThread(list));	  
   }
   
   class AttachChildThread implements Runnable{
@@ -121,12 +123,10 @@ public class HospitalGameActivity extends BaseGameActivity {
 	}	  
   }
   
-  class DeAttachChildThread implements Runnable{
-    private Entity entity;
+  class DeAttachChildThread implements Runnable{    
     private Vector<Entity> removeChild;
 	
-    public DeAttachChildThread(Entity entity, Vector<Entity> list){
-      this.entity = entity;
+    public DeAttachChildThread(Vector<Entity> list){      
       this.removeChild = list;
     }
     
@@ -135,7 +135,7 @@ public class HospitalGameActivity extends BaseGameActivity {
       
 	  for(int i = 0;i < removeChild.size();i++){
 	    Entity child = removeChild.get(i);	  
-	    entity.detachChild(child);
+	    child.detachSelf();	    
 	  }	
 		
 	}

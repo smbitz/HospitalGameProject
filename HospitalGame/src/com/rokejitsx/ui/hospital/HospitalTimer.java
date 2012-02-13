@@ -44,6 +44,7 @@ public class HospitalTimer extends Rectangle implements ImageResource{
   
   public void reset(){
     countTime = 0;
+    isRunningOut = false;
     updateTime();
   }
   
@@ -78,6 +79,7 @@ public class HospitalTimer extends Rectangle implements ImageResource{
 	//timerText.setText(""+ (int)countTime);	  
   }
 
+  private boolean isRunningOut;
   @Override
   protected void onManagedUpdate(float pSecondsElapsed) {	
     super.onManagedUpdate(pSecondsElapsed);
@@ -85,7 +87,11 @@ public class HospitalTimer extends Rectangle implements ImageResource{
       countTime += pSecondsElapsed;
       if(countTime >= time){
     	stop();    	
+    	reset();
         listener.onTimeout();        
+      }else if(countTime >= time * 3 / 4 && !isRunningOut){
+        isRunningOut = true;
+        listener.onTimeRunningOut();
       }
       updateTime();
       
@@ -94,6 +100,7 @@ public class HospitalTimer extends Rectangle implements ImageResource{
   
   public interface HospitalTimerListener{
     public void onTimeout();	  
+    public void onTimeRunningOut();
   }
 	
 	

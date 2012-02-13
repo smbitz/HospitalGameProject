@@ -33,7 +33,7 @@ import com.rokejitsx.data.xml.HospitalLevelReader;
 import com.rokejitsx.data.xml.HospitalLevelReader.BuildingInfo;
 import com.rokejitsx.data.xml.LevelInfoReader;
 import com.rokejitsx.data.xml.LevelInfoReader.LevelInfo;
-import com.rokejitsx.ui.hospital.Hospital;
+import com.rokejitsx.ui.hospital.HospitalGamePlay;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
 import com.rokejitsx.ui.hospital.HospitalTimer.HospitalTimerListener;
 import com.rokejitsx.ui.hospital.HospitalUI;
@@ -53,7 +53,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
   private static final int MENU_HOSPITAL7 = 10;
 	
   private HospitalUI hospitalUI;
-  private Hospital hospital;
+  private HospitalGamePlay hospital;
   private MenuScene startMenu, pauseMenu, endMenu, hospitalMenu;
   private BitmapTextureAtlas mFontTexture;
   private Font mFont;
@@ -122,7 +122,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     
     
     
-    hospital = new Hospital(maxFloor);
+    hospital = new HospitalGamePlay(maxFloor);
     hospital.initialBg(hospitalId, maxFloor);
     hospital.loadBuilding(hospitalId, buildingInfoList);
     hospital.loadSound(hospitalId);
@@ -155,7 +155,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospitalUI.setExpertPatient(levelInfo.getExpertObjective());
     hospitalUI.setMoney(0);
     
-    hospital.setMachineBreakCount(levelInfo.getMachineBreakCount());
+    hospital.setMachineBreakCount(levelInfo.getMachineBreakCount(), levelInfo.getTime());
     hospital.setPatientMaxCount(levelInfo.getPatientCount(), levelInfo.getTime());
     
     
@@ -179,7 +179,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     dropAreaBuildingList = null;
     equipmentBuildingList = null;   
     if(removeList.size() != 0)
-      HospitalGameActivity.getGameActivity().sendDeattachChild(this, removeList);   
+      HospitalGameActivity.getGameActivity().sendDeattachChild(removeList);   
   }
   
   private void initFont(){
@@ -253,6 +253,7 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
 
   @Override
   public void onTimeout() {
+	hospital.timeOut();
     HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
       public void run(){
         setChildScene(endMenu, false, true, true);	  
@@ -260,6 +261,12 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     });	
   }
 
+  @Override
+  public void onTimeRunningOut() {
+    hospital.timeRunningOut();	
+  	
+  }
+  
   private int hospitalId;
   @Override
   public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
@@ -306,6 +313,8 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     }	
 	return false;
   }
+
+
 
    	
 } 

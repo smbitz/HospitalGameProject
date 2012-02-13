@@ -13,7 +13,7 @@ import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.data.resource.ImageResource;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
-import com.rokejitsx.ui.hospital.Hospital.FloorChangeListener;
+import com.rokejitsx.ui.hospital.HospitalGamePlay.FloorChangeListener;
 import com.rokejitsx.ui.patient.NumberField;
 
 public class GameObject extends Rectangle implements FloorChangeListener, ImageResource, SoundList{
