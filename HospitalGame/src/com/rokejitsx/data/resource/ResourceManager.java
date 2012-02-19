@@ -50,6 +50,10 @@ public class ResourceManager implements ImageResource{
    return self;
   }
   
+  public int[] getBuildingListInLevel(int hospitalId, int level){
+    return courseReader.getBuildingListInLevel(hospitalId, level);	  
+  }
+  
   public ObjectInfo getObjectInfo(int type){
     return infoReader.getObjectInfo(type);	  
   }

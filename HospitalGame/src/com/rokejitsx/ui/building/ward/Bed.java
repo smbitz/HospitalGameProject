@@ -14,7 +14,7 @@ import com.rokejitsx.ui.patient.Patient;
 
 public class Bed extends Ward{
   private AnimatedSprite graficoSprite,bedSprite;	
-  private Sound beepSound;
+  //private Sound beepSound;
   public Bed(){    	  
 	super(BED, 1);
 	graficoSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_GRAFICO));
@@ -46,8 +46,8 @@ public class Bed extends Ward{
     
     addGameCharactorOnReceivedPosition(90, 44);
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BED);
-    beepSound = SoundPlayerManager.getInstance().createSound(TREATMENT_BED);
-    setCheckPosition(0, 0);
+    //beepSound = SoundPlayerManager.getInstance().createSound(TREATMENT_BED);
+    setCheckPosition(0, 0);    
   } 
   
   /*@Override

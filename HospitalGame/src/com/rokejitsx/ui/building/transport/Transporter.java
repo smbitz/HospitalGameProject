@@ -49,6 +49,11 @@ public class Transporter extends Building implements PathFinderListener, IModifi
     
     //comeIn();
     //goOut();
+    
+  }
+  
+  public void setInitialPosition(){
+    setPosition(routeManager.getRouteX(0) - getWidth()/2, routeManager.getRouteY(0)  - getHeight()/2);	  
   }
   	
   

@@ -21,14 +21,14 @@ import com.rokejitsx.ui.patient.Patient;
 public class Hospital extends Entity{
 
   private Vector<FloorChangeListener> floorListener;
-  private int currentFloor,maxFloor;
-  private Sprite[] bg;
+  private int currentFloor,maxFloor;  
   
   public Hospital(int maxFloor){
-    this.maxFloor = maxFloor;	  
+    this.maxFloor = maxFloor;    
   }
   
-  private BitmapTextureAtlas bgTextureAtlas;
+  /*private BitmapTextureAtlas bgTextureAtlas;
+  private Sprite[] bg;
   private TextureRegion[] bgTextureRegion;  
   private float[][] bgOffset = {
     {-80, 0},
@@ -65,7 +65,7 @@ public class Hospital extends Entity{
 	  attachChild(bg[i], 0);
 	}
 	
-  }
+  }*/
   
   protected GameObject getTouchedObject(float x, float y, GameObject[] objList){
 	GameObject currentCollide = null;
@@ -76,7 +76,8 @@ public class Hospital extends Entity{
 	    isContain = ((Building)obj).isBuildingContain(x, y) != null;
 	  else if(obj instanceof Patient)
 		isContain = ((Patient)obj).isContain(x, y);
-	  
+	  else
+		isContain = obj.contains(x, y);
 	  if(isContain && obj.isVisible()){
 	    if(currentCollide != null){
        	  if(currentCollide.equals(obj))
@@ -110,21 +111,21 @@ public class Hospital extends Entity{
     return currentCollide;	  
   }
   
-  protected int getMaxFloor(){
+  public int getMaxFloor(){
     return maxFloor;	  
   }  
   
   
   public final void setFloor(int floor){	 
     currentFloor = floor;
-    if(bg != null){
+    /*if(bg != null){
       for(int i = 0;i < bg.length;i++){
         if(i == currentFloor)
           bg[i].setVisible(true);
         else
           bg[i].setVisible(false);
       }
-    }
+    }*/
     updateFloorChanged(floor);
     onSetFloor(floor);
     //Enumeration<Item> e = itemOnDesk.elements();

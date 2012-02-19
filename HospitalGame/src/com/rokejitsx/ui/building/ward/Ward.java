@@ -43,12 +43,12 @@ public abstract class Ward extends Building{
      
   }
   
-  protected void setHealingSound(String fileName){
+ /* protected void setHealingSound(String fileName){
 	healingSoundFileName = fileName;
     
-  }
+  }*/
   
-  private void playHealingSound(){
+  /*private void playHealingSound(){
     if(healingSound != null)
       HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {
 		
@@ -61,7 +61,7 @@ public abstract class Ward extends Building{
 		}
 	});
       
-  }
+  }*/
   
   private void stopHealingSound(){
     if(healingSound != null){
@@ -154,7 +154,7 @@ public abstract class Ward extends Building{
     onStartHealing();      
     currentHealingTime = 0;
     endHealingTime = System.currentTimeMillis() + operationTime;
-    playHealingSound();
+    //playHealingSound();
   }
   
   private void healing(float pSecondsElapsed){

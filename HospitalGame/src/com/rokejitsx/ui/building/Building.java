@@ -5,7 +5,6 @@ import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import android.util.Log;
@@ -20,6 +19,7 @@ import com.rokejitsx.ui.building.elevator.Elevator;
 import com.rokejitsx.ui.building.others.Food;
 import com.rokejitsx.ui.building.others.Plant;
 import com.rokejitsx.ui.building.others.Television;
+import com.rokejitsx.ui.building.others.Water;
 import com.rokejitsx.ui.building.transport.Ambulance;
 import com.rokejitsx.ui.building.transport.Helicopter;
 import com.rokejitsx.ui.building.waitingqueue.Outside;
@@ -531,47 +531,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   
   public static GameObject createBuildingObject(int type, int hospitalLevel){
-    switch(type){
-    
-    
-    /*public final static int NONE				= 0;
-    public final static int BED				= 1;
-    public final static int CHAIR				= 2; 
-    public final static int XRAY				= 3;
-    public final static int QUICKTREAT		= 4;
-    public final static int GLASSDOOR			= 5;
-    public final static int OUTSIDE			= 6;
-    public final static int TRIAGE			= 7;
-    public final static int ELEVATOR 			= 8;
-    public final static int OUTSIDE_ELEVATOR	= 9;
-    public final static int LAUNDRY			= 10;
-    public final static int PHARMACY			= 11;
-    public final static int AMBULANCE			= 12;
-    public final static int PLANT				= 13;
-    public final static int CLOSET			= 14;
-    public final static int WATER				= 15;
-    public final static int FOOD				= 16;	
-    public final static int TAC				= 17;
-    public final static int GARBAGE			= 18;
-    public final static int PHYSIOTHERAPY		= 19;
-    public final static int OPHTHALMOLOGY		= 20;
-    public final static int PSYCHIATRY		= 21;
-    public final static int CHEMOTHERAPY		= 22;
-    public final static int BABY_SCAN			= 23;
-    public final static int DENTIST			= 24;
-    public final static int CARDIOLOGY		= 25;
-    public final static int OPERATION			= 26;
-    public final static int CLOSET1			= 27;
-    public final static int CLOSET2			= 28;
-    public final static int CLOSET3			= 29;
-    public final static int CLOSET4			= 30;
-    public final static int ULTRASCAN			= 31;
-    public final static int UPPER_PHARMACY	= 32;
-    public final static int STRETCHER			= 33;
-    public final static int TELEVISION		= 34;
-    public final static int HELICOPTER		= 35;
-    public final static int MAX_BUILDING		= 36;*/
-    
+    switch(type){    
       case Building.BED:					//1
         return new Bed();
       case Building.CHAIR:					//2    	  
@@ -599,7 +559,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
       case Building.PLANT:					//13
         return new Plant();
       case Building.WATER:					//15
-        return null;/*new Water();*/
+        return new Water();
       case Building.FOOD:					//16
         return new Food();
       case Building.TAC:					//17

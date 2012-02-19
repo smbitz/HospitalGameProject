@@ -70,7 +70,7 @@ public class Triage extends Ward{
     
     //ResourceManager.getInstance().getGlobalData(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
-	setHealingSound(TREATMENT_DIAGNOSIS);
+	//setHealingSound(TREATMENT_DIAGNOSIS);
     
   }
   

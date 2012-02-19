@@ -122,6 +122,30 @@ public class CourseInfoReader extends TagXmlReader{
 	return true;
   }
   
+  public int[] getBuildingListInLevel(int hospitalId,int level){
+    Vector<String> list = new Vector<String>();
+    Enumeration<CourseInfo> e = courseInfoList.elements();
+    while(e.hasMoreElements()){
+      CourseInfo cInfo = e.nextElement();
+      if(cInfo.getPercent(hospitalId, level) != 0){
+        int[] machineList = cInfo.getMachineList();
+        for(int i = 0; i < machineList.length;i++){
+          if(list.contains(""+machineList[i]))
+            continue;
+          list.add(""+machineList[i]);
+        }
+      }
+    }
+    
+    int[] result = new int[list.size()];
+    for(int i = 0;i < result.length;i++){
+      result[i] = Integer.parseInt(list.elementAt(i));	
+    }
+    
+    return result;
+    
+  }
+  
   public void print(int hospitalId,int level){
     Vector<String> list = new Vector<String>();
     Enumeration<CourseInfo> e = courseInfoList.elements();

@@ -3,6 +3,7 @@ package com.rokejitsx;
 
 import java.util.Vector;
 
+import org.anddev.andengine.audio.sound.SoundManager;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -10,13 +11,19 @@ import org.anddev.andengine.engine.options.EngineOptions.ScreenOrientation;
 import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.scene.menu.MenuScene;
 import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
-import android.util.Log;
-
+import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameFonts;
-import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.loader.HospitalLoader;
+import com.rokejitsx.data.loader.Loader;
+import com.rokejitsx.data.loader.LoaderListener;
+import com.rokejitsx.data.loader.LoadingScene;
+import com.rokejitsx.data.loader.ResourceLoader;
+import com.rokejitsx.menu.MainMenuScene;
+import com.rokejitsx.menu.MainMenuScene.MyMenuListener;
 
 public class HospitalGameActivity extends BaseGameActivity {
   private static final int CAMERA_WIDTH = 800;
@@ -29,8 +36,21 @@ public class HospitalGameActivity extends BaseGameActivity {
   public static HospitalGameActivity getGameActivity(){
     
     return gameAct;	  
-  }
+  }  
   
+  
+  
+  
+  @Override
+  public void finish() {
+	SoundPlayerManager.getInstance().releaseAll();
+	//onDestroy();  
+	super.finish();
+  }
+
+
+
+
   public int getCameraWidth(){	
     return CAMERA_WIDTH;	  
   }
@@ -50,38 +70,62 @@ public class HospitalGameActivity extends BaseGameActivity {
   public Engine onLoadEngine() {
 	gameAct = this;
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
-	return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(4, 3), this.mCamera).setNeedsSound(true).setNeedsMusic(true));	
+	return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(4, 3), this.mCamera)/*.setNeedsSound(true).setNeedsMusic(true)*/);	
   }
-
+  //private MainMenuScene menuScene;
   @Override
   public void onLoadResources() {
+	SoundPlayerManager.getInstance().reset();
     GameFonts.getInstance().loadFont(getTextureManager(), getFontManager());
-    ResourceManager.getInstance().init();
-    /*try {
-      GlobalsXmlReader gReader = new GlobalsXmlReader();
-      gReader.startParse();
-      gReader.print();
-	} catch (XmlPullParserException e) {
-	  Log.e("Rokejits", "XmlPullParserException =  "+e.toString());
-	  e.printStackTrace();
-	} catch (IOException e) {
-	  Log.e("Rokejits", "IOException =  "+e.toString());	
-	  e.printStackTrace();
-	}*/
+     
 		
   }
+  
 
   @Override
   public Scene onLoadScene() {	
 	this.mEngine.registerUpdateHandler(new FPSLogger());
-	return new GamePlay();
+	return new LoadingScene();
   }
 
   @Override
   public void onLoadComplete() {
-	// TODO Auto-generated method stub
-	
-  }   
+	ResourceLoader rLoader = new ResourceLoader(new LoaderListener() {	
+		@Override
+		public void onLoadFinish(Loader loader) {
+		  runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+			  mEngine.setScene(new GamePlay());				
+			}
+		});
+		  
+			
+		}
+	});
+	rLoader.startLoad();	
+  }    
+  
+  /*@Override
+  public void onGamePlayLoad(int hospitalId, int level) {
+    mEngine.setScene(new LoadingScene());
+    
+    new HospitalLoader(hospitalId, new LoaderListener() {		
+	  @Override
+	  public void onLoadFinish(Loader loader) {		
+		
+		HospitalLoader hLoader = (HospitalLoader) loader;	    
+	    GamePlay gamePlay = new GamePlay();
+	    gamePlay.loadGamePlay(hLoader.getBuildingInfoList(), hLoader.getRouteManagerList(), hLoader.getHospitalId(), 0, hLoader.getMaxFloor());	    
+	    mEngine.setScene(gamePlay);	 
+	    gamePlay.setChildScene(new LoadingScene());
+	    //gamePlay.upgrade();	    
+	  }
+	}).startLoad();   
+    
+  	
+  }*/
   
   
   public void sendAttachChild(Entity parent, Entity entity){
@@ -102,6 +146,10 @@ public class HospitalGameActivity extends BaseGameActivity {
   
   public void sendDeattachChild(Vector<Entity> list){
     runOnUpdateThread(new DeAttachChildThread(list));	  
+  }
+  
+  public void sendSetChildScene(Scene motherScene, Scene childScene){
+    runOnUpdateThread(new SetChildSceneThread(motherScene, childScene));	  
   }
   
   class AttachChildThread implements Runnable{
@@ -141,6 +189,25 @@ public class HospitalGameActivity extends BaseGameActivity {
 	}
 	  
   }
+  
+  class SetChildSceneThread implements Runnable{
+    
+	private Scene motherScene, childScene;    
+    public SetChildSceneThread(Scene motherScene,Scene childScene){
+      this.motherScene = motherScene;
+      this.childScene = childScene;
+    }	 
+    
+    public void run(){
+      if(childScene instanceof MenuScene)
+        ((MenuScene)childScene).buildAnimations();
+      motherScene.setChildScene(childScene, false, true, true);	
+    }
+    
+    
+  }
+
+
   
   
 }

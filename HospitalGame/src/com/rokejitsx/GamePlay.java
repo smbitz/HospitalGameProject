@@ -1,156 +1,203 @@
 package com.rokejitsx;
 
-import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Vector;
-
-import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.scene.background.ColorBackground;
-import org.anddev.andengine.entity.scene.menu.MenuScene;
-import org.anddev.andengine.entity.scene.menu.MenuScene.IOnMenuItemClickListener;
-import org.anddev.andengine.entity.scene.menu.item.IMenuItem;
-import org.anddev.andengine.entity.scene.menu.item.TextMenuItem;
-import org.anddev.andengine.entity.scene.menu.item.decorator.ColorMenuItemDecorator;
+import org.anddev.andengine.entity.scene.background.SpriteBackground;
+import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.input.touch.TouchEvent;
-import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
-import org.xmlpull.v1.XmlPullParserException;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
-import android.graphics.Color;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.rokejitsx.HospitalGameActivity.DeAttachChildThread;
+import com.rokejitsx.audio.SoundPlayerManager;
+import com.rokejitsx.data.loader.GamePlayLoader;
+import com.rokejitsx.data.loader.HospitalLoader;
+import com.rokejitsx.data.loader.Loader;
+import com.rokejitsx.data.loader.LoaderListener;
+import com.rokejitsx.data.loader.LoadingScene;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.route.RouteManager;
-import com.rokejitsx.data.xml.CourseInfoReader;
-import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
-import com.rokejitsx.data.xml.HospitalLevelReader;
 import com.rokejitsx.data.xml.HospitalLevelReader.BuildingInfo;
 import com.rokejitsx.data.xml.LevelInfoReader;
 import com.rokejitsx.data.xml.LevelInfoReader.LevelInfo;
-import com.rokejitsx.ui.hospital.HospitalGamePlay;
+import com.rokejitsx.menu.InGameMenuScene;
+import com.rokejitsx.menu.InGameMenuScene.InGameMenuSceneListener;
+import com.rokejitsx.menu.MainMenuScene;
+import com.rokejitsx.menu.MainMenuScene.MyMenuListener;
+import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
+import com.rokejitsx.ui.hospital.HospitalGamePlay;
+import com.rokejitsx.ui.hospital.HospitalGamePlay.FloorChangeListener;
+import com.rokejitsx.ui.hospital.HospitalGamePlay.UpgradeHospitalListener;
 import com.rokejitsx.ui.hospital.HospitalTimer.HospitalTimerListener;
 import com.rokejitsx.ui.hospital.HospitalUI;
+import com.rokejitsx.ui.hospital.HospitalUIListener;
 
 
-public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTimerListener, FloorSelectListener, IOnMenuItemClickListener { 
-  private static final int MENU_PLAY     = 0;	
-  private static final int MENU_QUIT     = 1;
-  private static final int MENU_RESUME   = 2;  
-  private static final int MENU_RESTART  = 3;
-  private static final int MENU_HOSPITAL1 = 4;
-  private static final int MENU_HOSPITAL2 = 5;
-  private static final int MENU_HOSPITAL3 = 6;
-  private static final int MENU_HOSPITAL4 = 7;
-  private static final int MENU_HOSPITAL5 = 8;
-  private static final int MENU_HOSPITAL6 = 9;
-  private static final int MENU_HOSPITAL7 = 10;
-	
+public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTimerListener, 
+                                               FloorSelectListener, HospitalUIListener, UpgradeHospitalListener, 
+                                               InGameMenuSceneListener, LoaderListener, MyMenuListener, FloorChangeListener { 
+  
+  private int hospitalId, level;	
+  private BuildingInfo[] buildingInfoList;
+  private RouteManager[] routeManagerList;
   private HospitalUI hospitalUI;
   private HospitalGamePlay hospital;
-  private MenuScene startMenu, pauseMenu, endMenu, hospitalMenu;
-  private BitmapTextureAtlas mFontTexture;
-  private Font mFont;
-  private Vector<BuildingInfo> fixedBuildingList, dropAreaBuildingList, equipmentBuildingList;  
+  private SpriteBackground[] hospitalBg;
+  private BitmapTextureAtlas bgTextureAtlas;
+  private InGameMenuScene inGameMenuScene;
+  private MainMenuScene mainMenuScene;
   
   
-  public GamePlay(){	
-	initFont();
-	initMenu();	
+  //private Vector<BuildingInfo> fixedBuildingList, dropAreaBuildingList, equipmentBuildingList;  
+  
+  
+  public GamePlay(){		
+	inGameMenuScene = new InGameMenuScene(this);
+	mainMenuScene = new MainMenuScene(this);
     setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));  
-    this.setOnSceneTouchListener(this);
-    
-    
-    HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-      public void run(){
-        setChildScene(startMenu, false, true, true);	  
-      }	
-    });
-    
+    this.setOnSceneTouchListener(this);    
+    sendSetChildScene(mainMenuScene);
+    mainMenuScene.showStartMenu();
+  } 
+  
+  
+  
+  private void sendSetChildScene(Scene child){
+    HospitalGameActivity.getGameActivity().sendSetChildScene(this, child);	  
   }
   
-  public void loadGamePlay(int hospitalId, int level){
-    clear();  	  
-    ResourceManager.getInstance().loadLevel(hospitalId);
-    fixedBuildingList = new Vector<BuildingInfo>();
-    dropAreaBuildingList = new Vector<BuildingInfo>();
-    equipmentBuildingList = new Vector<BuildingInfo>();    
-    int[] levelInfo = ResourceManager.getInstance().getHospitalXmlIds(hospitalId);   
-    int maxFloor = levelInfo.length; 
-    RouteManager[] routeManagerList = new RouteManager[maxFloor];
-    for(int i = 0;i < maxFloor;i++){
-      HospitalLevelReader hospitalLevelReader = new HospitalLevelReader(levelInfo[i], i);
-      try {
-        hospitalLevelReader.startParse();
-        hospitalLevelReader.initialBuilding();
-	  } catch (XmlPullParserException e) {		
-		e.printStackTrace();
-	  } catch (IOException e) {		
-		e.printStackTrace();
-	  }      
-      hospitalLevelReader.getFixedBuilding(fixedBuildingList);
-      hospitalLevelReader.getDropBuilding(dropAreaBuildingList);
-      hospitalLevelReader.getEquipmentBuilding(equipmentBuildingList);
-      routeManagerList[i] = hospitalLevelReader.getRoute();
-    }    
-    
-    Vector<BuildingInfo> buildingList = new Vector<BuildingInfo>();
-    
-    Enumeration<BuildingInfo> e = fixedBuildingList.elements();
-    while(e.hasMoreElements()){
-      buildingList.add(e.nextElement());	
-    }
-    
-    e = dropAreaBuildingList.elements();
-    while(e.hasMoreElements()){
-      buildingList.add(e.nextElement());	
-    }
-    
-    e = equipmentBuildingList.elements();
-    while(e.hasMoreElements()){
-      buildingList.add(e.nextElement());	
-    }
-    
-    BuildingInfo[] buildingInfoList = new BuildingInfo[buildingList.size()];
-    buildingList.copyInto(buildingInfoList);
-    
-    
-    
-    hospital = new HospitalGamePlay(maxFloor);
-    hospital.initialBg(hospitalId, maxFloor);
-    hospital.loadBuilding(hospitalId, buildingInfoList);
-    hospital.loadSound(hospitalId);
-    hospital.initRouteManager(routeManagerList);
-    hospital.initialNurse();    
-    
-    
-    
-    initHospitalUi(hospitalId,level,maxFloor);
-    hospitalUI.setElevetorSelectorListener(hospital);
-    hospital.setHospitalListener(hospitalUI);
-    hospital.setFloor(0);    
-    hospital.setCourseInfoList(ResourceManager.getInstance().getCourseInfoListForHospital(hospitalId, level), hospitalId, level);
-    
-    attachChild(hospital);    
-    attachChild(hospitalUI);
+  public void loadGamePlay(BuildingInfo[] buildingInfoList, RouteManager[] routeManagerList,int hospitalId, int level, int maxFloor){
+	this.hospitalId = hospitalId;
+	this.level = level;
+	this.buildingInfoList= buildingInfoList;
+	this.routeManagerList = routeManagerList;
+	
+	clear();
+	new GamePlayLoader(buildingInfoList, routeManagerList, hospitalId, level, maxFloor, this).startLoad();    
+  }
+  
+  @Override
+  public void onLoadFinish(Loader loader) {
+	if(loader instanceof GamePlayLoader){
+	  GamePlayLoader gLoader = (GamePlayLoader) loader;
+	  hospitalBg = gLoader.getHospitalBackground();
+	  bgTextureAtlas = gLoader.getBgTextureAtlas();
+	  inGameMenuScene.setBuildingList(ResourceManager.getInstance().getBuildingListInLevel(hospitalId, level));
+      hospital = gLoader.getHospital();
+      hospital.addFloorChangeListener(this);
+      hospitalUI = gLoader.getHospitalUI();
+      hospitalUI.setHospitalUIListner(this);
+      hospitalUI.setHospitalTimerListener(this);
+      hospitalUI.setHospitalFloorListener(this);
+      hospital.setUpgradeHospitalListener(this);    
+      hospital.setFloor(0);
+      Vector<Entity> list = new Vector<Entity>();
+      list.add(hospital);
+      list.add(hospitalUI);
+      HospitalGameActivity.getGameActivity().sendAttachChild(this, list);
+	}
+	Log.d("RokejitsX", "GamePlayLoader load finish = "+getChildScene());
+    if(getChildScene() != null)
+      getChildScene().back();
+    /*setChildScene(inGameMenuScene);
+    inGameMenuScene.showUpgradeMenu();*/
+    upgrade();
+  }
+  
+  public void startPlay(){
     hospitalUI.startTimer();
-    hospital.startPlay();
+    hospital.startPlay();	  
   }
   
-  private void initHospitalUi(int hospitalId, int level, int maxFloor){
+  private void upgrade(){
+	hospitalUI.upgrade();
+	sendSetChildScene(inGameMenuScene);
+	inGameMenuScene.showUpgradeMenu();
+  }
+  
+  public boolean buy(int buildingType){
+    BuildingInfo[] list = getUpgradeBuildingInfoWithType(buildingType, true);
+    if(list == null){
+      Toast.makeText(HospitalGameActivity.getGameActivity(), "Not enough space", Toast.LENGTH_SHORT).show();
+      return false;
+    }
+    hospital.buy(hospitalId, list);
+    return true;
+  }
+  
+  public boolean sell(int buildingType){    
+	BuildingInfo[] list = getUpgradeBuildingInfoWithType(buildingType, false);
+	if(list == null){
+	  Toast.makeText(HospitalGameActivity.getGameActivity(), "No station to sell", Toast.LENGTH_SHORT).show();
+	  return false;
+	}
+    hospital.sell(buildingType, list);
+    return true;
+  }
+  
+  
+  
+  private BuildingInfo[] getUpgradeBuildingInfoWithType(int buildingType, boolean buy){
+    Vector<BuildingInfo> list = new Vector<BuildingInfo>();
+    for(int i = 0;i < buildingInfoList.length;i++){
+      BuildingInfo info = buildingInfoList[i];
+      switch(buildingType){
+        case Building.PLANT:
+        case Building.WATER:
+        case Building.FOOD:        	
+        case Building.TELEVISION:
+        case Building.BED:
+          if(buy){
+            if(info.getBuildingId() == buildingType && !info.isEnable()){
+              list.add(info);	   
+            }
+          }else{
+        	if(info.getBuildingId() == buildingType && info.isEnable()){
+              list.add(info);	   
+            }	  
+          }
+        break;
+        default:
+          if(buy){
+            if(info.getBuildingId() == Building.NONE){
+              info.setBuildingId(buildingType);
+              list.add(info);
+            }
+          }else{
+        	if(info.getBuildingId() == buildingType)
+              list.add(info);    
+          }
+        break;       
+      }
+    }
+    
+    
+    BuildingInfo[] result = null;
+    if(list.size() > 0){
+      result = new BuildingInfo[list.size()];
+      list.copyInto(result);
+    }
+    return result;
+  }
+  
+  /*private void initHospitalUi(int hospitalId, int level, int maxFloor){
     LevelInfoReader levelInfoReader = new LevelInfoReader();
     LevelInfo levelInfo = levelInfoReader.readLevel(hospitalId, level);
-    hospitalUI = new HospitalUI(maxFloor, hospital);
+    hospitalUI = new HospitalUI(maxFloor);
+    hospitalUI.setHospitalUIItemListener(hospital);
     hospitalUI.setHospitalTimerListener(this);
     hospitalUI.setHospitalFloorListener(this);   
     
-    hospitalUI.setTime(levelInfo.getTime());
+    hospitalUI.setTime(levelInfo.getTime()10);
     hospitalUI.setGoalPatient(levelInfo.getObjective());
     hospitalUI.setExpertPatient(levelInfo.getExpertObjective());
     hospitalUI.setMoney(0);
@@ -159,87 +206,38 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
     hospital.setPatientMaxCount(levelInfo.getPatientCount(), levelInfo.getTime());
     
     
-  }
+  }*/
   
   private void clear(){
+	
 	Vector<Entity> removeList = new Vector<Entity>();
     if(hospital != null && hospital.getParent() != null){
       removeList.add(hospital);
-      this.detachChild(hospital);
+      //hospital.detachSelf();
     }	  
     
     if(hospitalUI != null && hospitalUI.getParent() != null){
       removeList.add(hospitalUI);
-      this.detachChild(hospitalUI);
+      //hospitalUI.detachSelf();
     }
     
     hospital = null;
-    hospitalUI = null;
-    fixedBuildingList = null;
-    dropAreaBuildingList = null;
-    equipmentBuildingList = null;   
+    hospitalUI = null;       
     if(removeList.size() != 0)
       HospitalGameActivity.getGameActivity().sendDeattachChild(removeList);   
   }
   
-  private void initFont(){
-    /* Load Font/Textures. */
-	HospitalGameActivity gameAct = HospitalGameActivity.getGameActivity();  
-	this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-	FontFactory.setAssetBasePath("font/");
-	this.mFont = FontFactory.createFromAsset(this.mFontTexture, gameAct, "Plok.ttf", 48, true, Color.WHITE);
-	gameAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-	gameAct.getFontManager().loadFont(this.mFont);	  
-	
-  }
   
-  private void initMenu(){	
-	startMenu = initMenuScene(); 
-	startMenu.addMenuItem(initMenuItem("PLAY", MENU_PLAY));
-	startMenu.addMenuItem(initMenuItem("QUIT", MENU_QUIT));
-	startMenu.buildAnimations();
-	
-	pauseMenu = initMenuScene();
-	pauseMenu.addMenuItem(initMenuItem("RESUME", MENU_RESUME));
-	pauseMenu.addMenuItem(initMenuItem("QUIT", MENU_QUIT));
-	pauseMenu.buildAnimations();
-	
-	endMenu = initMenuScene();
-	endMenu.addMenuItem(initMenuItem("RESTART", MENU_RESTART));
-	endMenu.addMenuItem(initMenuItem("QUIT", MENU_QUIT));
-	endMenu.buildAnimations();
-	
-	hospitalMenu = initMenuScene();
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 1", MENU_HOSPITAL1));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 2", MENU_HOSPITAL2));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 3", MENU_HOSPITAL3));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 4", MENU_HOSPITAL4));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 5", MENU_HOSPITAL5));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 6", MENU_HOSPITAL6));
-	hospitalMenu.addMenuItem(initMenuItem("HOSPITAL 7", MENU_HOSPITAL7));
-	
-	hospitalMenu.buildAnimations();
-	
-  }
   
-  private MenuScene initMenuScene(){
-	MenuScene menuScene = new MenuScene(HospitalGameActivity.getGameActivity().getCamera());    
-	menuScene.setBackgroundEnabled(false);
-    menuScene.setOnMenuItemClickListener(this);	  
-    return menuScene;
-  }
   
-  private IMenuItem initMenuItem(String label, int id){
-    IMenuItem menuItem = new ColorMenuItemDecorator(new TextMenuItem(id, mFont, label), 1.0f,0.0f,0.0f, 0.0f,0.0f,0.0f);
-    menuItem.setBlendFunction(GL10.GL_SRC_ALPHA, GL10.GL_ONE_MINUS_SRC_ALPHA);    
-    return menuItem;
-		  
-  }
+  
+  
 
   @Override
   public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {	
 	if(hospitalUI.onSceneTouchEvent(pScene, pSceneTouchEvent))
 	  return true;
+	Log.d("RokejitsX", "hospital touch event");
 	if(hospital.onSceneTouchEvent(pScene, pSceneTouchEvent))
 	  return true;	
 	return false;
@@ -253,66 +251,117 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
 
   @Override
   public void onTimeout() {
-	hospital.timeOut();
-    HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-      public void run(){
-        setChildScene(endMenu, false, true, true);	  
-      }	
-    });	
+	hospital.timeOut();    	
+	sendSetChildScene(inGameMenuScene);
+	if(hospitalUI.getTreatedPatient() >= hospitalUI.getGoalPatient()){
+	  inGameMenuScene.showNextLevelMenuScene();	
+	}else{
+	  inGameMenuScene.showRestartLevelMenuScene();	
+	}
   }
 
   @Override
   public void onTimeRunningOut() {
-    hospital.timeRunningOut();	
-  	
+    hospital.timeRunningOut(); 	
   }
-  
-  private int hospitalId;
+
   @Override
-  public boolean onMenuItemClicked(MenuScene pMenuScene, IMenuItem pMenuItem,
-		float pMenuItemLocalX, float pMenuItemLocalY) {
-    switch(pMenuItem.getID()){
-      case MENU_PLAY:
-    	  HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-    	      public void run(){
-    	        setChildScene(hospitalMenu, false, true, true);	  
-    	      }	
-    	    });
-        startMenu.back();
-      break;
-      case MENU_RESUME:
-       pauseMenu.back();
-      break;
-      case MENU_RESTART:
-    	  HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-           	  public void run(){
-           	    loadGamePlay(hospitalId, 0);
-           	  }	
-           	});
-    	
-        endMenu.back();
-      break;
-      case MENU_QUIT:
-        HospitalGameActivity.getGameActivity().finish();
-      break;
-      case MENU_HOSPITAL1:
-      case MENU_HOSPITAL2:
-      case MENU_HOSPITAL3:
-      case MENU_HOSPITAL4:
-      case MENU_HOSPITAL5:
-      case MENU_HOSPITAL6:
-      case MENU_HOSPITAL7:
-    	hospitalId = pMenuItem.getID() - 4; 
-        HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-       	  public void run(){
-       	    loadGamePlay(hospitalId, 0);
-       	  }	
-       	});
-        hospitalMenu.back();
-      break;
-    }	
+  public void onUiBtnClicked(int btnType) {
+    hospital.upgradeComplete();
+	
+  }
+
+  @Override
+  public void onUpgradeCompleted() { 
+    //upgrade();
+	sendSetChildScene(inGameMenuScene);       
+    //inGameMenuScene.showChooseBuildingMenuScene();
+	inGameMenuScene.showUpgradeMenu();
+	  
+	
+  }
+
+  @Override
+  public boolean onBuy(int buildingType) {
+	if(buy(buildingType)){
+	  inGameMenuScene.back();
+	  return true;
+	}
+	inGameMenuScene.showUpgradeMenu();
 	return false;
   }
+
+  @Override
+  public boolean onSell(int buildingType) {
+	if(sell(buildingType)){
+	  inGameMenuScene.back();
+	  return true;
+	}
+	inGameMenuScene.showUpgradeMenu();
+	return false;
+  }
+
+  @Override
+  public void onContinue() {
+    startPlay();	
+    inGameMenuScene.back();
+	
+  }
+
+  @Override
+  public void onRestart() {	
+    sendSetChildScene(new LoadingScene());
+    loadGamePlay(buildingInfoList, routeManagerList, hospitalId, level, hospital.getMaxFloor());	
+  }
+
+  @Override
+  public void onNextLevel() {	
+	if(level == 8)
+	  if(hospitalId == 6){
+		sendSetChildScene(mainMenuScene);
+	    mainMenuScene.showStartMenu();
+	  }else{
+		sendSetChildScene(new LoadingScene());
+	    onGamePlayLoad(hospitalId + 1);
+	  }
+	else{
+	  sendSetChildScene(new LoadingScene());
+      loadGamePlay(buildingInfoList, routeManagerList, hospitalId, level + 1, hospital.getMaxFloor());
+	}
+    //this.getChildScene().back();	
+  }
+
+  @Override
+  public void onQuitGame() {
+	HospitalGameActivity.getGameActivity().finish();
+	
+  }
+
+  @Override
+  public void onGamePlayLoad(int hospitalId) {	  
+	
+	if(bgTextureAtlas != null)
+	  HospitalGameActivity.getGameActivity().getEngine().getTextureManager().unloadTexture(bgTextureAtlas);
+    new HospitalLoader(hospitalId, new LoaderListener() {		
+      @Override
+	  public void onLoadFinish(Loader loader) {	
+			
+	    HospitalLoader hLoader = (HospitalLoader) loader;		    
+	    loadGamePlay(hLoader.getBuildingInfoList(), hLoader.getRouteManagerList(), hLoader.getHospitalId(), 0, hLoader.getMaxFloor());	
+	    if(getChildScene() == null || !(getChildScene() instanceof LoadingScene))
+		sendSetChildScene(new LoadingScene());
+		    //gamePlay.upgrade();	    
+	  }
+	}).startLoad();   	
+	
+  }
+
+  @Override
+  public void onFloorChanged(int floor) {
+	setBackground(hospitalBg[floor]);
+	
+  }    
+  
 
 
 

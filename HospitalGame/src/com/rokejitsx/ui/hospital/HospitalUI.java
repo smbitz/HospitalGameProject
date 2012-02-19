@@ -5,6 +5,7 @@ import java.util.Hashtable;
 import java.util.Vector;
 
 import org.anddev.andengine.entity.Entity;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.input.touch.TouchEvent;
 
@@ -24,9 +25,14 @@ public class HospitalUI extends Entity implements HospitalListener{
   private ElevatorFloorSelector elevatorFloorSelector;
   private Vector<PatientDoughnut> patientDoughnutList;
   private HospitalUIListener listener;
+  private HospitalUIItemListener doughtnutListener;
+  
   private ItemDoughnut[] itemDoughnutList;
-  public HospitalUI(int maxFloor, HospitalUIListener listener){
-	this.listener = listener;
+  
+  private Rectangle uiBtn;
+  
+  public HospitalUI(int maxFloor){	
+	
 	patientDoughnutList = new Vector<PatientDoughnut>();
 	itemDoughnutList = new ItemDoughnut[5];
 	
@@ -55,7 +61,7 @@ public class HospitalUI extends Entity implements HospitalListener{
     timer.setPosition(cameraWidth - timer.getWidth(), 0);
     
     hospitalFloorSelector = new HospitalFloorSelector(maxFloor);	
-    hospitalFloorSelector.setPosition(cameraWidth - hospitalFloorSelector.getWidth() - 15, cameraHeight - hospitalFloorSelector.getHeight() - 15);
+    hospitalFloorSelector.setPosition(cameraWidth - hospitalFloorSelector.getWidth() - 15, cameraHeight - hospitalFloorSelector.getHeight() - 50);
     
     this.elevatorFloorSelector = new ElevatorFloorSelector(maxFloor);
     onHideElevetorSelector();
@@ -63,10 +69,39 @@ public class HospitalUI extends Entity implements HospitalListener{
       attachChild(hospitalFloorSelector);
     attachChild(elevatorFloorSelector);
     attachChild(hospitalStat);
+    
+    uiBtn = new Rectangle(0, 0, 100, 60);
+    uiBtn.setPosition(800 - uiBtn.getWidth(), 600 - uiBtn.getHeight());
   }	
+  
+  public void setHospitalUIListner(HospitalUIListener listener){
+    this.listener = listener;	  
+  }
+  
+  public void setHospitalUIItemListener(HospitalUIItemListener listener){
+    this.doughtnutListener = listener;	  
+  }
+  
+  public void upgrade(){
+	uiBtn.setVisible(true);		
+	if(!uiBtn.hasParent())
+      attachChild(uiBtn);  
+  }
+  
+  private void onUiBtnClicked(){
+    listener.onUiBtnClicked(HospitalUIListener.BTN_CANCEL);	   
+  }
   
   public void setMoney(int money){
     hospitalStat.setMoney(money);	  
+  }
+  
+  public int getGoalPatient(){
+    return hospitalStat.getGoalPatient();	  
+  }
+  
+  public int getTreatedPatient(){
+    return hospitalStat.getTreatedPatient();	  
   }
   
   public void setGoalPatient(int num){
@@ -91,6 +126,7 @@ public class HospitalUI extends Entity implements HospitalListener{
   }
   
   public void startTimer(){
+	uiBtn.setVisible(false);
     timer.start();	  
   }
   
@@ -122,10 +158,14 @@ public class HospitalUI extends Entity implements HospitalListener{
     float touchX = pSceneTouchEvent.getX();
 	float touchY = pSceneTouchEvent.getY();
 	if(action == TouchEvent.ACTION_DOWN){
+	  if(uiBtn.isVisible() && uiBtn.contains(touchX, touchY)){
+	    onUiBtnClicked();
+	    return true;	   
+	  }
       for(int i = 0;i < itemDoughnutList.length;i++){
         ItemDoughnut itemDo = itemDoughnutList[i];      
         if(itemDo.contains(touchX, touchY) && itemDo.containItem()){
-          if(listener.onItemSelected(i))
+          if(doughtnutListener.onItemSelected(i))
             itemDo.check();
           return true;
         }
