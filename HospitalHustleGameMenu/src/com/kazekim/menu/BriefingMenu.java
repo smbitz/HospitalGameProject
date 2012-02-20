@@ -19,12 +19,13 @@ import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import android.graphics.Color;
+import android.view.MotionEvent;
 
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
 
 
-public class BriefingMenu{
+public class BriefingMenu extends Scene{
 
 
 	private BaseGameActivity activity;
@@ -40,17 +41,18 @@ public class BriefingMenu{
 	private Text objectiveTitleText;
 	
 	private BriefMenuListener listener;
+	private BriefingMenu briefingMenu;
 	
 	private BitmapTextureAtlas mFontTexture;
 	  private Font lcdFont;
 	
-	public BriefingMenu(BaseGameActivity activity,final Scene scene,String objectiveString, String numPatient, String funds){
+	public BriefingMenu (BaseGameActivity activity,String objectiveString, String numPatient, String funds){
 
 		this.activity=activity;
-		//this.scene = scene;
+		this.briefingMenu=this;
 		
 		setFont();
-		
+		setBackgroundEnabled(false);
 
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -60,7 +62,7 @@ public class BriefingMenu{
 		//TiledTextureRegion menuBorderTextureRegion =ResourceManager.getInstance().getTexture("media/textures/briefingmenu/menuobjectives.png");
 		menuBorder = new Sprite(99, 65, menuBorderTextureRegion);	
 		menuBorder.setScale(1);
-		scene.attachChild(menuBorder);
+		attachChild(menuBorder);
 		
 		TiledTextureRegion boxTextureRegion =layoutBitmapTextureAtlas.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1); 
 		box1 = new TextButton(311, 235, boxTextureRegion,lcdFont,numPatient);	
@@ -95,8 +97,22 @@ public class BriefingMenu{
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				
-				scene.detachChild(menuBorder);
-				listener.onOKButtonClick(okButton);
+				listener.onOKButtonClick(briefingMenu);
+				
+				int myEventAction = pSceneTouchEvent.getAction(); 
+		        switch (myEventAction) {
+		           case MotionEvent.ACTION_DOWN:
+		        	   okButton.setCurrentTileIndex(1);
+		        	break;
+		           case MotionEvent.ACTION_MOVE: {
+		            	break;}
+		           case MotionEvent.ACTION_UP:
+		        	   back();
+		        	   okButton.setCurrentTileIndex(0);
+						listener.onOKButtonClick(briefingMenu);
+		                break;
+		        }
+		        
 				return true;
 				
 			}
@@ -104,7 +120,7 @@ public class BriefingMenu{
 
 		okButton.setScale(1);
 		menuBorder.attachChild(okButton);
-		scene.registerTouchArea(okButton);
+		registerTouchArea(okButton);
 		
 		objectiveDetailText = new Text(0, 0, lcdFont, objectiveString);
 		objectiveDetailText.setPosition(20, 20);

@@ -34,6 +34,8 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	  private Font lcdFont;
 	  
 	  private GameMenuScene scene;
+	  private BriefingMenu briefingMenu;
+	  private EndMissionMenu endMissionMenu;
 	  
 	  private boolean isEndGame=false;
 	  
@@ -56,13 +58,17 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));  
 	   
 
-	    BriefingMenu briefingMenu = new BriefingMenu(activity,this, "testetstestse", "20", "300");
+	    briefingMenu = new BriefingMenu(activity, "testetstestse", "20", "300");
+	    
+	    this.setChildScene(briefingMenu);
+	    
+	    
 	    
 	  //  this.attachChild(briefingMenu);
 	    briefingMenu.setBriefMenuListener(this);
-	   this.setOnAreaTouchListener(this);
 	   
-	   final PauseMenu pauseMenu = new PauseMenu(activity, scene);
+	   
+	   final PauseMenu pauseMenu = new PauseMenu(activity);
 		pauseMenu.setPauseMenuListener(scene);
 	   
 	   BitmapTextureAtlasEx layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -74,7 +80,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				
-				pauseMenu.attachPauseMenu();
+				setChildScene(pauseMenu);
 				
 				return true;
 				
@@ -86,6 +92,10 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		this.attachChild(pauseButton);
 		scene.registerTouchArea(pauseButton);
 		
+		endMissionMenu = new EndMissionMenu(activity, "0", "0", "0","0","0",false);
+		endMissionMenu.setEndMissionMenuListener(scene);
+		
+		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas3);
@@ -96,8 +106,8 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				
 				if(!isEndGame){
-					EndMissionMenu endMissionMenu = new EndMissionMenu(activity,scene, "10000", "20", "300","1234","54251",false);
-					endMissionMenu.setEndMissionMenuListener(scene);
+					endMissionMenu.rekeyValue("10000", "20", "300","1234","54251",false);
+					setChildScene(endMissionMenu);
 				    isEndGame=true;
 				}
 				return true;
@@ -108,7 +118,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 
 	   endGameButton.setScale(1);
 		this.attachChild(endGameButton);
-		scene.registerTouchArea(endGameButton);
+		this.registerTouchArea(endGameButton);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -118,11 +128,10 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		TextButton nextGameButton = new TextButton(InitialVal.CAMERA_WIDTH-500, InitialVal.CAMERA_HEIGHT-100, nextGameButtonTextureRegion,lcdFont,"Next"){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				
 				if(!isEndGame){
-					EndMissionMenu endMissionMenu = new EndMissionMenu(activity,scene, "10000", "20", "300","1234","54251",true);
-					endMissionMenu.setEndMissionMenuListener(scene);
-				    isEndGame=true;
+					endMissionMenu.rekeyValue("10000", "20", "300","1234","54251",true);
+					setChildScene(endMissionMenu);
+					isEndGame=true;
 				}
 				return true;
 				
@@ -164,8 +173,8 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	}
 
 	@Override
-	public void onOKButtonClick(TextButton textButton) {
-		// TODO Auto-generated method stub
+	public void onOKButtonClick(BriefingMenu briefingMenu) {
+
 	}
 
 	@Override
@@ -202,21 +211,21 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	public void onRetryButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
-		activity.finish();
+
 	}
 
 	@Override
 	public void onNextMissionButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
-		activity.finish();
+
 	}
 
 	@Override
 	public void onMainMenuButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
-		activity.finish();
+
 	}
 
 

@@ -19,7 +19,7 @@ import android.view.MotionEvent;
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
 
-public class EndMissionMenu {
+public class EndMissionMenu extends Scene{
 
 	
 	private BaseGameActivity activity;
@@ -48,14 +48,26 @@ public class EndMissionMenu {
 	  private Font lcdFont;
 	  
 	  private EndMissionMenuListener listener;
+	  
+	  private BitmapTextureAtlasEx layoutBitmapTextureAtlas;
+	  private BitmapTextureAtlasEx layoutBitmapTextureAtlas2;
+	  private BitmapTextureAtlasEx layoutBitmapTextureAtlas3;
+	  private BitmapTextureAtlasEx layoutBitmapTextureAtlas4;
+	  private BitmapTextureAtlasEx layoutBitmapTextureAtlas5;
+	  
+	  private int typeButton=-1;
+	  private static final int RETRY=0;
+	  private static final int NEXTMISSION=1;
+	  
 	
-	public EndMissionMenu(BaseGameActivity activity,final Scene scene,String goalText,String leftHospitalText,String ambulanceText,String treatedText,String fundsText,boolean isPass){
+	public EndMissionMenu(BaseGameActivity activity,String goalText,String leftHospitalText,String ambulanceText,String treatedText,String fundsText, boolean isPass){
 		this.activity=activity;
 		this.endMissionMenu=this;
-		
+
 		setFont();
+		setBackgroundEnabled(false);
 		
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
 		
@@ -64,14 +76,96 @@ public class EndMissionMenu {
 		endMissionBorder = new Sprite(0,0 , menuBorderTextureRegion);	
 		endMissionBorder.setPosition((InitialVal.CAMERA_WIDTH-endMissionBorder.getBaseWidth())/2,(InitialVal.CAMERA_HEIGHT-endMissionBorder.getHeight())/2);
 		endMissionBorder.setScale(1);
-		scene.attachChild(endMissionBorder);
+		attachChild(endMissionBorder);
 		
 		objectiveTitleText = new Text(0, 0, lcdFont, "Objectives");
 		objectiveTitleText.setPosition((endMissionBorder.getWidth()-objectiveTitleText.getWidth())/2, 20);
 		objectiveTitleText.setColor(0.0f, 0.0f, 0.0f);
 		endMissionBorder.attachChild(objectiveTitleText);
 		
-		TiledTextureRegion boxTextureRegion =layoutBitmapTextureAtlas.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1); 
+		
+
+		
+		
+		BitmapTextureAtlasEx layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
+		
+		TiledTextureRegion mainMenuButtonTextureRegion = layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
+		mainMenuButton = new TextButton(0,0, mainMenuButtonTextureRegion,lcdFont,"Main Menu"){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				
+				int myEventAction = pSceneTouchEvent.getAction(); 
+		        switch (myEventAction) {
+		           case MotionEvent.ACTION_DOWN:
+		        	   mainMenuButton.setCurrentTileIndex(1);
+		        	break;
+		           case MotionEvent.ACTION_MOVE: {
+		            	break;}
+		           case MotionEvent.ACTION_UP:
+		        	   back();
+		        	  // clearTexture();
+		        	   mainMenuButton.setCurrentTileIndex(0);
+		        	  // scene.detachChild(endMissionBorder);
+						listener.onMainMenuButtonClick(endMissionMenu);
+		                break;
+		        }
+		        
+				
+				return true;
+				
+			}
+	   };
+	   mainMenuButton.setCurrentTileIndex(0);
+	   mainMenuButton.setPosition(endMissionBorder.getWidth()*3/4-mainMenuButton.getWidth()/2, endMissionBorder.getHeight()-mainMenuButton.getHeight()*3/2);
+	   mainMenuButton.setScale(1);
+		endMissionBorder.attachChild(mainMenuButton);
+		registerTouchArea(mainMenuButton);
+		
+		setValueResult( goalText, leftHospitalText, ambulanceText, treatedText, fundsText,isPass);
+		
+		layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas2);
+		
+		TiledTextureRegion titleBoxTextureRegion =layoutBitmapTextureAtlas2.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);
+		titleBg1 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
+		titleBg1.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight());
+		titleBg1.setScale(1);
+		endMissionBorder.attachChild(titleBg1);
+
+		titleBg2 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Funds");	
+		titleBg2.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*3);
+		titleBg2.setScale(1);
+		endMissionBorder.attachChild(titleBg2);
+		
+		titleBg3 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
+		titleBg3.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*4);
+		titleBg3.setScale(1);
+		endMissionBorder.attachChild(titleBg3);
+		
+		titleBg3.clearEntityModifiers();
+
+		titleBg4 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Funds");	
+		titleBg4.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*5);
+		titleBg4.setScale(1);
+		endMissionBorder.attachChild(titleBg4);
+		
+		titleBg5 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
+		titleBg5.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*6);
+		titleBg5.setScale(1);
+		endMissionBorder.attachChild(titleBg5);
+	}
+	
+	public void setValueResult(String goalText,String leftHospitalText,String ambulanceText,String treatedText,String fundsText,boolean isPass){
+
+	//	activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas5);
+		layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
+		
+		TiledTextureRegion boxTextureRegion =layoutBitmapTextureAtlas5.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1); 
 		box1 = new TextButton(0,0, boxTextureRegion,lcdFont,goalText);	
 		box1.setPosition(endMissionBorder.getWidth()/2, 20+box1.getHeight());
 		box1.setScale(1);
@@ -102,39 +196,15 @@ public class EndMissionMenu {
 		box5.setColor(255, 255, 255);
 		endMissionBorder.attachChild(box5);
 		
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas2);
-		
-		TiledTextureRegion titleBoxTextureRegion =layoutBitmapTextureAtlas2.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);
-		titleBg1 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
-		titleBg1.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight());
-		titleBg1.setScale(1);
-		endMissionBorder.attachChild(titleBg1);
-
-		titleBg2 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Funds");	
-		titleBg2.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*3);
-		titleBg2.setScale(1);
-		endMissionBorder.attachChild(titleBg2);
-		
-		titleBg3 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
-		titleBg3.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*4);
-		titleBg3.setScale(1);
-		endMissionBorder.attachChild(titleBg3);
-
-		titleBg4 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Funds");	
-		titleBg4.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*5);
-		titleBg4.setScale(1);
-		endMissionBorder.attachChild(titleBg4);
-		
-		titleBg5 = new TextButton(0,0, titleBoxTextureRegion,lcdFont,"Patients");	
-		titleBg5.setPosition(endMissionBorder.getWidth()/2-titleBg1.getWidth()+20, 5+box1.getHeight()*6);
-		titleBg5.setScale(1);
-		endMissionBorder.attachChild(titleBg5);
-
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas3);
+		
+		if(typeButton==RETRY){
+			detachChild(retryButton);
+		}else if(typeButton==NEXTMISSION){
+			detachChild(nextMissionButton);
+		}
 		
 		if(!isPass){
 			TiledTextureRegion retryButtonTextureRegion = layoutBitmapTextureAtlas3.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
@@ -149,6 +219,8 @@ public class EndMissionMenu {
 			           case MotionEvent.ACTION_MOVE: {
 			            	break;}
 			           case MotionEvent.ACTION_UP:
+			        	   back();
+			        	  // clearTexture();
 			        	   retryButton.setCurrentTileIndex(0);
 			        	  // scene.detachChild(endMissionBorder);
 							listener.onRetryButtonClick(endMissionMenu);
@@ -163,26 +235,34 @@ public class EndMissionMenu {
 		   retryButton.setPosition(endMissionBorder.getWidth()/4-retryButton.getWidth()/2, endMissionBorder.getHeight()-retryButton.getHeight()*3/2);
 			retryButton.setScale(1);
 			endMissionBorder.attachChild(retryButton);
-			scene.registerTouchArea(retryButton);
+			registerTouchArea(retryButton);
+		
+			typeButton=RETRY;
 		}else{
-			TiledTextureRegion nextButtonTextureRegion = layoutBitmapTextureAtlas3.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
+			layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+			activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
+			
+			TiledTextureRegion nextButtonTextureRegion = layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
 			nextMissionButton = new TextButton(0,0, nextButtonTextureRegion,lcdFont,"Next"){
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					int myEventAction = pSceneTouchEvent.getAction(); 
-			        switch (myEventAction) {
-			           case MotionEvent.ACTION_DOWN:
-			        	   nextMissionButton.setCurrentTileIndex(1);
-			        	break;
-			           case MotionEvent.ACTION_MOVE: {
-			            	break;}
-			           case MotionEvent.ACTION_UP:
-			        	   nextMissionButton.setCurrentTileIndex(0);
-			        	  // scene.detachChild(endMissionBorder);
-							listener.onNextMissionButtonClick(endMissionMenu);
-			                break;
-			        }
-					
+						int myEventAction = pSceneTouchEvent.getAction(); 
+				        switch (myEventAction) {
+				           case MotionEvent.ACTION_DOWN:
+				        	   nextMissionButton.setCurrentTileIndex(1);
+				        	break;
+				           case MotionEvent.ACTION_MOVE: {
+				            	break;}
+				           case MotionEvent.ACTION_UP:
+				        	   back();
+				        	  // clearTexture();
+				        	   nextMissionButton.setCurrentTileIndex(0);
+				        	  // scene.detachChild(endMissionBorder);
+								listener.onNextMissionButtonClick(endMissionMenu);
+				                break;
+
+				        }
 					return true;
 					
 				}
@@ -191,41 +271,20 @@ public class EndMissionMenu {
 		   nextMissionButton.setPosition(endMissionBorder.getWidth()/4-nextMissionButton.getWidth()/2, endMissionBorder.getHeight()-nextMissionButton.getHeight()*3/2);
 		   nextMissionButton.setScale(1);
 			endMissionBorder.attachChild(nextMissionButton);
-			scene.registerTouchArea(nextMissionButton);
+			registerTouchArea(nextMissionButton);
+			
+			typeButton=NEXTMISSION;
 		}
+	}
+	
+	public void rekeyValue(String goalText,String leftHospitalText,String ambulanceText,String treatedText,String fundsText,boolean isPass){
+		endMissionBorder.detachChild(box1);
+		endMissionBorder.detachChild(box2);
+		endMissionBorder.detachChild(box3);
+		endMissionBorder.detachChild(box4);
+		endMissionBorder.detachChild(box5);
 		
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
-		
-		TiledTextureRegion mainMenuButtonTextureRegion = layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
-		mainMenuButton = new TextButton(0,0, mainMenuButtonTextureRegion,lcdFont,"Main Menu"){
-			@Override
-			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				int myEventAction = pSceneTouchEvent.getAction(); 
-		        switch (myEventAction) {
-		           case MotionEvent.ACTION_DOWN:
-		        	   mainMenuButton.setCurrentTileIndex(1);
-		        	break;
-		           case MotionEvent.ACTION_MOVE: {
-		            	break;}
-		           case MotionEvent.ACTION_UP:
-		        	   mainMenuButton.setCurrentTileIndex(0);
-		        	  // scene.detachChild(endMissionBorder);
-						listener.onMainMenuButtonClick(endMissionMenu);
-		                break;
-		        }
-		        
-				
-				return true;
-				
-			}
-	   };
-	   mainMenuButton.setCurrentTileIndex(0);
-	   mainMenuButton.setPosition(endMissionBorder.getWidth()*3/4-mainMenuButton.getWidth()/2, endMissionBorder.getHeight()-mainMenuButton.getHeight()*3/2);
-	   mainMenuButton.setScale(1);
-		endMissionBorder.attachChild(mainMenuButton);
-		scene.registerTouchArea(mainMenuButton);
+		setValueResult(goalText, leftHospitalText, ambulanceText, treatedText, fundsText, isPass);
 	}
 	
 	public void setFont(){
@@ -238,5 +297,13 @@ public class EndMissionMenu {
 	
 	public void setEndMissionMenuListener(EndMissionMenuListener listener){
 		this.listener=listener;
+	}
+	
+	public void clearTexture(){
+		activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas);
+		activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas2);
+		activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas3);
+		activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas4);
+		activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas5);
 	}
 }

@@ -18,10 +18,9 @@ import android.view.MotionEvent;
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
 
-public class PauseMenu {
+public class PauseMenu extends Scene {
 	
 	private PauseMenuListener listener;
-	private Scene scene;
 	private BaseGameActivity activity;
 	
 	private TextButton resumeButton;
@@ -36,15 +35,13 @@ public class PauseMenu {
 	  private Sprite pauseMenuBorder;
 	  
 	  private PauseMenu pauseMenu;
-	  
-	  private boolean isAttachPauseMenu=false;
 
-	public PauseMenu(BaseGameActivity activity,final Scene scene){
-		this.scene = scene;
+	public PauseMenu(BaseGameActivity activity){
 		this.activity=activity;
 		this.pauseMenu = this;
 		
 		setFont();
+		setBackgroundEnabled(false);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -55,7 +52,7 @@ public class PauseMenu {
 		pauseMenuBorder = new Sprite(0,0 , menuBorderTextureRegion);	
 		pauseMenuBorder.setPosition((InitialVal.CAMERA_WIDTH-pauseMenuBorder.getBaseWidth())/2,(InitialVal.CAMERA_HEIGHT-pauseMenuBorder.getHeight())/2);
 		pauseMenuBorder.setScale(1);
-		
+		attachChild(pauseMenuBorder);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -74,7 +71,7 @@ public class PauseMenu {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   resumeButton.setCurrentTileIndex(0);
-		        	   detachPauseMenu();
+		        	   back();
 						listener.onResumeButtonClick(pauseMenu);
 		                break;
 		        }
@@ -88,7 +85,7 @@ public class PauseMenu {
 	   resumeButton.setPosition((pauseMenuBorder.getWidth()-resumeButton.getWidth())/2, 20);
 	   resumeButton.setScale(1);
 	   pauseMenuBorder.attachChild(resumeButton);
-		scene.registerTouchArea(resumeButton);
+	   registerTouchArea(resumeButton);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -107,7 +104,7 @@ public class PauseMenu {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   restartButton.setCurrentTileIndex(0);
-		        	   detachPauseMenu();
+		        	   back();
 						listener.onRestartButtonClick(pauseMenu);
 		                break;
 		        }
@@ -121,7 +118,7 @@ public class PauseMenu {
 	   restartButton.setPosition((pauseMenuBorder.getWidth()-restartButton.getWidth())/2,20+ restartButton.getHeight()*2/3);
 	   restartButton.setScale(1);
 	   pauseMenuBorder.attachChild(restartButton);
-		scene.registerTouchArea(restartButton);
+		registerTouchArea(restartButton);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -140,7 +137,7 @@ public class PauseMenu {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   achievementButton.setCurrentTileIndex(0);
-		        	   detachPauseMenu();
+		        	   back();
 						listener.onAchievementButtonClick(pauseMenu);
 		                break;
 		        }
@@ -154,7 +151,7 @@ public class PauseMenu {
 	   achievementButton.setPosition((pauseMenuBorder.getWidth()-achievementButton.getWidth())/2, 20+achievementButton.getHeight()*2*2/3);
 	   achievementButton.setScale(1);
 	   pauseMenuBorder.attachChild(achievementButton);
-		scene.registerTouchArea(achievementButton);
+		registerTouchArea(achievementButton);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -173,7 +170,7 @@ public class PauseMenu {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   optionsButton.setCurrentTileIndex(0);
-		        	   detachPauseMenu();
+		        	   back();
 						listener.onOptionsButtonClick(pauseMenu);
 		                break;
 		        }
@@ -187,7 +184,7 @@ public class PauseMenu {
 	   optionsButton.setPosition((pauseMenuBorder.getWidth()-optionsButton.getWidth())/2, 20+optionsButton.getHeight()*3*2/3);
 	   optionsButton.setScale(1);
 	   pauseMenuBorder.attachChild(optionsButton);
-		scene.registerTouchArea(optionsButton);
+		registerTouchArea(optionsButton);
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas6 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -206,7 +203,7 @@ public class PauseMenu {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   mainmenuButton.setCurrentTileIndex(0);
-		        	   detachPauseMenu();
+		        	   back();
 						listener.onMainMenuButtonClick(pauseMenu);
 		                break;
 		        }
@@ -220,22 +217,12 @@ public class PauseMenu {
 	   mainmenuButton.setPosition((pauseMenuBorder.getWidth()-mainmenuButton.getWidth())/2, 20+mainmenuButton.getHeight()*4*2/3);
 	   mainmenuButton.setScale(1);
 	   pauseMenuBorder.attachChild(mainmenuButton);
-		scene.registerTouchArea(mainmenuButton);
+		registerTouchArea(mainmenuButton);
 	}
 	
-	public void attachPauseMenu(){
-		if(!isAttachPauseMenu){
-			scene.attachChild(pauseMenuBorder);
-			isAttachPauseMenu=true;
-		}
-	}
 	
-	public void detachPauseMenu(){
-		if(isAttachPauseMenu){
-			scene.detachChild(pauseMenuBorder);
-			isAttachPauseMenu=false;
-		}
-	}
+	
+
 	
 	public void setFont(){
 		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
