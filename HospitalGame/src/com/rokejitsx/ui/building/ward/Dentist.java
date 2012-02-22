@@ -17,6 +17,7 @@ public class Dentist extends Ward{
 	addGameCharactorOnReceivedPosition(69, 101);
 	
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_DENTIST);
+	setCheckPosition(0, 0);
   }
 
   @Override

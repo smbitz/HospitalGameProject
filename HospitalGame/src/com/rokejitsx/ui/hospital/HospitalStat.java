@@ -55,6 +55,10 @@ public class HospitalStat extends Rectangle implements ImageResource{
     moneyField.setNumber(money);
   }
   
+  public int getMoney(){
+    return money;	  
+  }
+  
   public void increaseMoney(int value){
     setMoney(money + value); 	  
   }
@@ -78,6 +82,14 @@ public class HospitalStat extends Rectangle implements ImageResource{
     goalPatient = goal;	  
     bgSprite.setCurrentTileIndex(0);
     goalPatientField.setNumber(goal);
+  }
+  
+  public int getTreatedPatient(){
+    return threatedPatient;	  
+  }
+  
+  public int getGoalPatient(){
+    return goalPatient;	  
   }
   
   public void setExpertPatient(int expert){

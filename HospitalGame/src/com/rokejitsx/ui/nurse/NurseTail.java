@@ -1,17 +1,18 @@
 package com.rokejitsx.ui.nurse;
 
-import org.anddev.andengine.entity.Entity;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import com.rokejitsx.ui.hospital.HospitalGamePlay.FloorChangeListener;
 
-public class NurseTail extends Entity implements FloorChangeListener{  
+public class NurseTail extends Rectangle implements FloorChangeListener{  
   	
   private float tailTime;
   private int currentFloor;
   public NurseTail(){
-    super(0, 0);  	  
+    super(0, 0, 0, 0);  	  
     setVisible(false);
+    setAlpha(0);
   }	
   
   public void setNurseTail(AnimatedSprite tail, int floor, int hospitalFloor){
@@ -26,6 +27,8 @@ public class NurseTail extends Entity implements FloorChangeListener{
       setVisible(true);
     else
       setVisible(false);
+    setWidth(sprite.getBaseWidth());
+    setHeight(sprite.getBaseHeight());
   }
 
   @Override

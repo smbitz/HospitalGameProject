@@ -1,5 +1,7 @@
 package com.zurubu.scene;
 
+import java.util.Vector;
+
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
@@ -14,19 +16,25 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.Color;
 
-import com.rokejitsx.InterfaceActivity;
+import com.rokejitsx.GamePlay;
+import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.data.GameFonts;
 
 public class MenuScene extends Scene implements IOnSceneTouchListener { 
 	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
-	private static MenuScene scene;
+	private Vector<BitmapTextureAtlas> list;
+	//private static MenuScene scene;
 	 
-	public static MenuScene getScene(){    
+	/*public static MenuScene getScene(){
+	    if(scene == null)
+	      scene = new MenuScene();
 		return scene;	  
-	}
+	}*/
 	
 	public MenuScene() {
-		scene = this;
+		//scene = this;
+		list = new Vector<BitmapTextureAtlas>();
 		initFont();
 		
 		// set layout for menu //
@@ -35,50 +43,57 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 
 	private void initFont(){
 	    /* Load Font/Textures. */
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+/*		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
 		interfaceAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		interfaceAct.getFontManager().loadFont(this.mFont);	  
+		interfaceAct.getFontManager().loadFont(this.mFont);	*/
+		mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);
 	}
 	
 	private void initLayoutMenu(){
 		/* set layout menu. */ 
 		// background //
-		setLayout(1024, 1024, "textures/menu/main_background.png", 0, 0, false, "");
+		list.add(setLayout(1024, 1024, "textures/menu/main_background.png", 0, 0, false, ""));
 		// mainmenu border //
-		setLayout(512, 512, "textures/menu/mainmenu_border.png", 25, 105, false, "");
+		list.add(setLayout(512, 512, "textures/menu/mainmenu_border.png", 25, 105, false, ""));
 		// menu button play //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 130, true, "Play");	
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 130, true, "Play"));	
 		// menu button endless mode //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 200, true, "Endless Mode");	
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 200, true, "Endless Mode"));	
 		// menu button option //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 270, true, "Options");
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 270, true, "Options"));
 		// menu button bess nuress //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 340, true, "Best Nuress");	
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 340, true, "Best Nuress"));	
 		// menu button tell a friend //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 410, true, "Tell a Friend");
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 410, true, "Tell a Friend"));
 		// menu button connect //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 505, true, "Connect");	
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 45, 505, true, "Connect"));	
 		// main logo //
-		setLayout(256, 256, "textures/menu/main_logo.png", 50, 10, false, "");	
+		list.add(setLayout(256, 256, "textures/menu/main_logo.png", 50, 10, false, ""));	
 		// menu insert button //
-		setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, "");	
+		list.add(setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, ""));	
 		// menu button change player //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 540, 0, true, "Change Player");	
+		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 540, 0, true, "Change Player"));	
 		
 		this.setTouchAreaBindingEnabled(true);
 	}
 	
-	private void setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+	//private BitmapTextureAtlas layoutBitmapTextureAtlas;
+	
+	public void unload(){
+	  HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(list);	
+	}
+	
+	private BitmapTextureAtlas setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 			
-		BitmapTextureAtlas layoutBitmapTextureAtlas;
+		/*BitmapTextureAtlas layoutBitmapTextureAtlas;*/
 		TextureRegion layoutTextureRegion;
 		Sprite layout;
 		
-		layoutBitmapTextureAtlas = new BitmapTextureAtlas(pWidth, pHeight,TextureOptions.DEFAULT);
+		BitmapTextureAtlas layoutBitmapTextureAtlas = new BitmapTextureAtlas(pWidth, pHeight,TextureOptions.DEFAULT);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
 		layoutTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(layoutBitmapTextureAtlas, interfaceAct, path,0, 0);
 		interfaceAct.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
@@ -134,11 +149,17 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 		}
 		layout.setScale(1);
 		this.attachChild(layout);
+		return layoutBitmapTextureAtlas;
 	}
 	
 	private void nextScene(String sceneName) {
-		if (sceneName.toLowerCase().equals("options")) {
-			InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();
+		if(sceneName.toLowerCase().equals("play")){
+		  GamePlay gamePlay = new GamePlay();
+		  HospitalGameActivity.getGameActivity().sendSetScene(gamePlay);
+		  gamePlay.loadHospital(0);
+			
+		}else if (sceneName.toLowerCase().equals("options")) {
+			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
 			
 			// call option scene //	
 		    // switch to the new scene
@@ -147,9 +168,9 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 			} else {
 				final OptionsScene optionsScene = new OptionsScene();
 				interfaceAct.getEngine().setScene(optionsScene);
-			}
+			}*/
 		} else if (sceneName.toLowerCase().equals("best nuress")) {
-			InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();			
+			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();			
 			
 			// call option scene //	
 		    // switch to the new scene
@@ -158,7 +179,21 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 			} else {
 				final BestNursesScene bestnursesScene = new BestNursesScene();
 				interfaceAct.getEngine().setScene(bestnursesScene);
-			}
+			}*/
+		} else if (sceneName.toLowerCase().equals("connect")) {
+			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();			
+			
+			String url = "http://www.facebook.com/pages/Hospital-Hustle-Game/150163501688464";  
+			Intent i = new Intent(Intent.ACTION_VIEW);  
+			Uri u = Uri.parse(url);  
+			i.setData(u);  
+			try {  
+			  // Start the activity  
+			  interfaceAct.startActivity(i);  
+			} catch (ActivityNotFoundException e) {  
+			  // Raise on activity not found  
+//			  Toast toast = Toast.makeText(interfaceAct, "Browser not found.", Toast.LENGTH_SHORT);  
+			}*/  
 		}
 	}
 	

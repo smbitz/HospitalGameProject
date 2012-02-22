@@ -1,13 +1,13 @@
 package com.rokejitsx.ui.building.ward.pharmacy;
 
-import org.anddev.andengine.entity.shape.Shape;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
+import javax.microedition.khronos.opengles.GL10;
+
+import org.anddev.andengine.engine.camera.Camera;
 
 import android.util.Log;
 
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
-import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.item.Item;
 import com.rokejitsx.ui.nurse.Nurse;
@@ -43,6 +43,7 @@ public class Pharmacy extends Building{
 	
 	preparedItem = new Item[5];
 	preparedItemNum = 0;
+	setCheckPosition(0, 0);
   }
   
  
@@ -156,11 +157,19 @@ public class Pharmacy extends Building{
   
   @Override
   public GameObject isBuildingContain(float x, float y) {
+	float tmpX = x;
+	float tmpY = y;
+	
+	x = x - getX();
+	y = y - getY();
+	
 	for(int i = 0;i < preparedItem.length;i++){
       if(preparedItem[i] != null && preparedItem[i].contains(x, y)){
         return preparedItem[i];
       }	
     }
+	x = tmpX;
+	y = tmpY;
 	return super.isBuildingContain(x, y);
   }  
 
@@ -176,6 +185,7 @@ public class Pharmacy extends Building{
         return;
       removeItemFromQueue(item);
       nurse.pickItem();
+      item.unChecked();
       listener.onNursePickedItem(item);
       
     }
@@ -188,4 +198,20 @@ protected void setGameChatactorOnReceived(GameCharactor gameChar) {
 	// TODO Auto-generated method stub
 	
 }
+
+
+
+  @Override
+  protected void onDrawChildren(GL10 pGL, Camera pCamera) {	
+	super.onDrawChildren(pGL, pCamera);
+	for(int i = 0;i < preparedItem.length;i++){
+	  Item item = preparedItem[i];
+	  if(item != null){
+	    item.onDraw(pGL, pCamera);	  
+	  }
+	}
+  }
+
+
+
 }

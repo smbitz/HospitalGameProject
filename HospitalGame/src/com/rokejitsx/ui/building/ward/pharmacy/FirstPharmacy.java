@@ -111,11 +111,11 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
 	  
   private void finishPreparing(){
     setState(STATE_IDLE);
-    Item item = prepareQueue.elementAt(0);
+    /*Item item = prepareQueue.elementAt(0);
     //receiveItemToQueue(item);
     
-    prepareQueue.remove(0);
-    listener.onFinishPreparingItem(item);
+    prepareQueue.remove(0);*/
+    listener.onFinishPreparingItem(prepareQueue);
     //next();
     
   }
@@ -156,7 +156,7 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
   public void setItemPosition(Item item, int prepareQueue) {
 	Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
 	float[] off = offset[prepareQueue];
-	item.setPosition(getX() + off[0] - item.getWidth()/2, getY() + off[1] - item.getHeight()/2);			
+	item.setPosition(/*getX() + */off[0] - item.getWidth()/2, /*getY() + */off[1] - item.getHeight()/2);			
   }
   
   @Override

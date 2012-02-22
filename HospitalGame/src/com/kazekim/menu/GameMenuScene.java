@@ -24,9 +24,7 @@ import android.view.MotionEvent;
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.data.UserMissionSkeleton;
 import com.kazekim.ui.TextButton;
-import com.rokejitsx.HospitalGameActivity;
-import com.rokejitsx.InterfaceActivity;
-import com.rokejitsx.MenuGameActivity;
+import com.rokejitsx.data.GameFonts;
 
 public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnAreaTouchListener,BriefMenuListener,PauseMenuListener,EndMissionMenuListener{ 
 	  
@@ -56,7 +54,8 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		
 		   this.setTouchAreaBindingEnabled(true);
 		   
-		setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));  
+		//setBackground(new ColorBackground(0.09804f, 0.6274f, 0.8784f));
+		   this.setBackgroundEnabled(false);
 	   
 
 	    BriefingMenu briefingMenu = new BriefingMenu(activity,this, "testetstestse", "20", "300");
@@ -140,11 +139,12 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	  }
 	  
 	  public void setFont(){
-			this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		  /*this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 			FontFactory.setAssetBasePath("font/");
 			this.lcdFont = FontFactory.createFromAsset(this.mFontTexture, activity, "LCD.ttf", 20, true, Color.WHITE);
 			activity.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-			activity.getFontManager().loadFont(this.lcdFont);	 
+			activity.getFontManager().loadFont(this.lcdFont);*/
+		  lcdFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_LCD_FONT_20_WHITE);	 
 		}
 	  
 	  public void loadGamePlay(int hospitalId, int level){
@@ -205,18 +205,21 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	public void onRetryButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
+		activity.finish();
 	}
 
 	@Override
 	public void onNextMissionButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
+		activity.finish();
 	}
 
 	@Override
 	public void onMainMenuButtonClick(EndMissionMenu endMissionMenu) {
 		// TODO Auto-generated method stub
 		isEndGame=false;
+		activity.finish();
 	}
 
 

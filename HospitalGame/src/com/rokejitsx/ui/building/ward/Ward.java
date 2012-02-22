@@ -1,13 +1,16 @@
 package com.rokejitsx.ui.building.ward;
 
+import org.anddev.andengine.audio.sound.Sound;
+
 import android.util.Log;
 
+import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 import com.rokejitsx.data.xml.DataHolder;
-import com.rokejitsx.data.xml.global.GiActionPoint;
 import com.rokejitsx.data.xml.global.giactionpoint.GiActionPointBuilding;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.item.Item;
@@ -24,6 +27,8 @@ public abstract class Ward extends Building{
   private long operationTime,endHealingTime, repairTime;
   private WardListener listener; 
   private int billCost;
+  private Sound healingSound;
+  private String healingSoundFileName;
   //private int wardType;
   
   
@@ -36,6 +41,46 @@ public abstract class Ward extends Building{
     
     
      
+  }
+  
+ /* protected void setHealingSound(String fileName){
+	healingSoundFileName = fileName;
+    
+  }*/
+  
+  /*private void playHealingSound(){
+    if(healingSound != null)
+      HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {
+		
+		@Override
+		public void run() {
+		  healingSound = SoundPlayerManager.getInstance().createSound(healingSoundFileName);
+		  healingSound.setLooping(true);	
+		  healingSound.play();
+			
+		}
+	});
+      
+  }*/
+  
+  @Override
+  public void onFloorChanged(int floor) {	
+	super.onFloorChanged(floor);	
+	Patient pateint = getCurrentPatient();
+	if(pateint != null && pateint.isOnHealing())
+	  onFloorChangedSetPatientOnHealingVisible(isVisible());
+	
+	
+  }
+  
+  protected void onFloorChangedSetPatientOnHealingVisible(boolean wardVisible){
+    getCurrentPatient().setVisible(wardVisible);  	  
+  }
+  
+  private void stopHealingSound(){
+    if(healingSound != null){
+      healingSound.stop();      
+    }
   }
   
   
@@ -116,14 +161,14 @@ public abstract class Ward extends Building{
     return currentHealingTime;	  
   }
   
-  protected void startHealing(){
-	Log.d("Rokejitsx", "StartHealing....");
+  protected void startHealing(){	
 	setState(STATE_DO_WORK);	
 	getCurrentPatient().setPickable(false);
 	getCurrentPatient().onHealing();
     onStartHealing();      
     currentHealingTime = 0;
     endHealingTime = System.currentTimeMillis() + operationTime;
+    //playHealingSound();
   }
   
   private void healing(float pSecondsElapsed){
@@ -148,8 +193,7 @@ public abstract class Ward extends Building{
     if(isVisible())
       patient.setVisible(true);
     patient.nextHealingRoute();
-    
-        
+    stopHealingSound();        
     
   }  
 
@@ -207,10 +251,17 @@ public abstract class Ward extends Building{
   @Override
   public void onGameCharactorPathFinished(GameCharactor gameChar) {	
     if(gameChar instanceof Nurse){
+      //unChecked();
       Patient patient = getCurrentPatient();
-      if(patient == null || !patient.hasRequireItem())
+      if(patient == null)
         return;
-      Nurse nurse = (Nurse) gameChar;
+      
+      if(this.getBuildingType() != patient.getNextWardType())
+        return;
+      
+      if(!patient.hasRequireItem())
+        return;
+      Nurse nurse = (Nurse) gameChar;      
       Item item = patient.getRequireItem();
       if(nurse.isHasItemInHand(item)){
         nurse.handOut(item);

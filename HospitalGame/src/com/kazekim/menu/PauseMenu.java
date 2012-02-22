@@ -17,7 +17,7 @@ import android.view.MotionEvent;
 
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
-import com.rokejitsx.MenuGameActivity;
+import com.rokejitsx.data.GameFonts;
 
 public class PauseMenu {
 	
@@ -239,11 +239,12 @@ public class PauseMenu {
 	}
 	
 	public void setFont(){
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		/*this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		this.lcdFont = FontFactory.createFromAsset(this.mFontTexture, activity, "LCD.ttf", 20, true, Color.WHITE);
 		activity.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		activity.getFontManager().loadFont(this.lcdFont);	 
+		activity.getFontManager().loadFont(this.lcdFont);*/
+	  lcdFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_LCD_FONT_20_WHITE);	 
 	}
 	
 

@@ -1,5 +1,7 @@
 package com.zurubu.scene;
 
+import java.util.ArrayList;
+
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
@@ -13,7 +15,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.Color;
 
-import com.rokejitsx.InterfaceActivity;
+import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.data.GameFonts;
 
 public class BestNursesScene extends Scene {
 	private BitmapTextureAtlas mFontTexture;
@@ -34,12 +37,12 @@ public class BestNursesScene extends Scene {
 	
 	private void initFont(){
 	    /* Load Font/Textures. */
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		/*this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
-		interfaceAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		interfaceAct.getFontManager().loadFont(this.mFont);	  
+		this.lcdFont = FontFactory.createFromAsset(this.mFontTexture, activity, "LCD.ttf", 20, true, Color.WHITE);
+		activity.getEngine().getTextureManager().loadTexture(this.mFontTexture);
+		activity.getFontManager().loadFont(this.lcdFont);*/
+	  mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);	  
 	}
 	
 	private void initLayoutMenu(){
@@ -62,16 +65,14 @@ public class BestNursesScene extends Scene {
 		
 		this.setTouchAreaBindingEnabled(true);
 		
-		// set title //
-		setText(290, 60, "Endless Easy", false);
-		for (int i=0 ; i<8 ; i++) {
-			setText(60, 120 + (i*35), "Endless Easy", false);
-			setText(0, 120 + (i*35), ""+(i*333), true);
-		}
+		// set text area //
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity(); 
+//		interfaceAct.setDataMode(d); // set data here;
+		getTextArea(interfaceAct.getDataMode());
 	}
 	
 	private void setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 			
 		BitmapTextureAtlas layoutBitmapTextureAtlas;
 		TextureRegion layoutTextureRegion;
@@ -136,8 +137,8 @@ public class BestNursesScene extends Scene {
 	}
 	
 	private void nextScene(String sceneName) {
-		if (sceneName.toLowerCase().equals("ok")) {
-			InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();
+		/*if (sceneName.toLowerCase().equals("ok")) {
+			HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
 			
 			// call option scene //	
 		    // switch to the new scene
@@ -147,13 +148,42 @@ public class BestNursesScene extends Scene {
 				final MenuScene menuScene = new MenuScene();
 				interfaceAct.getEngine().setScene(menuScene);
 			}
-		}
+		} else if (sceneName.toLowerCase().equals("nextmode")) {	
+			HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
+			
+			// call Best nurses scene //	
+		    // switch to the new scene
+			if (interfaceAct.getPage() == interfaceAct.getDataMode().size()-1) {
+				interfaceAct.setPage(0);
+			} else {
+				interfaceAct.setPage(interfaceAct.getPage()+1);
+			}
+			final BestNursesScene bestnursesScene = new BestNursesScene();
+			interfaceAct.getEngine().setScene(bestnursesScene);
+		}*/
+	}
+
+	private void getTextArea(ArrayList<TargetData> data) {
+		/*HospitalGameActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
+		// set title //
+		Text stx = new Text(0, 0, this.mFont, data.get(interfaceAct.getPage()).title);
+		stx = new Text(0, 0, this.mFont, data.get(interfaceAct.getPage()).title);
+		stx.setPosition(0, 60);
+		stx.setPosition(400 - stx.getWidth()/2, 60);
+		stx.setColor(0.0f, 0.0f, 0.0f);
+		this.attachChild(stx);
+		
+		//--------------------------------//
+		for (int i=0 ; i<8 ; i++) {
+			setText(60, 120 + (i*35), data.get(interfaceAct.getPage()).tx[i], false);
+			setText(0, 120 + (i*35), Integer.toString(data.get(interfaceAct.getPage()).value[i]), true);
+		}*/
 	}
 	
-	private void setText(int pX, int pY, String tx, Boolean leftside) {
+	private void setText(int pX, int pY, String tx, Boolean rightside) {
 		Text stx = new Text(0, 0, this.mFont, tx);
 		stx.setPosition(pX, pY);
-		if (leftside)
+		if (rightside)
 			stx.setPosition(720 - stx.getWidth(), pY);
 		stx.setColor(0.0f, 0.0f, 0.0f);
 		this.attachChild(stx);

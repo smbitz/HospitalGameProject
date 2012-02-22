@@ -45,7 +45,7 @@ public class Triage extends Ward{
   };
   private AnimatedSprite counterSprite;
   private String counterImgName;
-  private int hospitalLevel;
+  //private int hospitalLevel;
   public Triage(int hospitalLevel){
 	super(TRIAGE, 1);
 	String[] list = LEVEL_IMG_NAME_LIST[hospitalLevel];    
@@ -59,7 +59,7 @@ public class Triage extends Ward{
 	attachChild(mainSprite);
 	//mainSprite.setColor(1, 0, 0);
 	
-	this.hospitalLevel = hospitalLevel;
+	//this.hospitalLevel = hospitalLevel;
     //setOperationTime(6375);       
     
     
@@ -70,6 +70,7 @@ public class Triage extends Ward{
     
     //ResourceManager.getInstance().getGlobalData(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TRIAGE);
+	//setHealingSound(TREATMENT_DIAGNOSIS);
     
   }
   

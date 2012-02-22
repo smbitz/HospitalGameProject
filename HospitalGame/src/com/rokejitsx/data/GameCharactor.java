@@ -102,14 +102,14 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
   }
   
   public void setGameCharactorPosition(float x, float y){	
-    setPosition(x - getWidth()/2, y - getHeight());    
+    setPosition(x - getWidth()/2, y - getHeight() + 10);    
   }
   
   private void moveTo(float x, float y){	
     float startX = getX();
 	float startY = getY();
 	float endX = x - getWidth()/2;
-	float endY = y - getHeight();	
+	float endY = y - getHeight() + 10;	
 	float distanceX = Math.abs(startX - endX);	
 	float distanceY = Math.abs(startY - endY);	
 	float duration = (FloatMath.sqrt((distanceX * distanceX) + (distanceY * distanceY))) / getSpeed();		
@@ -142,6 +142,9 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
   
   public abstract void onSetFace(int face);
   public void setPositionOnBuildingReceived(float x, float y){}
+  public int getFaceDirection(){
+    return faceDirection;	  
+  }
   
   @Override
   public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
@@ -179,7 +182,8 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
       return;
     if(gameCharactorListener == null)
       gameCharactorListener = new Vector<GameCharactorListener>();
-    gameCharactorListener.add(listener);
+    if(!gameCharactorListener.contains(listener))
+      gameCharactorListener.add(listener);
   }
   
   public void removeGameCharactorListener(GameCharactorListener listener){

@@ -1,5 +1,7 @@
 package com.kazekim.menu;
 
+import java.util.Vector;
+
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnAreaTouchListener;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
@@ -22,9 +24,9 @@ import android.graphics.Color;
 
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
-import com.rokejitsx.InterfaceActivity;
-import com.rokejitsx.MenuGameActivity;
-import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.data.GameFonts;
+
 
 public class BriefingMenu{
 
@@ -46,6 +48,9 @@ public class BriefingMenu{
 	private BitmapTextureAtlas mFontTexture;
 	  private Font lcdFont;
 	
+	private BitmapTextureAtlasEx layoutBitmapTextureAtlas;
+	private BitmapTextureAtlasEx layoutBitmapTextureAtlas2;
+	private BitmapTextureAtlasEx layoutBitmapTextureAtlas3;
 	public BriefingMenu(BaseGameActivity activity,final Scene scene,String objectiveString, String numPatient, String funds){
 
 		this.activity=activity;
@@ -54,13 +59,13 @@ public class BriefingMenu{
 		setFont();
 		
 
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
 		
 		TextureRegion menuBorderTextureRegion =layoutBitmapTextureAtlas.appendTextureAsset(activity, "menuobjectives.png");
 		//TiledTextureRegion menuBorderTextureRegion =ResourceManager.getInstance().getTexture("media/textures/briefingmenu/menuobjectives.png");
-		menuBorder = new Sprite(99, 65, menuBorderTextureRegion);	
+		menuBorder = new Sprite(99, 65, menuBorderTextureRegion);		
 		menuBorder.setScale(1);
 		scene.attachChild(menuBorder);
 		
@@ -75,7 +80,7 @@ public class BriefingMenu{
 		box2.setColor(255, 255, 255);
 		menuBorder.attachChild(box2);
 		
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas2);
 		
@@ -88,7 +93,7 @@ public class BriefingMenu{
 		titleBg2.setScale(1);
 		menuBorder.attachChild(titleBg2);
 		
-		BitmapTextureAtlasEx layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas3 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas3);
 		
@@ -121,12 +126,21 @@ public class BriefingMenu{
 	
 	}
 	
+	public void unLoad(){
+	  Vector<BitmapTextureAtlas> list = new Vector<BitmapTextureAtlas>();
+      list.add(layoutBitmapTextureAtlas);
+      list.add(layoutBitmapTextureAtlas2);
+      list.add(layoutBitmapTextureAtlas3);
+      HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(list);
+	}
+	
 	public void setFont(){
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		/*this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		this.lcdFont = FontFactory.createFromAsset(this.mFontTexture, activity, "LCD.ttf", 20, true, Color.WHITE);
 		activity.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		activity.getFontManager().loadFont(this.lcdFont);	 
+		activity.getFontManager().loadFont(this.lcdFont);*/
+	  lcdFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_LCD_FONT_20_WHITE);
 	}
 	
 	

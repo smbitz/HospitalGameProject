@@ -13,7 +13,8 @@ import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
 import android.graphics.Color;
 
-import com.rokejitsx.InterfaceActivity;
+import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.data.GameFonts;
 
 public class OptionsScene extends Scene{
 	private final float minX = 485;
@@ -41,10 +42,13 @@ public class OptionsScene extends Scene{
 	}
 	
 	public OptionsScene() {
+		// load data //
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
+		musicLastX = interfaceAct.getAppSettings().getMusicVolumePosition();
+		sfxLaxtX = interfaceAct.getAppSettings().getSFXVolumePosition();
+		
 		scene = this;
 		initFont();
-		musicLastX = 501;
-		sfxLaxtX = 530;
 		
 		// set layout for menu //
 		initLayoutOptions();
@@ -56,12 +60,13 @@ public class OptionsScene extends Scene{
 
 	private void initFont(){
 	    /* Load Font/Textures. */
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+		/*HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		FontFactory.setAssetBasePath("font/");
 		this.mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
 		interfaceAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		interfaceAct.getFontManager().loadFont(this.mFont);	  
+		interfaceAct.getFontManager().loadFont(this.mFont);	  */
+		mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);
 	}
 	
 	public void initLayoutOptions(){
@@ -98,7 +103,7 @@ public class OptionsScene extends Scene{
 	}
 	
 	private void setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 			
 		BitmapTextureAtlas layoutBitmapTextureAtlas;
 		TextureRegion layoutTextureRegion;
@@ -163,7 +168,7 @@ public class OptionsScene extends Scene{
 	}
 	
 	private void setVolumeLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 		
 		BitmapTextureAtlas layoutBitmapTextureAtlas;
 		TextureRegion layoutTextureRegion;
@@ -187,7 +192,7 @@ public class OptionsScene extends Scene{
 	
 	private float diff = 0;
 	private Sprite setThumbLayout(int pWidth, int pHeight, String path, float pX, float pY) {
-		InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();  
+		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 		
 		BitmapTextureAtlas layoutBitmapTextureAtlas;
 		TextureRegion layoutTextureRegion;
@@ -245,7 +250,7 @@ public class OptionsScene extends Scene{
 	
 	private void nextScene(String sceneName) {
 		if (sceneName.toLowerCase().equals("cancle")) {
-			InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();
+			HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
 			
 			// set volume position back //
 			musicThumb.setPosition(musicLastX, musicThumb.getY());
@@ -255,28 +260,34 @@ public class OptionsScene extends Scene{
 						
 			// call option scene //	
 		    // switch to the new scene
-			if (MenuScene.getScene() != null) {
+			interfaceAct.getEngine().setScene(new MenuScene());
+			/*if (MenuScene.getScene() != null) {
 				interfaceAct.getEngine().setScene(MenuScene.getScene());
 			} else {
 				final MenuScene menuScene = new MenuScene();
 				interfaceAct.getEngine().setScene(menuScene);
-			}
+			}*/
 		} else if (sceneName.toLowerCase().equals("ok")) {
-			InterfaceActivity interfaceAct = InterfaceActivity.getInterfaceActivity();
+			HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
 			
 			// record new volume position //
 			musicLastX = musicThumb.getX();
 			sfxLaxtX = sfxThumb.getX();
-			
-			
+			musicVolume = calVolumn("music");
+			sfxVolume = calVolumn("sfx");
+			// save new volume //
+			interfaceAct.getAppSettings().setMusicVolumePosition(musicLastX);
+			interfaceAct.getAppSettings().setSFXVolumePosition(sfxLaxtX);
+				
 			// call option scene //	
 		    // switch to the new scene
-			if (MenuScene.getScene() != null) {
+			interfaceAct.getEngine().setScene(new MenuScene());
+			/*if (MenuScene.getScene() != null) {
 				interfaceAct.getEngine().setScene(MenuScene.getScene());
 			} else {
 				final MenuScene menuScene = new MenuScene();
 				interfaceAct.getEngine().setScene(menuScene);
-			}
+			}*/
 		}
 	}
 	

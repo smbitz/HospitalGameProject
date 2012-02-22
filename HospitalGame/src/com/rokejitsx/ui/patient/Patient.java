@@ -24,6 +24,7 @@ import android.provider.UserDictionary.Words;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
@@ -39,8 +40,22 @@ import com.rokejitsx.ui.nurse.Nurse;
 
 
 
-public class Patient extends GameCharactor implements PathFinderListener, IAnimationListener{ 
+public class Patient extends GameCharactor implements PathFinderListener, IAnimationListener, SoundList{ 
 	 
+  public static final int PATIENT_HEAD_MAN_1 		= 0;	
+  public static final int PATIENT_HEAD_MAN_2 		= 1;
+  public static final int PATIENT_HEAD_MAN_3 		= 2;
+  public static final int PATIENT_HEAD_MAN_4 		= 3;
+  public static final int PATIENT_HEAD_WOMAN_1 		= 4;
+  public static final int PATIENT_HEAD_WOMAN_2 		= 5;
+  public static final int PATIENT_HEAD_GRANDPA 		= 6;
+  public static final int PATIENT_HEAD_GRANNY 		= 7;
+  public static final int PATIENT_HEAD_BOY 			= 8;
+  public static final int PATIENT_HEAD_WOMAN_3 		= 9;
+  public static final int PATIENT_HEAD_ARAB 		= 10;
+  public static final int PATIENT_HEAD_WOMAN_4 		= 11;
+  public static final int PATIENT_HEAD_AFRO	   		= 12;
+	
   private final static String[][] bodyList = {
     {
       PATIENT_0_WALK,
@@ -101,49 +116,7 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
     
   };
   
-  /*private final static float[][][] neckOffset = {
-	{// PATIENT_0_WALK
-      {40.5f, 0}, 
-      {40.5f, 0}, 
-      {40.5f, -2}, 
-      {40.5f, -2}, 
-      {40.5f, 0}, 
-      {40.5f, 0}, 
-      {40.5f, -2},
-      {40.5f, -2},
-      {40.5f, 0},
-      {40.5f, 0},
-      {40.5f, -2},
-      {40.5f, -2},
-      {40.5f, 0},
-      {40.5f, 0},
-      {40.5f, -2},
-      {40.5f, -2}
-	},
-	{// PATIENT_0_BODY
-      {70.5f, -5}, 
-	  {70.5f, -5}, 
-	  {70.5f, -5}, 
-	  {70.5f, -5}, 
-	  {70.5f, -5}, 
-	  {70.5f, -5}, 
-	  {70.5f, -5},
-	  {70.5f, -5},
-	  {77.5f, -5},
-	  {77.5f, -5},
-	  {77.5f, -5},
-	  {77.5f, -5}	  
-	}
-		  
-  };*/
   
-  /*private final static int[] bodyAnimationIdleIds = {	  
-    66 //Patient_0	  
-  };*/
-    
-  
-  
-  //private float[][] neck;
   
   public final static String[] headList = {
     PATIENT_HEAD_0,	  
@@ -162,12 +135,14 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }; 
   
   
+  
+  
+  
+  
   private double healthLevel; // max 100
   private double feverLevel; // max 5  
-  private HealthBar healthBar;
-  //private ChangeableText queueNumber;
-  private NumberLineField queueNumber;
-  //private int queue;
+  private HealthBar healthBar;  
+  private NumberLineField queueNumber;  
   private PatientListener listener;
   private boolean canPick = false;    
   private Vector<HealingRoute> healingRouteList;
@@ -273,6 +248,44 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
     //setColor(1,1,1,1);
     idle(false);	 
     billCost = 0;
+  }
+  
+  public boolean isMan(){
+    return isHead(new int[]{PATIENT_HEAD_MAN_1, PATIENT_HEAD_MAN_2, PATIENT_HEAD_MAN_3, PATIENT_HEAD_MAN_4});   	  
+  }
+  
+  public boolean isWoman(){
+    return isHead(new int[]{PATIENT_HEAD_WOMAN_1, PATIENT_HEAD_WOMAN_2, PATIENT_HEAD_WOMAN_3, PATIENT_HEAD_WOMAN_4});	  
+  }
+  
+  public boolean isArab(){
+    return getHeadId() == PATIENT_HEAD_ARAB; 	  
+  }
+  
+  public boolean isAfro(){
+    return getHeadId() == PATIENT_HEAD_AFRO; 	  
+  }
+  
+  public boolean isBoy(){
+    return getHeadId() == PATIENT_HEAD_BOY; 	  
+  }
+  
+  public boolean isGrandpa(){
+	return getHeadId() == PATIENT_HEAD_GRANDPA;	  
+  }
+  
+  public boolean isGranny(){
+	return getHeadId() == PATIENT_HEAD_GRANNY;	  
+  }
+  
+  
+  private boolean isHead(int[] headList){
+    int headId = getHeadId();
+    for(int i = 0;i < headList.length;i++){
+      if(headId == headList[i])
+        return true;
+    }
+    return false;
   }
   
   public void setFeverLevel(int fever){
@@ -439,6 +452,10 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	} 
   }
   
+  private void setFootHere(float x, float y){
+	float[] assPoint = patientInfo.getLinkPointPosition(PatientInfo.ASS_LINK_POINT);
+    setPosition(x + assPoint[0] - getWidth()/2, y + assPoint[1] - getHeight());	  
+  }
   
   private void setAssHere(float x, float y){       
     float[] assPoint = patientInfo.getLinkPointPosition(PatientInfo.ASS_LINK_POINT);
@@ -448,8 +465,36 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   
   
   @Override
-  public void setPositionOnBuildingReceived(float x, float y) {
-    setAssHere(x, y);	  
+  public void setPositionOnBuildingReceived(float x, float y) {	  
+	/*switch(this.getCurrentBuilding().getBuildingType()){
+      //sit
+	  case Building.BED:	
+	  case Building.CHAIR:
+	  case Building.QUICKTREAT:
+	  case Building.TAC:	  
+	  case Building.OPHTHALMOLOGY:
+	  case Building.PSYCHIATRY:
+	  case Building.BABY_SCAN:
+	  case Building.DENTIST:
+	  case Building.CARDIOLOGY:
+	  case Building.OPERATION:
+	    setAssHere(x, y);
+	  break;
+		  
+	  //stand	  
+	  case Building.XRAY:	  
+	  case Building.OUTSIDE:
+	  case Building.TRIAGE:
+	  case Building.OUTSIDE_ELEVATOR:
+	  case Building.PHYSIOTHERAPY:
+	  case Building.CHEMOTHERAPY:
+	  case Building.ULTRASCAN:
+	    setFootHere(x, y);	  
+	  break;	  
+	}*/
+	  
+	setAssHere(x, y);
+    	  
   }
 
   @Override
@@ -646,8 +691,8 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
       listener.onPatientMoveOut(this);
   } 
 
-  public HealingRoute addWardHealingRoute(int wardType, int floor){
-	HealingRoute healingRoute = new HealingRoute(wardType, floor);
+  public HealingRoute addWardHealingRoute(int wardType){
+	HealingRoute healingRoute = new HealingRoute(wardType);
 	healingRouteList.add(healingRoute);
     return healingRoute;
   }  
@@ -664,9 +709,10 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	onWaiting();	
 	setPickable(true);
     currentHealingRoute = healingRouteList.elementAt(0);
-    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), currentHealingRoute.getFloor());
+    int floor = listener.onPatientRequestWard(currentHealingRoute.getWardType(), getCurrentFloor());
+    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), floor);
     setShowBubble(true);
-    if(hasRequireItem() && currentHealingRoute.getFloor() != -1){
+    if(hasRequireItem() && floor != -1){
       if(listener != null)
         listener.onPatientRequestItem(this);
       
@@ -771,6 +817,10 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }
   
   public void onPicked(float x, float y){
+	dragX = oldDragX = x;
+	dragY = oldDragY = y;  
+	onWaiting = false;
+	onDrag = true;	
 	if(patientId != 5)
 	  showBubbleText();
     bodySprite.stopAnimation(8);
@@ -783,18 +833,74 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	//neck = neckOffset[1];
 	
 	setAnimation(headSprite, ResourceManager.getInstance().getAnimationInfo(headInfo.getAnimationId(headInfo.GRAB_ID)));
-	dragX = oldDragX = x;
-	dragY = oldDragY = y;
+	setOnDragPosition();
 	
-	onWaiting = false;
-	onDrag = true;
+	
+	
+	
+  }
+  
+  private void setOnDragPosition(){
+    float[] neckLink = patientInfo.getLinkPointPosition(PatientInfo.NECK_LINK_POINT);	  
+	  float[] headNeckLink = headInfo.getLinkPointPosition(headInfo.NECK_LINK_POINT);
+	  float x;
+	  float y;
+	  if(onDrag){
+		x = dragX;
+		y = dragY;  	    
+			
+		if(!bodySprite.isFlippedHorizontal()){
+		  x = x - neckLink[0];	
+		  y = y - neckLink[1];
+		}else{
+		  x = x + neckLink[0];	
+		  y = y - neckLink[1];	
+		}
+			
+		x = x - getWidth() / 2;
+		y = y - getHeight() / 2;
+			
+			
+		setPosition(x, y);
+	  }
+		
+	  x = bodySprite.getX() + bodySprite.getBaseWidth() / 2;
+	  y = bodySprite.getY() + bodySprite.getBaseHeight() / 2;
+      if(!bodySprite.isFlippedHorizontal()){
+        x = x + neckLink[0];
+         
+		    /*headSprite.setPosition(bodySprite.getX() + bodySprite.getBaseWidth() / 2 + neckLink[0] - headNeckLink[0] - headSprite.getBaseWidth()/2,
+	                               bodySprite.getY() + bodySprite.getBaseHeight() / 2 + neckLink[1]  - headNeckLink[1]  - headSprite.getBaseHeight()/2);*/
+	  }else{
+	    x = x - neckLink[0];
+			/*headSprite.setPosition(bodySprite.getX() + bodySprite.getBaseWidth() / 2 - neckLink[0] - headNeckLink[0] - headSprite.getBaseWidth()/2,
+                    bodySprite.getY() + bodySprite.getBaseHeight() / 2 + neckLink[1] - headNeckLink[1]  - headSprite.getBaseHeight()/2);*/	
+	  }
+      y = y + neckLink[1];
+      
+	  if(!headSprite.isFlippedHorizontal()){
+	    x = x - headNeckLink[0];
+	    /*headSprite.setPosition(bodySprite.getX() + bodySprite.getBaseWidth() / 2 + neckLink[0] - headNeckLink[0] - headSprite.getBaseWidth()/2,
+	     		               bodySprite.getY() + bodySprite.getBaseHeight() / 2 + neckLink[1] - headNeckLink[1]  - headSprite.getBaseHeight()/2);*/
+	  }else{
+	    x = x + headNeckLink[0];
+	    /*headSprite.setPosition(bodySprite.getX() + bodySprite.getBaseWidth() / 2 + neckLink[0] + headNeckLink[0] - headSprite.getBaseWidth()/2,
+	    		               bodySprite.getY() + bodySprite.getBaseHeight() / 2 + neckLink[1] - headNeckLink[1]  - headSprite.getBaseHeight()/2);*/  
+	  }
+	  y = y - headNeckLink[1];
+	  
+	  x = x - headSprite.getBaseWidth()/2;
+	  y = y - headSprite.getBaseHeight()/2;
+	  headSprite.setPosition(x, y);	  
+	  
+	  patientInterface.setPosition(headSprite.getX() + headSprite.getBaseWidth() - 20, headSprite.getY() - patientInterface.getHeight());
   }
   
   private float oldDragX, oldDragY, dragX, dragY;
   private float force = 0;
   //private boolean dragFlip = false;
   private float dragTime;
-  public void onDraged(float x, float y){
+  public boolean onDraged(float x, float y){
     //setPosition(x, y);	
     dragX = x;
     dragY = y;
@@ -819,7 +925,15 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
       
 	  int frame = (int)force + sequence[0];
 	  bodySprite.setCurrentTileIndex(frame);
-    }   
+	  /*Log.d("RokejitsX", "drag force = "+(int)force);
+	  Log.d("RokejitsX", "drag frame = "+frame);
+	  Log.d("RokejitsX", "drag sequence = "+sequence.length);*/
+	  if((int)force == sequence.length - 1){
+		//Log.d("RokejitsX", "FORCE IS DANGEROUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss");
+	    return true;
+	  }
+    }
+    return false;
   }
   
   public void onUnPicked(){
@@ -1158,17 +1272,17 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   
   public class HealingRoute{
     private int wardType;
-    private int floor; //-1 not have
+    //private int floor; //-1 not have
     private Vector<Item> itemList;    
-    public HealingRoute(int wardType, int floor){
+    public HealingRoute(int wardType){
       this.wardType = wardType;	
       itemList = new Vector<Item>();
-      this.floor = floor;
+      //this.floor = floor;
     }	  
     
-    public int getFloor(){
+    /*public int getFloor(){
       return floor;	
-    }
+    }*/
     
     public int getWardType(){
       return wardType;      	

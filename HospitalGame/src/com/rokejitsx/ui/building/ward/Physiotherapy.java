@@ -21,6 +21,7 @@ public class Physiotherapy extends Ward{
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(116, 109);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PHYSIOTHERAPY);
+	setCheckPosition(0, 0);
 	//setColor(1, 1, 1, 1);
   }
 
@@ -39,9 +40,22 @@ public class Physiotherapy extends Ward{
 	// TODO Auto-generated method stub
 	
   }
+  
+  @Override
+  protected void onFloorChangedSetPatientOnHealingVisible(boolean wardVisible) {
+	if(getCurrentHealingTime() < 2){
+	  super.onFloorChangedSetPatientOnHealingVisible(wardVisible);	
+	}else{
+	  getCurrentPatient().setVisible(false);	
+	}
+	
+  }
+  
+  private int healingPhase;
 
   @Override
-  public void onStartHealing() { 
+  public void onStartHealing() {
+	healingPhase = 0;
 	Patient patient = getCurrentPatient();
 	if(patient.whoIsYourMom() == null){
 	  patient.setPosition(83, 64);
@@ -54,7 +68,8 @@ public class Physiotherapy extends Ward{
 
   @Override
   public void onHealing(float pSecondsElapsed) {
-	if(getCurrentHealingTime() >= 2 && getCurrentPatient().isVisible()){
+	if(getCurrentHealingTime() >= 2 && healingPhase == 0){
+	  healingPhase = 1;
 	  setAnimation(mainSprite, ResourceManager.getInstance().getAnimationInfo(25));
 	  getCurrentPatient().setVisible(false);
 	}

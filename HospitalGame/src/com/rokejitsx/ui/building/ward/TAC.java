@@ -19,8 +19,15 @@ public class TAC extends Ward{
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(84, 101);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CAT);
+	setCheckPosition(0, 0);
   }
 
+  
+  @Override
+  protected void onFloorChangedSetPatientOnHealingVisible(boolean wardVisible) {
+	getCurrentPatient().setVisible(false);
+  }
+  
   @Override
   public void onWardReceivePatient(Patient patient) {
 	// TODO Auto-generated method stub

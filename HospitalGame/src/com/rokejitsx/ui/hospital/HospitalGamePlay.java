@@ -10,7 +10,9 @@ import java.util.Vector;
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.camera.Camera;
+import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.IEntity;
+import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.input.touch.TouchEvent;
@@ -349,6 +351,8 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   private HospitalListener hospitalListener;
   private UpgradeHospitalListener upgradeHospitalListener;
   
+  private int leavedHospitalCount, transporterLeveingCount;
+  
   public HospitalGamePlay(int maxFloor){
 	super(maxFloor);
 	itemOnDesk = new Item[5];
@@ -360,6 +364,9 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	infowardList = new Pharmacy[maxFloor];
 	elevatorList = new Elevator[maxFloor];
 	elevatorWaitingQueueList = new OutsideElevator[maxFloor];    
+	leavedHospitalCount = 0;
+	transporterLeveingCount = 0;
+	
     setPosition(0, 0);    
     
   } 
@@ -739,24 +746,13 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
     InfoPlate infoPlate = new InfoPlate(patientQueueNumber);    
     infoPlate.setOwner(patient);
     if(babyPatient == null){
-      patient.addWardHealingRoute(Building.TRIAGE);
-         
-      /*int[] random = wardCourseInfo[hospitalId];
-      if(random == null){
-        patient.addWardHealingRoute(Building.BED, getWardFloor(Building.BED)).addItem(infoPlate);	
-      }else{
-        Random r = new Random();
-        int id = Math.abs(r.nextInt()) % random.length;
-        patient.addWardHealingRoute(random[id], getWardFloor(random[id])).addItem(infoPlate);
-        patient.addWardHealingRoute(Building.BED, getWardFloor(Building.BED));
-      }*/
-      
+      patient.addWardHealingRoute(Building.TRIAGE);      
       int[] machineList = courseInfo.getMachineList();
       for(int i = 0;i < machineList.length;i++){
         int wardId = machineList[i];	
         HealingRoute hRoute = patient.addWardHealingRoute(wardId);
-        if(wardId != Building.BED)
-          hRoute.addItem(infoPlate);
+        //if(wardId != Building.BED)
+        hRoute.addItem(infoPlate);
       }
       
       patient.setShowFloorNumberInBubbleBox(getMaxFloor() >= 2);      
@@ -773,7 +769,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
       for(int i = 0;i < machineList.length;i++){
         int wardId = machineList[i];	
         HealingRoute hRoute = babyPatient.addWardHealingRoute(wardId);
-        if(wardId != Building.BED)
+        //if(wardId != Building.BED)
           hRoute.addItem(infoPlate);
       }
          	
@@ -1039,7 +1035,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
     coffeTime -= pSecondsElapsed;
 	if(coffeTime < 0){
 	  coffeTime = 10;
-	  requestItem(Item.createItemObject(Item.COFFEE, -1));
+	  //requestItem(Item.createItemObject(Item.COFFEE, -1));
 	}
 		
 	if(nurseBoostTime > 0){
@@ -1150,9 +1146,9 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   }
   
   
-  Comparator<? super GameObject> objComparator = new Comparator<GameObject>(){	 
+  Comparator<? super Rectangle> objComparator = new Comparator<Rectangle>(){	 
      @Override
-	 public int compare(GameObject lhs, GameObject rhs) {
+	 public int compare(Rectangle lhs, Rectangle rhs) {
        if(lhs instanceof Helicopter)
          return 1;
        if(rhs instanceof Helicopter)
@@ -1160,13 +1156,19 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
        float x = lhs.getX() + lhs.getWidth()/2;
        float y = lhs.getY() + lhs.getHeight()/2;
        
-       if(lhs instanceof Patient || lhs instanceof Nurse)
+       if(lhs instanceof GlassDoor)
+         y += 60;
+       
+       if(lhs instanceof Patient || lhs instanceof Nurse || lhs instanceof NurseTail)
          y += lhs.getHeight() / 2;
        
        float x1 = rhs.getX() + rhs.getWidth()/2;
        float y1 = rhs.getY() + rhs.getHeight()/2;
        
-       if(rhs instanceof Patient || rhs instanceof Nurse)
+       if(rhs instanceof GlassDoor)
+         y1 += 60;
+       
+       if(rhs instanceof Patient || rhs instanceof Nurse || rhs instanceof NurseTail)
          y1 += rhs.getHeight() / 2;
        
        float x3 = x - x1;
@@ -1178,19 +1180,31 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
          angle = 360 - angle;
        
        
+       if(lhs instanceof GlassDoor){    	 
+         if(angle>= 45 && angle <= 225)
+    	   return -1;	    
+         return 1;
+       }/*else if(rhs instanceof GlassDoor){
+    	   
+       }*/
+       
+      /* if(angle >= 315 && angle < 45)
+         return 1;
+       
+       if(angle >= 45 && angle < 135)
+         return -1;
+       
+       
+       if(angle >= 135 && angle < 225)         
+    	 return -1;
+       
+       return 1;*/
+       
        
        if(angle >= 337.5 || angle <= 157.5)
          return -1;
        return 1;
-       /*double angle1 = getAngle(600, 0, lhs.getX() + lhs.getWidth(), lhs.getY());	 
-       double angle2 = getAngle(600, 0, rhs.getX() + rhs.getWidth(), rhs.getY());
-       
-       
-       
-       if(angle1 > angle2)
-         return 1;
-    	 
-       return -1;*/	 
+       	 
     	
 	 } 
   };
@@ -1227,7 +1241,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   protected void onDrawChildren(GL10 pGL, Camera pCamera) {    
   // TODO Auto-generated method stub
     //sortChildren();	  
-	Vector<GameObject> tmp = new Vector<GameObject>();
+	Vector<Entity> tmp = new Vector<Entity>();
 	
 	Enumeration<GameObject> e = buildingList.elements();
 	while(e.hasMoreElements()){
@@ -1239,18 +1253,17 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	int childCount = children.size();
 	for(int i = 0; i < childCount; i++) {
 	  IEntity child = (IEntity) children.get(i);
-	  if(child instanceof Nurse){
-	    tmp.add((GameObject) child);
-	    continue;
-	  }
-	  if(child instanceof Patient){
+	  if(child instanceof Nurse || child instanceof NurseTail){
+	    tmp.add((Entity) child);
+	    
+	  }else if(child instanceof Patient){
 	    Patient patient = (Patient) child;
 	    if((patient.getCurrentBuilding() == null || patient.isOnPick()) && patient.getCurrentFloor() == getFloor())
 	      tmp.add(patient);
 	  }
 	}
 	
-	GameObject[] list = new GameObject[tmp.size()];
+	Rectangle[] list = new Rectangle[tmp.size()];
 	tmp.copyInto(list);
 	/*for(int i = 0;i < getChildCount();i++){
 	  list[i] = ((GameObject) getChild(i));	
@@ -1260,31 +1273,31 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	  //this.onManagedDrawChildren(pGL, pCamera);
      // final ArrayList<IEntity> children = this.mChildren;
 	  //final int childCount = children.size();
-	  for(int i = 0; i < childCount; i++) {
+	 /* for(int i = 0; i < childCount; i++) {
 	    IEntity child = (IEntity) children.get(i); 
 	    if(!(child instanceof Patient)){
 	      if(!(buildingList.contains(child)) && !(child instanceof Nurse) && !(child instanceof Item) && !(child instanceof NurseTail))
 	    	
 	        child.onDraw(pGL, pCamera);
 	    }else{
-	     /* Patient patient = (Patient) child;
+	      Patient patient = (Patient) child;
 	      if((patient.getCurrentBuilding() == null || patient.isOnPick()) && patient.getCurrentFloor() == getFloor())
-	        patient.onDraw(pGL, pCamera);*/
+	        patient.onDraw(pGL, pCamera);
 	    }
-	  }
+	  }*/
 	  
 	  Arrays.sort(list, objComparator);
       for(int i = 0;i < list.length;i++){
-    	 if(list[i] instanceof Building){
+    	 /*if(list[i] instanceof Building){
            Building b = (Building) list[i];
            b.setNum(i);
-    	 }
+    	 }*/
     	 
 	    (list[i]).onDraw(pGL, pCamera);	
 		  
 	  }
       
-      for(int i = 0; i < childCount; i++) {
+      /*for(int i = 0; i < childCount; i++) {
   	    IEntity child = (IEntity) children.get(i);
   	    if(child instanceof Nurse || child instanceof NurseTail){  	      	
   	      child.onDraw(pGL, pCamera);
@@ -1297,7 +1310,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   	        patient.onDraw(pGL, pCamera);
   	      }
   	    }
-  	  }
+  	  }*/
 	
 	  for(int i = 0; i < childCount; i++) {
         IEntity child = (IEntity) children.get(i); 
@@ -1708,52 +1721,71 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   
   @Override
   public int onPatientRequestWard(int wardType, int patientFloor) {
-	
-	if(isHasWard(wardType, patientFloor))
-	  return patientFloor;
-	
+	int nearestFloor = -1;
+	Ward[] wardList;
+	wardList = isHasWard(wardType, patientFloor);
+	if(wardList != null && nearestFloor == -1)
+	  nearestFloor = patientFloor;
+    if(isThisWardCanReceiveVisitor(wardList))
+      return patientFloor;
+    
 	int upperFloor = patientFloor + 1;
 	int lowerFloor = patientFloor - 1;
 	
+	
 	for(; upperFloor < getMaxFloor() || lowerFloor >= 0;upperFloor++, lowerFloor--){
 	  
-	  if(upperFloor < getMaxFloor())	
-	    if(isHasWard(wardType, upperFloor))
+	  if(upperFloor < getMaxFloor()){
+		wardList = isHasWard(wardType, upperFloor);
+		if(wardList != null && nearestFloor == -1)
+		  nearestFloor = upperFloor;
+	    if(isThisWardCanReceiveVisitor(wardList))
 	      return upperFloor;
-	  if(lowerFloor >= 0)	
-	    if(isHasWard(wardType, lowerFloor))
+	  }
+	  if(lowerFloor >= 0){	
+		wardList = isHasWard(wardType, lowerFloor);
+		if(wardList != null && nearestFloor == -1)
+		  nearestFloor = lowerFloor;
+	    if(isThisWardCanReceiveVisitor(wardList))
 	      return lowerFloor;
+	  }
 	}	
-  	return -1;
+  	return nearestFloor;
   }
   
-  private boolean isHasWard(int wardType, int onFloor){
+  private boolean isThisWardCanReceiveVisitor(Ward[] wardList){
+	if(wardList == null)
+	  return false;
+    for(int i = 0;i < wardList.length;i++){
+      Ward ward = wardList[i];
+      if(ward.isCanReceiveVisitor())
+        return true;
+    }
+    
+    return false;
+  }
+  
+  private Ward[] isHasWard(int wardType, int onFloor){
 	Vector<Ward> wardList= new Vector<Ward>();
-    Enumeration<GameObject> e = buildingList.elements();
-    Object tmp = null;
+    Enumeration<GameObject> e = buildingList.elements();    
     while(e.hasMoreElements()){
       GameObject obj = e.nextElement();
       if(!(obj instanceof Ward))
         continue;
       Ward ward = (Ward) obj;
       if(ward.getBuildingType() == wardType || wardType == -1)
-        if(ward.getCurrentFloor() == onFloor || onFloor == -1){
-          if(tmp == null)
-            tmp = new Object();
-          if(ward.isCanReceiveVisitor())
-            wardList.add(ward);
+        if(ward.getCurrentFloor() == onFloor || onFloor == -1){         
+          wardList.add(ward);
         }
-    }
+    } 
     
-    if(tmp != null)
-      return true;
     if(wardList.size() == 0)
-      return false;
+      return null;
     
-    /*Ward[] result = new Ward[wardList.size()];
+    Ward[] result = new Ward[wardList.size()];
     
-    wardList.copyInto(result);*/
-    return true;
+    wardList.copyInto(result);
+    return result;
     
   }
 
@@ -1794,20 +1826,33 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
     if(patient.getBabyPatient() == null){
       if(patient.isBoy()){
         if(!patient.isFinishHealing())
-          if(!waitingChair.equals(patient.getCurrentBuilding()) && patient.whoIsYourMom().getCurrentBuilding() != null)
+          if(!waitingChair.equals(patient.getCurrentBuilding()) && patient.whoIsYourMom().getCurrentBuilding() != null){
+        	leavedHospitalCount++;
             playPatientUnFinishHealingSound(patient);
+          }
       }else{
         if(!patient.isFinishHealing()){
+         leavedHospitalCount++;
          playPatientUnFinishHealingSound(patient);	
         }
       }
     }else{
       Patient babyPatient = patient.getBabyPatient();
-      if(!babyPatient.isFinishHealing())
-        playPatientUnFinishHealingSound(patient);	  
+      if(!babyPatient.isFinishHealing()){
+    	leavedHospitalCount++;
+        playPatientUnFinishHealingSound(patient);
+      }
     }
   } 
   
+  
+  public int getPatientLeavingHospitalCount(){
+    return leavedHospitalCount;	  
+  }
+  
+  public int getPatientLeavingByTranspoter(){
+    return transporterLeveingCount;	  
+  }
   
   
   @Override
@@ -1988,9 +2033,17 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 		}				
 	  }
 	}else if(building instanceof Transporter){
+      
 	  Patient patient = (Patient) gameChar;
+	  if(patient.getPatientId() != 6)
+	    transporterLeveingCount++;
 	  removePatientFromHospital(patient);
 	  removeFromPatientList(patient);	  
+	  if(patient.getBabyPatient() != null){
+	    Patient baby = patient.getBabyPatient();
+	    removePatientFromHospital(baby);
+		removeFromPatientList(baby);
+	  }
 	  if(patient.getPatientId() == 6){
 		Transporter transporter = (Transporter) building;  
 	    Patient mom = patient.whoIsYourMom();

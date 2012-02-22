@@ -17,6 +17,10 @@ public class GlassDoor extends Building{
 	closeAnim.setSequence(new int[]{0, 1, 2, 3});
 	mainSprite.setCurrentTileIndex(3);
 	isopen = false;
+	
+	
+	//setAlpha(1);
+	
   }
   
   public void open(){

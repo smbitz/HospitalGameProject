@@ -17,8 +17,18 @@ public class Operation extends Ward{
 	addGameCharactorOnReceivedPosition(190, 154);
 	
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPERATION);
+	setCheckPosition(0, 0);
 	
   }
+  
+  
+
+  @Override
+  protected void onFloorChangedSetPatientOnHealingVisible(boolean wardVisible) {
+	getCurrentPatient().setVisible(false);
+  }
+
+
 
   @Override
   public void onWardReceivePatient(Patient patient) {

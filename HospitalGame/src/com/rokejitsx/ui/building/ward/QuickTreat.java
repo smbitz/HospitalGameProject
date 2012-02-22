@@ -22,9 +22,22 @@ public class QuickTreat extends Ward{
     addGameCharactorOnReceivedPosition(79, 173);
     
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_QUICKTREAT);
+    //setHealingSound(TREATMENT_QUICK);
+    setCheckPosition(0, 0);
     
   }
   
+  
+  
+/*  @Override
+  public void onFloorChanged(int floor) {	
+	super.onFloorChanged(floor);
+	Patient patient = getCurrentPatient();
+	if(pateint != null)
+  }*/
+
+
+
   @Override
   public void onFocus() {
 	mainSprite.stopAnimation(11);	

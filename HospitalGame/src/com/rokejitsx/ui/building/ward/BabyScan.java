@@ -30,6 +30,7 @@ public class BabyScan extends Ward{
 	addGameCharactorOnReceivedPosition(110, 99);
 	
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BABYSCAN);
+	setCheckPosition(0, 0);
   }
 
   @Override
@@ -83,6 +84,8 @@ public class BabyScan extends Ward{
     }else{
       mainSprite.onDraw(pGL, pCamera);
     }
+    
+    drawChecker(pGL, pCamera);
     
   }
   @Override

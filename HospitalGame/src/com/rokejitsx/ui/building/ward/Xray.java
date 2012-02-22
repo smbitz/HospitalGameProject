@@ -23,8 +23,14 @@ public class Xray extends Ward{
     addGameCharactorOnReceivedPosition(151, 120);
     
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_XRAY);
+    setCheckPosition(0, 0);
   } 
 
+  @Override
+  protected void onFloorChangedSetPatientOnHealingVisible(boolean wardVisible) {
+	getCurrentPatient().setVisible(false);
+  }
+  
   @Override
   public void onWardReceivePatient(Patient patient) {
 	// TODO Auto-generated method stub
@@ -68,6 +74,7 @@ public class Xray extends Ward{
 	  patient.onDraw(pGL, pCamera);	
 	}
 	mainSprite.onDraw(pGL, pCamera);
+	drawChecker(pGL, pCamera);
   }
 
 /*@Override

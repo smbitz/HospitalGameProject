@@ -26,6 +26,7 @@ public class Chemotherapy extends Ward{
     addGameCharactorOnReceivedPosition(103, 101);
     
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CHEMOTHERAPY);
+    setCheckPosition(0, 0);
     
   }
 
