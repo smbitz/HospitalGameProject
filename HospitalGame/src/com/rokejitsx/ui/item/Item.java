@@ -1,7 +1,6 @@
 package com.rokejitsx.ui.item;
 
 import com.rokejitsx.data.GameObject;
-import com.rokejitsx.ui.building.Checker;
 
 public abstract class Item extends GameObject{  	
   public static final int MEDICINE  		= 0;
@@ -26,8 +25,6 @@ public abstract class Item extends GameObject{
   private int type;
   private int patientNumber;
   private GameObject owner; 
-  private Checker checker;
-  
   
   public Item(int type,int patientNumber) {	
 	super(imgName[type]);
@@ -37,21 +34,6 @@ public abstract class Item extends GameObject{
 	  mainSprite.setCurrentTileIndex(type);
 	setWidth(mainSprite.getBaseWidth());
 	setHeight(mainSprite.getBaseHeight());
-	checker = new Checker(1);
-	checker.setPosition(getWidth() / 2 - checker.getWidth() / 2 , getHeight() / 2 - checker.getHeight() / 2);
-	attachChild(checker);
-  }
-  
-  public boolean isCanCheck(){
-    return checker.isCanCheck();	  
-  }
-  
-  public boolean checked(){
-    return checker.checked();	  
-  }
-  
-  public void unChecked(){
-    checker.unChecked();	  
   }
   
   public void setOwner(GameObject owner){
@@ -80,11 +62,9 @@ public abstract class Item extends GameObject{
       case INFOPLATE:
         return new InfoPlate(patientNumber);
       case DUST:
-        return new Dust();      
+        return new Dust();    
       case REPAIR_TOOL:
-        return new RepairTool();
-      case COFFEE:
-        return new Coffee();
+        return new Dust();//();
     }
 	return null;  
   }

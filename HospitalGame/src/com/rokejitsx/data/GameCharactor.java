@@ -142,9 +142,6 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
   
   public abstract void onSetFace(int face);
   public void setPositionOnBuildingReceived(float x, float y){}
-  public int getFaceDirection(){
-    return faceDirection;	  
-  }
   
   @Override
   public void onModifierStarted(IModifier<IEntity> pModifier, IEntity pItem) {
@@ -182,8 +179,7 @@ public abstract class GameCharactor extends GameObject implements IModifierListe
       return;
     if(gameCharactorListener == null)
       gameCharactorListener = new Vector<GameCharactorListener>();
-    if(!gameCharactorListener.contains(listener))
-      gameCharactorListener.add(listener);
+    gameCharactorListener.add(listener);
   }
   
   public void removeGameCharactorListener(GameCharactorListener listener){

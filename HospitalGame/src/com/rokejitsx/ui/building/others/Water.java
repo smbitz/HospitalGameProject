@@ -7,7 +7,7 @@ import com.rokejitsx.data.resource.ResourceManager;
 
 public class Water extends GameObject{ 
 	 
-  //private AnimatedSprite waterSprite;	
+  private AnimatedSprite waterSprite;	
 	  
   public Water(){
 	super(MONTAGE_WATER);

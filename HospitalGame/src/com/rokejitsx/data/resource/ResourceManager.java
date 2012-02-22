@@ -50,10 +50,6 @@ public class ResourceManager implements ImageResource{
    return self;
   }
   
-  public int[] getBuildingListInLevel(int hospitalId, int level){
-    return courseReader.getBuildingListInLevel(hospitalId, level);	  
-  }
-  
   public ObjectInfo getObjectInfo(int type){
     return infoReader.getObjectInfo(type);	  
   }
@@ -227,9 +223,8 @@ public class ResourceManager implements ImageResource{
   }
   
   private BitmapTextureAtlas loadTexture(String[] set,int[] bufferSize, int[][] imgPositionInAtlas,int[][] frameSizes, String resourceLocation, Hashtable<String , TiledTextureRegion> store){
-    /*BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(bufferSize[0], bufferSize[1], TextureOptions.BILINEAR);
-    BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(resourceLocation);*/
-	BitmapTextureAtlas mBitmapTextureAtlas = initBitmapTextureAtlas(bufferSize[0], bufferSize[1], TextureOptions.BILINEAR, resourceLocation);
+    BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(bufferSize[0], bufferSize[1], TextureOptions.BILINEAR);
+    BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(resourceLocation);
     for(int j = 0;j < set.length;j++){
       String imgName = set[j];      
       Log.d("RokejitsX", "imgName = "+imgName);
@@ -246,12 +241,6 @@ public class ResourceManager implements ImageResource{
     HospitalGameActivity.getGameActivity().getEngine().getTextureManager().loadTexture(mBitmapTextureAtlas);	 
     return mBitmapTextureAtlas;
 	  
-  }
-  
-  public static BitmapTextureAtlas initBitmapTextureAtlas(int bufferWidth, int bufferHeight, TextureOptions textureOptions, String resourceLocation){
-    BitmapTextureAtlas mBitmapTextureAtlas = new BitmapTextureAtlas(bufferWidth, bufferHeight, textureOptions);
-    BitmapTextureAtlasTextureRegionFactory.setAssetBasePath(resourceLocation);	  
-    return mBitmapTextureAtlas;
   }
 	
  	

@@ -5,7 +5,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import com.rokejitsx.data.GameObject;
 
 public class Food extends GameObject{
-  //private AnimatedSprite foodSprite;	
+  private AnimatedSprite foodSprite;	
 	
   public Food(){
 	super(MONTAGE_FOOD);  

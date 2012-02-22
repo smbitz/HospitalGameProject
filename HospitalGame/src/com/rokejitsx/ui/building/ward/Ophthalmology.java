@@ -30,7 +30,6 @@ public class Ophthalmology extends Ward{
 	addGameCharactorOnReceivedPosition(149, 90);
 	
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPHTHALMOLOGY);
-	setCheckPosition(0, 0);
   }
 
   @Override
@@ -81,7 +80,6 @@ public class Ophthalmology extends Ward{
 	}else{
 	  mainSprite.onDraw(pGL, pCamera);	
 	}
-	drawChecker(pGL, pCamera);
 	
   }
 

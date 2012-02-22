@@ -24,7 +24,6 @@ import android.provider.UserDictionary.Words;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
-import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
@@ -40,22 +39,8 @@ import com.rokejitsx.ui.nurse.Nurse;
 
 
 
-public class Patient extends GameCharactor implements PathFinderListener, IAnimationListener, SoundList{ 
+public class Patient extends GameCharactor implements PathFinderListener, IAnimationListener{ 
 	 
-  public static final int PATIENT_HEAD_MAN_1 		= 0;	
-  public static final int PATIENT_HEAD_MAN_2 		= 1;
-  public static final int PATIENT_HEAD_MAN_3 		= 2;
-  public static final int PATIENT_HEAD_MAN_4 		= 3;
-  public static final int PATIENT_HEAD_WOMAN_1 		= 4;
-  public static final int PATIENT_HEAD_WOMAN_2 		= 5;
-  public static final int PATIENT_HEAD_GRANDPA 		= 6;
-  public static final int PATIENT_HEAD_GRANNY 		= 7;
-  public static final int PATIENT_HEAD_BOY 			= 8;
-  public static final int PATIENT_HEAD_WOMAN_3 		= 9;
-  public static final int PATIENT_HEAD_ARAB 		= 10;
-  public static final int PATIENT_HEAD_WOMAN_4 		= 11;
-  public static final int PATIENT_HEAD_AFRO	   		= 12;
-	
   private final static String[][] bodyList = {
     {
       PATIENT_0_WALK,
@@ -116,7 +101,49 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
     
   };
   
+  /*private final static float[][][] neckOffset = {
+	{// PATIENT_0_WALK
+      {40.5f, 0}, 
+      {40.5f, 0}, 
+      {40.5f, -2}, 
+      {40.5f, -2}, 
+      {40.5f, 0}, 
+      {40.5f, 0}, 
+      {40.5f, -2},
+      {40.5f, -2},
+      {40.5f, 0},
+      {40.5f, 0},
+      {40.5f, -2},
+      {40.5f, -2},
+      {40.5f, 0},
+      {40.5f, 0},
+      {40.5f, -2},
+      {40.5f, -2}
+	},
+	{// PATIENT_0_BODY
+      {70.5f, -5}, 
+	  {70.5f, -5}, 
+	  {70.5f, -5}, 
+	  {70.5f, -5}, 
+	  {70.5f, -5}, 
+	  {70.5f, -5}, 
+	  {70.5f, -5},
+	  {70.5f, -5},
+	  {77.5f, -5},
+	  {77.5f, -5},
+	  {77.5f, -5},
+	  {77.5f, -5}	  
+	}
+		  
+  };*/
   
+  /*private final static int[] bodyAnimationIdleIds = {	  
+    66 //Patient_0	  
+  };*/
+    
+  
+  
+  //private float[][] neck;
   
   public final static String[] headList = {
     PATIENT_HEAD_0,	  
@@ -135,14 +162,12 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }; 
   
   
-  
-  
-  
-  
   private double healthLevel; // max 100
   private double feverLevel; // max 5  
-  private HealthBar healthBar;  
-  private NumberLineField queueNumber;  
+  private HealthBar healthBar;
+  //private ChangeableText queueNumber;
+  private NumberLineField queueNumber;
+  //private int queue;
   private PatientListener listener;
   private boolean canPick = false;    
   private Vector<HealingRoute> healingRouteList;
@@ -248,44 +273,6 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
     //setColor(1,1,1,1);
     idle(false);	 
     billCost = 0;
-  }
-  
-  public boolean isMan(){
-    return isHead(new int[]{PATIENT_HEAD_MAN_1, PATIENT_HEAD_MAN_2, PATIENT_HEAD_MAN_3, PATIENT_HEAD_MAN_4});   	  
-  }
-  
-  public boolean isWoman(){
-    return isHead(new int[]{PATIENT_HEAD_WOMAN_1, PATIENT_HEAD_WOMAN_2, PATIENT_HEAD_WOMAN_3, PATIENT_HEAD_WOMAN_4});	  
-  }
-  
-  public boolean isArab(){
-    return getHeadId() == PATIENT_HEAD_ARAB; 	  
-  }
-  
-  public boolean isAfro(){
-    return getHeadId() == PATIENT_HEAD_AFRO; 	  
-  }
-  
-  public boolean isBoy(){
-    return getHeadId() == PATIENT_HEAD_BOY; 	  
-  }
-  
-  public boolean isGrandpa(){
-	return getHeadId() == PATIENT_HEAD_GRANDPA;	  
-  }
-  
-  public boolean isGranny(){
-	return getHeadId() == PATIENT_HEAD_GRANNY;	  
-  }
-  
-  
-  private boolean isHead(int[] headList){
-    int headId = getHeadId();
-    for(int i = 0;i < headList.length;i++){
-      if(headId == headList[i])
-        return true;
-    }
-    return false;
   }
   
   public void setFeverLevel(int fever){
@@ -659,8 +646,8 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
       listener.onPatientMoveOut(this);
   } 
 
-  public HealingRoute addWardHealingRoute(int wardType){
-	HealingRoute healingRoute = new HealingRoute(wardType);
+  public HealingRoute addWardHealingRoute(int wardType, int floor){
+	HealingRoute healingRoute = new HealingRoute(wardType, floor);
 	healingRouteList.add(healingRoute);
     return healingRoute;
   }  
@@ -677,10 +664,9 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	onWaiting();	
 	setPickable(true);
     currentHealingRoute = healingRouteList.elementAt(0);
-    int floor = listener.onPatientRequestWard(currentHealingRoute.getWardType(), getCurrentFloor());
-    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), floor);
+    bubbleBox.setShowMachine(currentHealingRoute.getWardType(), currentHealingRoute.getFloor());
     setShowBubble(true);
-    if(hasRequireItem() && floor != -1){
+    if(hasRequireItem() && currentHealingRoute.getFloor() != -1){
       if(listener != null)
         listener.onPatientRequestItem(this);
       
@@ -808,7 +794,7 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   private float force = 0;
   //private boolean dragFlip = false;
   private float dragTime;
-  public boolean onDraged(float x, float y){
+  public void onDraged(float x, float y){
     //setPosition(x, y);	
     dragX = x;
     dragY = y;
@@ -833,15 +819,7 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
       
 	  int frame = (int)force + sequence[0];
 	  bodySprite.setCurrentTileIndex(frame);
-	  /*Log.d("RokejitsX", "drag force = "+(int)force);
-	  Log.d("RokejitsX", "drag frame = "+frame);
-	  Log.d("RokejitsX", "drag sequence = "+sequence.length);*/
-	  if((int)force == sequence.length - 1){
-		//Log.d("RokejitsX", "FORCE IS DANGEROUSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss");
-	    return true;
-	  }
-    }
-    return false;
+    }   
   }
   
   public void onUnPicked(){
@@ -1180,17 +1158,17 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   
   public class HealingRoute{
     private int wardType;
-    //private int floor; //-1 not have
+    private int floor; //-1 not have
     private Vector<Item> itemList;    
-    public HealingRoute(int wardType){
+    public HealingRoute(int wardType, int floor){
       this.wardType = wardType;	
       itemList = new Vector<Item>();
-      //this.floor = floor;
+      this.floor = floor;
     }	  
     
-    /*public int getFloor(){
+    public int getFloor(){
       return floor;	
-    }*/
+    }
     
     public int getWardType(){
       return wardType;      	

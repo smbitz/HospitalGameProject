@@ -5,8 +5,7 @@ import com.rokejitsx.ui.nurse.Nurse;
 
 public class Laundry extends Building{  
   public Laundry(){
-    super(LAUNDRY, 0); 
-    setCheckPosition(0, 0);
+    super(LAUNDRY, 0);    
   }
 
   @Override

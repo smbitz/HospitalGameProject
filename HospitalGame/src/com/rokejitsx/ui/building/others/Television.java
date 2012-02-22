@@ -6,7 +6,7 @@ import com.rokejitsx.data.GameObject;
 
 public class Television extends GameObject{
   
-  //private AnimatedSprite tvSprite;	
+  private AnimatedSprite tvSprite;	
 	  
   public Television(){
 	super(MONTAGE_TV);
