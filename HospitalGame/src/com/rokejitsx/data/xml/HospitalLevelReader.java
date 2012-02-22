@@ -8,7 +8,6 @@ import java.util.Vector;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.graphics.PointF;
-import android.text.style.BulletSpan;
 import android.util.Log;
 
 import com.rokejitsx.data.GameObject;
@@ -120,13 +119,13 @@ public class HospitalLevelReader extends XmlReader{
     Vector<String> dropAreaList 			= levelInfo.get("actionDropArea");
     Vector<String> equipment				= levelInfo.get("actionEquipmentID");
     Vector<String> posList 					= levelInfo.get("actionPos");
-    /*Vector<String> linkCountList 			= levelInfo.get("actionLinkCount");
-    Vector<String> linkPointList 			= levelInfo.get("actionLinkPoint");*/
+    Vector<String> linkCountList 			= levelInfo.get("actionLinkCount");
+    Vector<String> linkPointList 			= levelInfo.get("actionLinkPoint");
     Vector<String> actionPatientNodeList	= levelInfo.get("actionPatientNode");
     Vector<String> actionNodeList 			= levelInfo.get("actionNode");
     Vector<String> nodePosList 				= levelInfo.get("nodePos");
     Vector<String> connectionList 			= levelInfo.get("connectsTo");
-    Vector<String> enableBuildingList		= levelInfo.get("actionEnabled");
+    
     /*Vector actionEnabledList = levelInfo.get("ActionEnabled");
     Vector*/ 
     
@@ -148,41 +147,12 @@ public class HospitalLevelReader extends XmlReader{
     setBuildingActionNode(actionNodeList, dropAreaBuildingList);
     setBuildingActionNode(actionNodeList, equipmentList);
     
-    setBuildingEnable(enableBuildingList, fixBuildingList);
-    setBuildingEnable(dropAreaBuildingList, true);
-    setBuildingEnable(enableBuildingList, equipmentList);
     /*setBuildingFloor(buildingFloorList, fixBuildingList);
     setBuildingFloor(buildingFloorList, dropAreaBuildingList);
     setBuildingFloor(buildingFloorList, equipmentList);*/
     
     initRoute(nodePosList);
     setNodeConnection(connectionList);
-  }
-  private void setBuildingEnable(Hashtable<String, BuildingInfo> buildingListInfo, boolean enable){
-    Enumeration<BuildingInfo> e = buildingListInfo.elements();
-    while(e.hasMoreElements()){
-      e.nextElement().setEnable(enable);	
-    }
-  }
-  private void setBuildingEnable(Vector<String> enableBuildingList, Hashtable<String, BuildingInfo> buildingListInfo){
-    Enumeration<String> e = enableBuildingList.elements();
-    while(e.hasMoreElements()){
-      String[] info = StringUtil.stringToStringArray(e.nextElement());
-      int actId = Integer.parseInt(info[0]);
-      boolean enable = Integer.parseInt(info[1]) == 1;
-      BuildingInfo buildingInfo = buildingListInfo.get(""+actId);
-      if(buildingInfo != null){    	  
-        buildingInfo.setEnable(enable);	  
-      }
-      /*Enumeration<BuildingInfo> e2 = buildingListInfo.elements();
-      while(e2.hasMoreElements()){
-        BuildingInfo buildingInfo = e2.nextElement();
-        if(buildingInfo.getActId() == actId)
-          buildingInfo.setEnable(enable);
-      }*/
-      
-      
-    }
   }
   
   private void setNodeConnection(Vector<String> connectionList){
@@ -302,7 +272,7 @@ public class HospitalLevelReader extends XmlReader{
     int buildingType = Integer.parseInt(info[1]);
     BuildingInfo building = buildingListInfo.get(info[0]);
     if(building == null){    	
-      building = new BuildingInfo(Integer.parseInt(info[0]), buildingType);
+      building = new BuildingInfo(buildingType);
       if(building != null){
     	building.setFloor(floor);
         buildingListInfo.put(info[0], building);
@@ -354,19 +324,14 @@ public class HospitalLevelReader extends XmlReader{
   }*/
   
   public class BuildingInfo{
-    private int actId, buildingId, floor, actionNode, patientActionNode;
+    private int buildingId, floor, actionNode, patientActionNode;
     private float posX,posY;
     private boolean enable;
     //private float buildingFloorX, buildingFloorY;
     
-    public BuildingInfo(int actId, int id){
-      this.actId = actId;
+    public BuildingInfo(int id){
       this.buildingId = id;	
     }    
-    
-    public int getActId(){
-      return actId; 	
-    }
     
     /*public void setBuildingFloor(float x, float y){
       buildingFloorX = x;
@@ -389,8 +354,6 @@ public class HospitalLevelReader extends XmlReader{
       actionNode = node;	
     }
     
-    
-    
     public void setPatientActionNoed(int node){
       patientActionNode = node;	
     }
@@ -405,10 +368,6 @@ public class HospitalLevelReader extends XmlReader{
     
     public int getBuildingId(){
       return buildingId; 	
-    }
-    
-    public void setBuildingId(int id){
-      buildingId = id;	
     }
     
     public void setFloor(int floor){

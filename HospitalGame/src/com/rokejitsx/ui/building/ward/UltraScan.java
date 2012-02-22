@@ -34,7 +34,6 @@ public class UltraScan extends Ward{
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(119, 140);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_ULTRA_SCAN);
-	setCheckPosition(0, 0);
   }
 
   @Override
@@ -84,7 +83,6 @@ public class UltraScan extends Ward{
 	  patient.onDraw(pGL, pCamera);  	
 	}
 	ultraScan.onDraw(pGL, pCamera);
-	drawChecker(pGL, pCamera);
 	
   }
   @Override

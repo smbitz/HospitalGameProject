@@ -76,8 +76,8 @@ public class UpperPhamacy extends Pharmacy{
   @Override
   public void setItemPosition(Item item, int prepareQueue) {
 	float[] off = offset[prepareQueue];
-	//Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
-    item.setPosition(/*getX() + */off[0] - item.getWidth()/2, /*getY() + */off[1] - item.getHeight()/2);		
+	Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
+    item.setPosition(getX() + off[0] - item.getWidth()/2, getY() + off[1] - item.getHeight()/2);		
   }
   
   @Override

@@ -29,7 +29,7 @@ public class NumberLineField extends Rectangle{
   public void setNumber(int number){
 	numberValue = number;
     //int divine = 10;
-    //Log.d("RokejitsX", "number = "+number);
+    Log.d("RokejitsX", "number = "+number);
     for(int i = numbers.length - 1;i >= 0;i--){
       NumberField numberField = numbers[i];
       

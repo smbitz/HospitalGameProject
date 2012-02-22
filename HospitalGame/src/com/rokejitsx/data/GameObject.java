@@ -1,10 +1,5 @@
 package com.rokejitsx.data;
 
-import org.anddev.andengine.entity.Entity;
-import org.anddev.andengine.entity.IEntity;
-import org.anddev.andengine.entity.modifier.AlphaModifier;
-import org.anddev.andengine.entity.modifier.LoopEntityModifier;
-import org.anddev.andengine.entity.modifier.SequenceEntityModifier;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
@@ -14,18 +9,16 @@ import org.anddev.andengine.util.HorizontalAlign;
 
 import android.util.Log;
 
-import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.data.resource.ImageResource;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
-import com.rokejitsx.ui.hospital.HospitalGamePlay.FloorChangeListener;
+import com.rokejitsx.ui.hospital.Hospital.FloorChangeListener;
 
-public class GameObject extends Rectangle implements FloorChangeListener, ImageResource, SoundList{
+public class GameObject extends Rectangle implements FloorChangeListener, ImageResource{
   private int currentFloor;
     
   private ChangeableText infoText;
   protected AnimatedSprite mainSprite;
-  //private NumberField numField;
   public GameObject(String spriteName){
     this(0, 0, 0, 0, spriteName);	  
     	  
@@ -43,7 +36,7 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
     }
     Shape body = onInitialBody(mainSprite);
     if(body != null){
-      infoText = new ChangeableText(0, 0, GameFonts.getInstance().getFont(GameFonts.DEFALUT_BOLD_18_BLACK), "", HorizontalAlign.CENTER, 100);
+      infoText = new ChangeableText(0, 0, GameFonts.getInstance().getFont(), "", HorizontalAlign.CENTER, 100);
 	  body.attachChild(infoText);
       attachChild(body);    
     
@@ -54,28 +47,6 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
     
     setColor(0, 0, 0, 0);
   } 
-  
-  private LoopEntityModifier readyUpgrade;
-  public void setGameObjectReadyToUpgrade(boolean ready){
-    if(ready){
-      readyUpgrade = new LoopEntityModifier(new SequenceEntityModifier(new AlphaModifier(0.5f, 0.2f, 0.1f), new AlphaModifier(1.0f, 0.1f, 0.2f)));      
-      for(int i = 0; i < getChildCount();i++){
-        IEntity iEntity = getChild(i);
-        if(iEntity instanceof AnimatedSprite)
-          iEntity.registerEntityModifier(readyUpgrade);
-      }
-    }else{
-      if(readyUpgrade == null)
-        return; 
-      for(int i = 0; i < getChildCount();i++){
-        IEntity iEntity = getChild(i);       
-        if(iEntity instanceof AnimatedSprite){
-          iEntity.unregisterEntityModifier(readyUpgrade);
-          iEntity.setAlpha(1.0f);
-        }
-      }	
-    }  	  
-  }
   
   protected void setAnimation(AnimatedSprite sprite, AnimationInfo animInfo){
     //AnimationInfo animInfo = ResourceManager.getInstance().getAnimationInfo(animationId);		
@@ -103,14 +74,6 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
       sprite.animate(fps, sequence, doLoop, listener);
     }
   }
-  
-  /*public void clearEntityModifiers(){
-    for(int i = 0;i < getChildCount();i++){
-      IEntity e = getChild(i);
-      e.clearEntityModifiers();
-    }	  
-    super.clearEntityModifiers();
-  }*/
   
   
   

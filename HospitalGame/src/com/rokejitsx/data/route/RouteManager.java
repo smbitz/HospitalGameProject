@@ -87,11 +87,8 @@ public class RouteManager {
 	for(int i = 0;i < routeList.length; i++){
       routeList[i] = routes.elementAt(i).clone();    		
 	}
-    /*PathFinder finder = new PathFinder(this, routeList);
-    finder.startFindPath(from, to, listener);*/
-	PathFinder2 finder = new PathFinder2(this, routeList);
+    PathFinder finder = new PathFinder(this, routeList);
     finder.startFindPath(from, to, listener);
-	
   }
   
 }

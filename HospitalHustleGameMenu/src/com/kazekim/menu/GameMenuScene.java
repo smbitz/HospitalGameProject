@@ -25,7 +25,7 @@ import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.data.UserMissionSkeleton;
 import com.kazekim.ui.TextButton;
 
-public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnAreaTouchListener,BriefMenuListener,PauseMenuListener,EndMissionMenuListener{ 
+public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnAreaTouchListener,BriefMenuListener,PauseMenuListener,EndMissionMenuListener,ShopMenuListener{ 
 	  
 	  
 	  private BaseGameActivity activity;
@@ -38,6 +38,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	  private EndMissionMenu endMissionMenu;
 	  
 	  private boolean isEndGame=false;
+	  private boolean isOpenShop=false;
 	  
 	  public GameMenuScene(final BaseGameActivity activity){	
 		  
@@ -142,6 +143,33 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	   nextGameButton.setScale(1);
 		this.attachChild(nextGameButton);
 		scene.registerTouchArea(nextGameButton);
+		
+		
+		final ShopMenu shopMenu = new ShopMenu(activity);
+		shopMenu.setShopMenuListener(this);
+		
+		BitmapTextureAtlasEx layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
+		
+		TiledTextureRegion shopMenuButtonTextureRegion = layoutBitmapTextureAtlas5.appendTiledAsset(activity, "daminibuttons.png", 3, 1);  
+		TextButton shopMenuButton = new TextButton(InitialVal.CAMERA_WIDTH-200, InitialVal.CAMERA_HEIGHT-200, shopMenuButtonTextureRegion,lcdFont,"Shop"){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				if(!isOpenShop){
+					
+					setChildScene(shopMenu);
+					isOpenShop=true;
+				}
+				return true;
+				
+			}
+	   };
+	 
+
+	   shopMenuButton.setScale(1);
+		this.attachChild(shopMenuButton);
+		scene.registerTouchArea(shopMenuButton);
 	   
 	  }
 	  
@@ -209,23 +237,30 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 
 	@Override
 	public void onRetryButtonClick(EndMissionMenu endMissionMenu) {
-		// TODO Auto-generated method stub
 		isEndGame=false;
 
 	}
 
 	@Override
 	public void onNextMissionButtonClick(EndMissionMenu endMissionMenu) {
-		// TODO Auto-generated method stub
 		isEndGame=false;
 
 	}
 
 	@Override
 	public void onMainMenuButtonClick(EndMissionMenu endMissionMenu) {
-		// TODO Auto-generated method stub
 		isEndGame=false;
 
+	}
+
+	@Override
+	public void onContinueButtonClick(ShopMenu shopMenu) {
+		isOpenShop=false;
+	}
+
+	@Override
+	public void onBuyButtonClick(ShopMenu shopMenu, int buildingNumber) {
+		isOpenShop=false;
 	}
 
 

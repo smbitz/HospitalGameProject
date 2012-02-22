@@ -2,19 +2,17 @@ package com.rokejitsx.ui.building.ward;
 
 import javax.microedition.khronos.opengles.GL10;
 
-import org.anddev.andengine.audio.sound.Sound;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.entity.shape.Shape;
 import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
-import com.rokejitsx.audio.SoundPlayerManager;
+import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.global.GlobalsXmlReader;
 import com.rokejitsx.ui.patient.Patient;
 
 public class Bed extends Ward{
   private AnimatedSprite graficoSprite,bedSprite;	
-  //private Sound beepSound;
   public Bed(){    	  
 	super(BED, 1);
 	graficoSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MONTAGE_GRAFICO));
@@ -46,8 +44,7 @@ public class Bed extends Ward{
     
     addGameCharactorOnReceivedPosition(90, 44);
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BED);
-    //beepSound = SoundPlayerManager.getInstance().createSound(TREATMENT_BED);
-    setCheckPosition(0, 0);    
+    
   } 
   
   /*@Override
@@ -88,9 +85,7 @@ public class Bed extends Ward{
 
   @Override
   public void onHealing(float pSecondsElapsed) {
-    if(graficoSprite.getCurrentTileIndex() == 2){
-     // beepSound.play();	
-    }
+	// TODO Auto-generated method stub
 	
   }
 
@@ -125,8 +120,7 @@ public class Bed extends Ward{
     if(getCurrentPatient() != null && !getCurrentPatient().isOnPick())
       getCurrentPatient().onDraw(pGL, pCamera);
     bedSprite.onDraw(pGL, pCamera);
-    numField.onDraw(pGL, pCamera);
-    drawChecker(pGL, pCamera);
+    
   }
 
   @Override

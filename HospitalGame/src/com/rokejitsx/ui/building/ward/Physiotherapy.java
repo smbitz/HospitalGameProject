@@ -21,7 +21,6 @@ public class Physiotherapy extends Ward{
 	setState(STATE_IDLE);
 	addGameCharactorOnReceivedPosition(116, 109);
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PHYSIOTHERAPY);
-	setCheckPosition(0, 0);
 	//setColor(1, 1, 1, 1);
   }
 

@@ -1,5 +1,6 @@
 package com.rokejitsx.ui.building.transport;
 
+import com.rokejitsx.data.GameCharactor;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
 

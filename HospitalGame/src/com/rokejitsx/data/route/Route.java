@@ -1,26 +1,18 @@
 package com.rokejitsx.data.route;
 
 
-
 public class Route {
   private float x,y;
   private Route parent;
   private int index;
-  private float distanceFromParent;
+  
   
   public Route(int index){
     setIndex(index);	  
   }	
   
-  public void setDistance(float distance){
-    this.distanceFromParent = distance;	  
-  }
   
-  public float getDistanceFromStart(){  
-    if(hasParent())	  
-      return distanceFromParent + parent.getDistanceFromStart();	
-    return 0;
-  }
+  
   
   
   public Route setIndex(int index){

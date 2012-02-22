@@ -28,7 +28,6 @@ public class Cardiology extends Ward{
 	addGameCharactorOnReceivedPosition(119, 103);
 	
 	initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CARDIOLOGY);
-	setCheckPosition(0, 0);
   }
 
   @Override
@@ -82,7 +81,6 @@ public class Cardiology extends Ward{
     }else{
       mainSprite.onDraw(pGL, pCamera);
     }
-    drawChecker(pGL, pCamera);
     
   }
 

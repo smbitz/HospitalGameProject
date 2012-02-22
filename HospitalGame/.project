@@ -34,17 +34,17 @@
 		<link>
 			<name>andengine_res</name>
 			<type>2</type>
-			<location>E:/workspace/workspace android/AndEngine/res</location>
+			<location>/Users/kazekim/Desktop/workspace/HospitalGameProject/HospitalGame/src</location>
 		</link>
 		<link>
 			<name>andengine_src</name>
 			<type>2</type>
-			<location>E:/workspace/workspace android/AndEngine/src</location>
+			<location>/Users/kazekim/Desktop/workspace/HospitalGameProject/HospitalGame/src</location>
 		</link>
 		<link>
 			<name>src_andengine</name>
 			<type>2</type>
-			<location>E:/workspace/workspace android/AndEngine/src</location>
+			<location>/Users/kazekim/Desktop/workspace/AndEngine/src</location>
 		</link>
 	</linkedResources>
 </projectDescription>

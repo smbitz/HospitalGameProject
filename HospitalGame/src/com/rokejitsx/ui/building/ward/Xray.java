@@ -23,7 +23,6 @@ public class Xray extends Ward{
     addGameCharactorOnReceivedPosition(151, 120);
     
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_XRAY);
-    setCheckPosition(0, 0);
   } 
 
   @Override
@@ -69,7 +68,6 @@ public class Xray extends Ward{
 	  patient.onDraw(pGL, pCamera);	
 	}
 	mainSprite.onDraw(pGL, pCamera);
-	drawChecker(pGL, pCamera);
   }
 
 /*@Override

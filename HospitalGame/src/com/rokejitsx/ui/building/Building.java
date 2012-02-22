@@ -1,11 +1,11 @@
 package com.rokejitsx.ui.building;
 
+import java.util.Enumeration;
 import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
 import org.anddev.andengine.engine.camera.Camera;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
 
 import android.util.Log;
 
@@ -40,7 +40,6 @@ import com.rokejitsx.ui.building.ward.UltraScan;
 import com.rokejitsx.ui.building.ward.Xray;
 import com.rokejitsx.ui.building.ward.pharmacy.FirstPharmacy;
 import com.rokejitsx.ui.building.ward.pharmacy.UpperPhamacy;
-import com.rokejitsx.ui.patient.NumberLineField;
 import com.rokejitsx.ui.patient.Patient;
 
 public abstract class Building extends GameObject implements GameCharactorListener{
@@ -144,10 +143,6 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   private int focusTileIndex;
   private Vector<float[]> gameCharactorOnReceivedPositionList;
-  protected NumberLineField numField;
-  private Checker checker;
-  
-  
   
   public Building(int type, int visitorCount){
 	super(buildingImgNameList[type]);
@@ -156,41 +151,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
     if(visitorCount > 0)
       visitors = new GameObject[visitorCount];    
     
-    numField = new NumberLineField(2);
-    numField.setPosition(0, 0);
-    numField.setNumber(1);
-    attachChild(numField);    
   } 
-  
-  protected void setCheckPosition(float x, float y){
-	if(checker == null){
-      checker = new Checker(5);
-      attachChild(checker);
-	}	
-	checker.setPosition(x, y);
-  }  
-  
-  public boolean isCanCheck(){
-    if(checker != null)
-      return checker.isCanCheck();
-    return false;	  
-  }
-  
-  public boolean checked(){
-    if(checker != null)
-      return checker.checked();
-    return false;
-  }
-  
-  public void unChecked(){
-    if(checker != null)
-      checker.unChecked();
-  }
-  
-  
-  public void setNum(int num){
-    numField.setNumber(num);	   
-  }
   
   protected void addGameCharactorOnReceivedPosition(float x, float y){
     if(gameCharactorOnReceivedPositionList == null)
@@ -243,7 +204,6 @@ public abstract class Building extends GameObject implements GameCharactorListen
   protected void setDirtyAnimationId(int id){
     animationIds[STATE_DIRTY] = id;	  
   }
-  
   
   
   
@@ -490,12 +450,13 @@ public abstract class Building extends GameObject implements GameCharactorListen
     
   }
   
+  
+  
+  
   protected boolean onReceive(GameCharactor gameChar){
     return false;
   }  
   protected void onRemove(GameCharactor gameChar){}
-  
-  
   
   
   @Override
@@ -512,17 +473,9 @@ public abstract class Building extends GameObject implements GameCharactorListen
  	    
  	  }
  	  
- 	  drawChecker(pGL, pCamera);
  	  
  	//}
   }
-  
-  protected void drawChecker(GL10 pGL, Camera pCamera){
-    if(checker != null)
-      checker.onDraw(pGL, pCamera);
-  }
-  
-  
   
   public void myOnApplyTransformations(GL10 pGL){
     onApplyTransformations(pGL);	  
@@ -531,7 +484,47 @@ public abstract class Building extends GameObject implements GameCharactorListen
   
   
   public static GameObject createBuildingObject(int type, int hospitalLevel){
-    switch(type){    
+    switch(type){
+    
+    
+    /*public final static int NONE				= 0;
+    public final static int BED				= 1;
+    public final static int CHAIR				= 2; 
+    public final static int XRAY				= 3;
+    public final static int QUICKTREAT		= 4;
+    public final static int GLASSDOOR			= 5;
+    public final static int OUTSIDE			= 6;
+    public final static int TRIAGE			= 7;
+    public final static int ELEVATOR 			= 8;
+    public final static int OUTSIDE_ELEVATOR	= 9;
+    public final static int LAUNDRY			= 10;
+    public final static int PHARMACY			= 11;
+    public final static int AMBULANCE			= 12;
+    public final static int PLANT				= 13;
+    public final static int CLOSET			= 14;
+    public final static int WATER				= 15;
+    public final static int FOOD				= 16;	
+    public final static int TAC				= 17;
+    public final static int GARBAGE			= 18;
+    public final static int PHYSIOTHERAPY		= 19;
+    public final static int OPHTHALMOLOGY		= 20;
+    public final static int PSYCHIATRY		= 21;
+    public final static int CHEMOTHERAPY		= 22;
+    public final static int BABY_SCAN			= 23;
+    public final static int DENTIST			= 24;
+    public final static int CARDIOLOGY		= 25;
+    public final static int OPERATION			= 26;
+    public final static int CLOSET1			= 27;
+    public final static int CLOSET2			= 28;
+    public final static int CLOSET3			= 29;
+    public final static int CLOSET4			= 30;
+    public final static int ULTRASCAN			= 31;
+    public final static int UPPER_PHARMACY	= 32;
+    public final static int STRETCHER			= 33;
+    public final static int TELEVISION		= 34;
+    public final static int HELICOPTER		= 35;
+    public final static int MAX_BUILDING		= 36;*/
+    
       case Building.BED:					//1
         return new Bed();
       case Building.CHAIR:					//2    	  
@@ -559,7 +552,7 @@ public abstract class Building extends GameObject implements GameCharactorListen
       case Building.PLANT:					//13
         return new Plant();
       case Building.WATER:					//15
-        return new Water();
+        return null;/*new Water();*/
       case Building.FOOD:					//16
         return new Food();
       case Building.TAC:					//17
@@ -603,58 +596,5 @@ public abstract class Building extends GameObject implements GameCharactorListen
 	
 	
   }
-  
-  public static AnimatedSprite getMachineThumbnail(int buildingType){
-    AnimatedSprite machineField = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(MACHINES));
-    int frame = 0;
-    switch(buildingType){
-      case Building.PHYSIOTHERAPY:
-        frame = 1;
-      break;
-      case Building.OPHTHALMOLOGY:
-        frame = 3;
-      break;
-      case Building.OPERATION:
-        frame = 5;
-      break;
-      case Building.CHEMOTHERAPY:
-        frame = 7;
-      break;
-      case Building.TAC:
-        frame = 9;
-      break;
-      case Building.PSYCHIATRY:
-        frame = 11;
-      break;
-      case Building.ULTRASCAN:
-        frame = 13;
-      break;
-      case Building.BABY_SCAN:
-        frame = 15;
-      break;
-      case Building.CARDIOLOGY:
-        frame = 17;
-      break;
-      case Building.DENTIST:
-        frame = 19;
-      break;
-      case Building.XRAY:
-        frame = 21;
-      break;
-      case Building.BED:
-        frame = 23;
-      break;
-      case Building.QUICKTREAT:
-        frame = 31;
-      break;
-      case Building.TRIAGE:
-        frame = 32;
-      break;      
-    }
-    machineField.setCurrentTileIndex(frame);
-    return machineField;
-  }
-  
-  
   
 }

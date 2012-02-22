@@ -5,7 +5,7 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import com.rokejitsx.data.GameObject;
 
 public class Plant extends GameObject{
-  //private AnimatedSprite plantSprite;	
+  private AnimatedSprite plantSprite;	
   
   public Plant(){
 	super(MONTAGE_PLANT);

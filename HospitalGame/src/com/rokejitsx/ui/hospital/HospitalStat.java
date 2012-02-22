@@ -80,14 +80,6 @@ public class HospitalStat extends Rectangle implements ImageResource{
     goalPatientField.setNumber(goal);
   }
   
-  public int getTreatedPatient(){
-    return threatedPatient;	  
-  }
-  
-  public int getGoalPatient(){
-    return goalPatient;	  
-  }
-  
   public void setExpertPatient(int expert){
     expertPateint = expert;	  
   }

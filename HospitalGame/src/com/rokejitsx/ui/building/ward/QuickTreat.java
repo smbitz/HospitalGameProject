@@ -22,8 +22,6 @@ public class QuickTreat extends Ward{
     addGameCharactorOnReceivedPosition(79, 173);
     
     initialFromGlobal(GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_QUICKTREAT);
-    //setHealingSound(TREATMENT_QUICK);
-    setCheckPosition(0, 0);
     
   }
   
