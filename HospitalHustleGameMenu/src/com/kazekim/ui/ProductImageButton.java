@@ -65,7 +65,7 @@ public class ProductImageButton extends ImageButton {
 					break;
 				}
 			}
-			tiledImageOnLayer.setCurrentTileIndex(0);
+			tiledImageOnLayer.setCurrentTileIndex(chooseIndex);
 		}else{
 			setVisible(false);
 		}
@@ -96,4 +96,5 @@ public class ProductImageButton extends ImageButton {
 			attachChild(layer1);
 		}
 	}
+	
 }

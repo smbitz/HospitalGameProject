@@ -3,7 +3,6 @@ package com.kazekim.menu;
 import java.util.ArrayList;
 
 import org.anddev.andengine.entity.scene.Scene;
-import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.sprite.TiledSprite;
 import org.anddev.andengine.entity.text.Text;
@@ -41,6 +40,8 @@ public class ShopMenu  extends Scene {
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas8;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas9;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas10;
+	private BitmapTextureAtlasEx layoutBitmapTextureAtlas11;
+	private BitmapTextureAtlasEx layoutBitmapTextureAtlas12;
 	
 	private Text buyTabTitleText;
 	private Text sellTabTitleText;
@@ -57,13 +58,14 @@ public class ShopMenu  extends Scene {
 	
 	private TextButton continueButton;
 	
-	// Buy Tab Environment
+	// Buy / Sell Tab Environment
 	
 	 private TiledSprite arrowUp;
 	 private TiledSprite arrowDown;
 	 
 	 private TiledSprite productDetailImage;
 	 private TextButton buyButton; 
+	 private TextButton sellButton; 
 	 private Sprite detailFrame;
 	 private Text productName;
 	 private Text productCost;
@@ -72,8 +74,44 @@ public class ShopMenu  extends Scene {
 	 private TiledTextureRegion productDetailTextureRegion;
 	 
 	 private ProductImageButton[] productSelectButton;
+	 
+	 private int maxBuyPage=1;
+	 private int curBuyPage=1;
+	 private int maxSellPage=1;
+	 private int curSellPage=1;
+	 private ArrayList<Integer> buyItems;
+	 private ArrayList<Boolean> haveItems;
+	 private ArrayList<Integer> currentItems;
 	
+	 // Expense  Tab Environment
+	 
+	 private int pharmacyValue = 0;
+	 private int salariesValue = 0;
+	 private int totalValue = 0;
+	 
+	 private TextButton pharmacyExpense;
+	 private TextButton salariesExpense;
+	 private TextButton totalExpense;
+	 
+	 private TextButton pharmacyValueScreen;
+	 private TextButton salariesValueScreen;
+	 private TextButton totalValueScreen;
+	 
+	 // Outfit Tab Environment
+	 
+	 private int redValue= 0;
+	 private int greenValue= 0;
+	 private int blueValue= 0;
+	 
+	 private TextButton redOutfitScroll;
+	 private TextButton greenOutfitScroll;
+	 private TextButton blueOutfitScroll;
+	 
 	//Other Environment
+	 
+	 private TiledTextureRegion screenValueTextureRegion;
+	 private TiledTextureRegion textTitleTextureRegion;
+	 private TiledTextureRegion colorTextureRegion;
 	 
 	 private int oldActivatedTab=-1;
 	  
@@ -86,10 +124,12 @@ public class ShopMenu  extends Scene {
 	  
 	  private int buildingNumber=Building.NONE;
 	  
-	  private static final int BUYTAB=0;
-	  private static final int SELLTAB=1;
-	  private static final int EXPENSESTAB=2;
-	  private static final int OUTFITTAB=3;
+	  public static final int BUYTAB=0;
+	  public static final int SELLTAB=1;
+	  public static final int EXPENSESTAB=2;
+	  public static final int OUTFITTAB=3;
+	  
+	  private boolean isLoadFinish=true;
 
 	public ShopMenu(BaseGameActivity activity){
 		this.activity=activity;
@@ -97,6 +137,12 @@ public class ShopMenu  extends Scene {
 		
 		setFont();
 		setBackgroundEnabled(false);
+		
+		layoutBitmapTextureAtlas7 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas7);
+		
+		colorTextureRegion =layoutBitmapTextureAtlas7.appendTiledAsset(activity, "sliderback.png", 1, 1);
 		
 		layoutBitmapTextureAtlas = new BitmapTextureAtlasEx(4096, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -106,31 +152,42 @@ public class ShopMenu  extends Scene {
 		shopMenuTab = new TiledSprite(0,0 , shopTabTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				int myEventAction = pSceneTouchEvent.getAction(); 
-		        switch (myEventAction) {
-		           case MotionEvent.ACTION_DOWN:
-		        	break;
-		           case MotionEvent.ACTION_MOVE: {
-		            	break;}
-		           case MotionEvent.ACTION_UP:
-		        	   if(pTouchAreaLocalX<shopMenuTab.getWidth()/4){
-		        		   shopMenuTab.setCurrentTileIndex(0);
-		        		   activateBuyTab();
-		        	   }else if(pTouchAreaLocalX<shopMenuTab.getWidth()/2){
-		        		   shopMenuTab.setCurrentTileIndex(1);
-		        		   activateSellTab();
-		        	   }else if(pTouchAreaLocalX<shopMenuTab.getWidth()*3/4){
-		        		   shopMenuTab.setCurrentTileIndex(2);
-		        		   activateExpensesTab();
-		        	   }else{
-		        		   shopMenuTab.setCurrentTileIndex(3);
-		        		   activateOutfitTab();
-		        	   }
-		        	   
-		        	   
-
-		                break;
-		        }
+				if(isLoadFinish){
+					int myEventAction = pSceneTouchEvent.getAction(); 
+			        switch (myEventAction) {
+			           case MotionEvent.ACTION_DOWN:
+			        	break;
+			           case MotionEvent.ACTION_MOVE: {
+			            	break;}
+			           case MotionEvent.ACTION_UP:
+			        	   isLoadFinish=false;
+			        	   if(pTouchAreaLocalX<shopMenuTab.getWidth()/4){
+			        		   shopMenuTab.setCurrentTileIndex(0);
+			        		   oldActivatedTab=BUYTAB;
+			        		   curBuyPage=1;
+			        		   changeBuyPage(curBuyPage);
+			        		   activateDealTab();
+			        		   
+			        	   }else if(pTouchAreaLocalX<shopMenuTab.getWidth()/2){
+			        		   shopMenuTab.setCurrentTileIndex(1);
+			        		   oldActivatedTab=SELLTAB;
+			        		   curSellPage=1;
+			        		   changeSellPage(curSellPage);
+			        		   activateDealTab();
+			
+			        	   }else if(pTouchAreaLocalX<shopMenuTab.getWidth()*3/4){
+			        		   shopMenuTab.setCurrentTileIndex(2);
+			        		   activateExpensesTab();
+			        	   }else{
+			        		   shopMenuTab.setCurrentTileIndex(3);
+			        		   activateOutfitTab();
+			        	   }
+			        	   
+			        	   
+	
+			                break;
+			        }
+				}
 				return true;
 				
 			}
@@ -207,15 +264,27 @@ public class ShopMenu  extends Scene {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
 		
-		TiledTextureRegion currentFundsTitleTextureRegion =layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);
-		currentFundsTitle = new TextButton(0,0, currentFundsTitleTextureRegion,lcdFont,"Current Funds");	
+		textTitleTextureRegion =layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);
+		currentFundsTitle = new TextButton(0,0, textTitleTextureRegion.deepCopy(),lcdFont,"Current Funds");	
 		currentFundsTitle.setPosition(shopMenuBorder.getWidth()/2-currentFundsTitle.getWidth()+20, 0);
 		currentFundsTitle.setScale(1);
+		currentFundsTitle.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(currentFundsTitle);
+		
+		layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
+		
+		screenValueTextureRegion =layoutBitmapTextureAtlas5.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1);
 		
 		setFund("0");
 		
-		activateBuyTab();
+		newBuyItemList();
+		newCurrentItemList();
+		
+		oldActivatedTab=BUYTAB;
+		activateDealTab();
+		
 	}
 	
 	public void setFund(String value){
@@ -225,31 +294,41 @@ public class ShopMenu  extends Scene {
 			activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas5);
 		}
 		
-		layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
 		
-		TiledTextureRegion currentFundsValueTextureRegion =layoutBitmapTextureAtlas5.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1);
-		currentFundsValue = new TextButton(0,0, currentFundsValueTextureRegion,lcdFont,value);	
+		currentFundsValue = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,value);	
 		currentFundsValue.setPosition(shopMenuBorder.getWidth()/2, 13);
 		currentFundsValue.setScale(1);
 		currentFundsValue.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(currentFundsValue);
 	}
 	
-	public void activateBuyTab(){
+	public void activateDealTab(){
 		detachOldEnvironment();
-		oldActivatedTab=BUYTAB;
 		
 		if(layoutBitmapTextureAtlas6!=null){
 			shopMenuBorder.attachChild(detailFrame);
-			shopMenuBorder.attachChild(buyButton);
+			
+			
+			
+			if(oldActivatedTab==BUYTAB){
+				shopMenuBorder.attachChild(buyButton);
+				//sellButton.setVisible(false);
+				buyButton.setVisible(true);
+			}else{
+				shopMenuBorder.attachChild(sellButton);
+				sellButton.setVisible(true);
+				//buyButton.setVisible(false);
+
+			}
+			
 			shopMenuBorder.attachChild(arrowUp);
 			shopMenuBorder.attachChild(arrowDown);
 			
 			for(int i=0;i<9;i++){
 				shopMenuBorder.attachChild(productSelectButton[i]);
 			}
+			
+			isLoadFinish=true;
 			return;
 		}
 		
@@ -265,36 +344,65 @@ public class ShopMenu  extends Scene {
 		shopMenuBorder.attachChild(detailFrame);
 		
 		TiledTextureRegion continusButtonTextureRegion = layoutBitmapTextureAtlas6.appendTiledAsset(activity, "daminibuttons.png", 3, 1);  
-		buyButton = new TextButton(0, 0, continusButtonTextureRegion,lcdFont,"Buy"){
-			@Override
-			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				int myEventAction = pSceneTouchEvent.getAction(); 
-		        switch (myEventAction) {
-		           case MotionEvent.ACTION_DOWN:
-		        	   buyButton.setCurrentTileIndex(1);
-		        	break;
-		           case MotionEvent.ACTION_MOVE: {
-		            	break;}
-		           case MotionEvent.ACTION_UP:
-		        	   back();
-		        	   buyButton.setCurrentTileIndex(0);
-						listener.onBuyButtonClick(shopMenu,buildingNumber);
-		                break;
-		        }
-		        
-				return true;
-				
-			}
-	   };
-	   buyButton.setCurrentTileIndex(0);
-	   buyButton.setColor(0, 0, 0);
-	   buyButton.setPosition(shopMenuBorder.getWidth()/2+10
-			   , currentFundsTitle.getHeight()+detailFrame.getHeight()-buyButton.getHeight()/2);
-	   buyButton.setScale(1);
-	   shopMenuBorder.attachChild(buyButton);
-	   registerTouchArea(buyButton);
-	   
-	  
+			buyButton = new TextButton(0, 0, continusButtonTextureRegion,lcdFont,"Buy"){
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+					if(this.isVisible()){
+						int myEventAction = pSceneTouchEvent.getAction(); 
+				        switch (myEventAction) {
+				           case MotionEvent.ACTION_DOWN:
+				        	   buyButton.setCurrentTileIndex(1);
+				        	break;
+				           case MotionEvent.ACTION_MOVE: {
+				            	break;}
+				           case MotionEvent.ACTION_UP:
+				        	   back();
+				        	   buyButton.setCurrentTileIndex(0);
+								listener.onBuyButtonClick(shopMenu,buildingNumber);
+				                break;
+				        }
+					}
+					return true;
+					
+				}
+		   };
+		   buyButton.setCurrentTileIndex(0);
+		   buyButton.setColor(0, 0, 0);
+		   buyButton.setPosition(shopMenuBorder.getWidth()/2+10
+				   , currentFundsTitle.getHeight()+detailFrame.getHeight()-buyButton.getHeight()/2);
+		   buyButton.setScale(1);
+		   shopMenuBorder.attachChild(buyButton);
+		   registerTouchArea(buyButton);
+
+		   sellButton = new TextButton(0, 0, continusButtonTextureRegion,lcdFont,"Sell"){
+				@Override
+				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+					if(this.isVisible()){
+						int myEventAction = pSceneTouchEvent.getAction(); 
+				        switch (myEventAction) {
+				           case MotionEvent.ACTION_DOWN:
+				        	   sellButton.setCurrentTileIndex(1);
+				        	break;
+				           case MotionEvent.ACTION_MOVE: {
+				            	break;}
+				           case MotionEvent.ACTION_UP:
+				        	   back();
+				        	   sellButton.setCurrentTileIndex(0);
+								listener.onSellButtonClick(shopMenu,buildingNumber);
+				                break;
+				        }
+					}
+					return true;
+					
+				}
+		   };
+		   sellButton.setCurrentTileIndex(0);
+		   sellButton.setColor(0, 0, 0);
+		   sellButton.setPosition(shopMenuBorder.getWidth()/2+10
+				   , currentFundsTitle.getHeight()+detailFrame.getHeight()-sellButton.getHeight()/2);
+		   sellButton.setScale(1);
+		 //  shopMenuBorder.attachChild(sellButton);
+		   registerTouchArea(sellButton);
 	   
 	   TiledTextureRegion upArrowTextureRegion = layoutBitmapTextureAtlas6.appendTiledAsset(activity, "buttonup.png", 2, 1);  
 		arrowUp = new TiledSprite(0, 0, upArrowTextureRegion){
@@ -309,7 +417,13 @@ public class ShopMenu  extends Scene {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   arrowUp.setCurrentTileIndex(0);
-						
+		        	   curBuyPage--;
+		        	   if(curBuyPage>=1){
+
+		        		   changeBuyPage(curBuyPage);
+		        	   }else{
+		        		   curBuyPage=1;
+		        	   }
 		                break;
 		        }
 		        
@@ -323,23 +437,33 @@ public class ShopMenu  extends Scene {
 	   arrowUp.setScale(1);
 	   shopMenuBorder.attachChild(arrowUp);
 	   registerTouchArea(arrowUp);
+	   arrowUp.setVisible(false);
+	   
 	   
 	   TiledTextureRegion downArrowTextureRegion = layoutBitmapTextureAtlas6.appendTiledAsset(activity, "buttondown.png", 2, 1);  
 		arrowDown = new TiledSprite(0, 0, downArrowTextureRegion){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-				int myEventAction = pSceneTouchEvent.getAction(); 
-		        switch (myEventAction) {
-		           case MotionEvent.ACTION_DOWN:
-		        	   arrowDown.setCurrentTileIndex(1);
-		        	break;
-		           case MotionEvent.ACTION_MOVE: {
-		            	break;}
-		           case MotionEvent.ACTION_UP:
-		        	   arrowDown.setCurrentTileIndex(0);
-						
-		                break;
-		        }
+				
+					int myEventAction = pSceneTouchEvent.getAction(); 
+			        switch (myEventAction) {
+			           case MotionEvent.ACTION_DOWN:
+			        	   arrowDown.setCurrentTileIndex(1);
+			        	break;
+			           case MotionEvent.ACTION_MOVE: {
+			            	break;}
+			           case MotionEvent.ACTION_UP:
+			        	   arrowDown.setCurrentTileIndex(0);
+			        	   curBuyPage++;
+			        	   if(curBuyPage<=maxBuyPage){
+			        		   System.out.println("dsadasd "+curBuyPage);
+			        		   changeBuyPage(curBuyPage);
+			        	   }else{
+			        		   curBuyPage=maxBuyPage;
+			        	   }
+			                break;
+			        }
+				
 		        
 				return true;
 				
@@ -351,11 +475,12 @@ public class ShopMenu  extends Scene {
 	   arrowDown.setScale(1);
 	   shopMenuBorder.attachChild(arrowDown);
 	   registerTouchArea(arrowDown);
+	   arrowDown.setVisible(false);
 	   
 	   productSelectButton = new ProductImageButton[9];
 	   
 	   BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-	   layoutBitmapTextureAtlas8 = new BitmapTextureAtlasEx(2048, 2048,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	   layoutBitmapTextureAtlas8 = new BitmapTextureAtlasEx(1024, 512,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas8);
 		
 		layoutBitmapTextureAtlas9 = new BitmapTextureAtlasEx(2048, 2048,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
@@ -366,33 +491,36 @@ public class ShopMenu  extends Scene {
 
 		   TiledTextureRegion productNewButtonTextureRegion = layoutBitmapTextureAtlas9.appendTiledAsset(activity, "machineupgradesbuttons.png", 2, 2); 
 		 
-		   layoutBitmapTextureAtlas10 = new BitmapTextureAtlasEx(16384, 8192,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-			activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas10);
-		   
+		   layoutBitmapTextureAtlas10 = new BitmapTextureAtlasEx(1024, 512,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+			
 		productDetailTextureRegion = layoutBitmapTextureAtlas10.appendTiledAsset(activity, "workshopObjects.png", 6, 3); 
 		  
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas10);
 		   
+		 TiledTextureRegion productSelectButtonTextureRegion = layoutBitmapTextureAtlas8.appendTiledAsset(activity, "machineupgradesbuttons.png", 2, 2); 
+		 
 	   int j=0;
 	   for(int i=0;i<9;i++){
 		   if(i>0 && i%3==0){
 			   j++;
 		   }
-			 TiledTextureRegion productSelectButtonTextureRegion = layoutBitmapTextureAtlas8.appendTiledAsset(activity, "machineupgradesbuttons.png", 2, 2); 
-			 
-		   productSelectButton[i] = new ProductImageButton(0, 0, productSelectButtonTextureRegion,productNewButtonTextureRegion,productSelectButtonTextureRegion,false,Building.WATER){
+			
+		   productSelectButton[i] = new ProductImageButton(0, 0, productSelectButtonTextureRegion.deepCopy(),productNewButtonTextureRegion.deepCopy(),productDetailTextureRegion.deepCopy(),false,Building.WATER){
 				@Override
 				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-					super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
-					
-					int myEventAction = pSceneTouchEvent.getAction(); 
-			        switch (myEventAction) {
-			           case MotionEvent.ACTION_UP:
-			        	   setDetailPanel(getChooseIndex(),"Artificial Plant "+getIndexButton(), "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
-
-			           break;
-			        }
-			        
+					if(this.isVisible()){
+						super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+						
+						int myEventAction = pSceneTouchEvent.getAction(); 
+				        switch (myEventAction) {
+				           case MotionEvent.ACTION_UP:
+				        	   setDetailPanel(getIndexButton(),"Artificial Plant "+getBuildingIndex(), "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
+	
+				           break;
+				        }
+					}
 					return true;
+					
 					
 				}
 		   };
@@ -405,13 +533,9 @@ public class ShopMenu  extends Scene {
 		   shopMenuBorder.attachChild(productSelectButton[i]);
 		   registerTouchArea(productSelectButton[i]);
 		   
+		  productSelectButton[i].setVisible(false);
 		  
 	   }
-	/*   ArrayList<Integer> buyItemsByPage = new ArrayList<Integer>();
-	   buyItemsByPage.add(Building.WATER);
-	   buyItemsByPage.add(Building.CHEMOTHERAPY);
-	   buyItemsByPage.add(Building.BABY_SCAN);
-	  */ 
 	   productDetailImage = new TiledSprite(0,0 , productDetailTextureRegion);
 		//productDetailImage.setPosition(shopMenuBorder.getWidth()/2 + productDetailImage.getWidth()/2,currentFundsTitle.getHeight()+30);
 	   float scale=0.6f;
@@ -419,24 +543,286 @@ public class ShopMenu  extends Scene {
 	   productDetailImage.setScale(scale);
 	   
 	   setDetailPanel(Building.CLOSET3,"Artificial Plant 0", "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
+	   
+	   isLoadFinish=true;
 	}
 	
-	public void activateSellTab(){
-		detachOldEnvironment();
-		oldActivatedTab=SELLTAB;
+	public void newBuyItemList(){
+		buyItems = new ArrayList<Integer>();
+		haveItems = new ArrayList<Boolean>();
+		maxBuyPage=1;
+		curBuyPage=1;
+		
 		
 	}
+	
+	public void addBuyItem(int buildingIndex){
+		buyItems.add(buildingIndex);
+		haveItems.add(false);
+		
+		
+		if(buyItems.size()<=9){
+			maxBuyPage=1;
+		}else{
+			double temp = (buyItems.size()-9);
+			maxBuyPage = 1+(int) Math.ceil(temp/3);
+			checkArrowVisible();
+		}
+		
+	}
+	
+	private void newCurrentItemList(){
+		currentItems = new ArrayList<Integer>();
+		maxSellPage=1;
+		curSellPage=1;
+		
+	}
+	
+	public void setHaveItem(int buildingIndex){
+		int index = buyItems.indexOf(buildingIndex);
+		
+		haveItems.set(index, true);
+		
+		reGenerateCurrentItemList();
+	}
+	
+	public void setNoItem(int buildingIndex){
+		int index = buyItems.indexOf(buildingIndex);
+		
+		haveItems.remove(index);
+		
+		reGenerateCurrentItemList();
+		
+		
+	}
+	
+	private void reGenerateCurrentItemList(){
+		newCurrentItemList();
+		
+		int i=0;
+		while(i<haveItems.size()){
+			if(haveItems.get(i)==true){
+				currentItems.add(buyItems.get(i));
+			}
+			i++;
+		}
+		
+		if(currentItems.size()<=9){
+			maxSellPage=1;
+		}else{
+			double temp = (currentItems.size()-9);
+			maxSellPage = 1+(int) Math.ceil(temp/3);
+			checkArrowVisible();
+		}
+	}
+	
+	public void buyItem(int buildingIndex){
+		setHaveItem(buildingIndex);
+	}
+	
+	public void outOfItem(int buildingIndex){
+		setHaveItem(buildingIndex);
+	}
+	
+	public void checkArrowVisible(){
+		if(oldActivatedTab==BUYTAB){
+			if(maxBuyPage>1){
+				arrowDown.setVisible(true);
+				arrowUp.setVisible(true);
+			}else{
+				arrowDown.setVisible(false);
+				arrowUp.setVisible(false);
+			}
+		}else if(oldActivatedTab==SELLTAB){
+			if(maxSellPage>1){
+				arrowDown.setVisible(true);
+				arrowUp.setVisible(true);
+			}else{
+				arrowDown.setVisible(false);
+				arrowUp.setVisible(false);
+			}
+		}
+	}
+	
+	private void changeBuyPage(int index){
+		int selectIndex=3*(index-1);
+		int i=0;
+		while(i<productSelectButton.length){
+			if(selectIndex<buyItems.size()){
+				productSelectButton[i].changeImage(buyItems.get(selectIndex));
+			
+				productSelectButton[i].setVisible(true);
+			}else{
+				productSelectButton[i].setVisible(false);
+			}
+			i++;
+			selectIndex++;
+		}
+		checkArrowVisible();
+	}
+	
+	private void changeSellPage(int index){
+		int selectIndex=3*(index-1);
+		int i=0;
+		while(i<productSelectButton.length){
+			if(selectIndex<currentItems.size()){
+				productSelectButton[i].changeImage(currentItems.get(selectIndex));
+			
+				productSelectButton[i].setVisible(true);
+			}else{
+				productSelectButton[i].setVisible(false);
+			}
+			i++;
+			selectIndex++;
+		}
+		checkArrowVisible();
+	}
+	
 	
 	public void activateExpensesTab(){
 		detachOldEnvironment();
 		oldActivatedTab=EXPENSESTAB;
 		
+		if(pharmacyExpense!=null){
+			shopMenuBorder.attachChild(pharmacyExpense);
+			
+			shopMenuBorder.attachChild(salariesExpense);
+			shopMenuBorder.attachChild(arrowDown);
+			
+			resetEpenseValueScreen();
+			
+			isLoadFinish=true;
+			return;
+		}
+		
+		
+		
+		pharmacyExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Parnmacy");	
+		pharmacyExpense.setPosition(shopMenuBorder.getWidth()/2-pharmacyExpense.getWidth(),currentFundsTitle.getHeight()+20);
+		pharmacyExpense.setTextAlign(TextButton.LEFT);
+		pharmacyExpense.setScale(1);
+		pharmacyExpense.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(pharmacyExpense);
+		
+		
+
+		salariesExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Salaries");	
+		salariesExpense.setPosition(shopMenuBorder.getWidth()/2-salariesExpense.getWidth(),currentFundsTitle.getHeight()*2+20);
+		salariesExpense.setTextAlign(TextButton.LEFT);
+		salariesExpense.setScale(1);
+		salariesExpense.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(salariesExpense);
+
+		totalExpense = new TextButton(0,0, textTitleTextureRegion.deepCopy(),lcdFont,"Total");	
+		totalExpense.setPosition(shopMenuBorder.getWidth()/2-currentFundsTitle.getWidth()+20,currentFundsTitle.getHeight()*3+20);
+		totalExpense.setScale(1);
+		totalExpense.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(totalExpense);
+		
+		resetEpenseValueScreen();
+		
+		isLoadFinish=true;
 	}
+	
+	public void setExpenseValueScreen(int pharmacy,int salaries,int total){
+		this.pharmacyValue=pharmacy;
+		this.salariesValue=salaries;
+		this.totalValue=total;
+	}
+	
+	public int getPharmacyExpenseValue(){
+		return pharmacyValue;
+	}
+	
+	public int getSalariesExpenseValue(){
+		return salariesValue;
+	}
+	
+	public int getTotalExpenseValue(){
+		return totalValue;
+	}
+	
+	public void resetEpenseValueScreen(){
+		
+		pharmacyValueScreen=null;
+		salariesValueScreen=null;
+		totalValueScreen=null;
+		
+		pharmacyValueScreen = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,Integer.toString(pharmacyValue));	
+		pharmacyValueScreen.setPosition(shopMenuBorder.getWidth()/2,currentFundsTitle.getHeight()+20);
+		pharmacyValueScreen.setScale(1);
+		pharmacyValueScreen.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(pharmacyValueScreen);
+
+		salariesValueScreen = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,Integer.toString(salariesValue));	
+		salariesValueScreen.setPosition(shopMenuBorder.getWidth()/2,currentFundsTitle.getHeight()*2+20);
+		salariesValueScreen.setScale(1);
+		salariesValueScreen.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(salariesValueScreen);
+		
+		totalValueScreen = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,Integer.toString(totalValue));	
+		totalValueScreen.setPosition(shopMenuBorder.getWidth()/2,currentFundsTitle.getHeight()*3+35);
+		totalValueScreen.setScale(1);
+		totalValueScreen.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(totalValueScreen);
+	}	
 	
 	public void activateOutfitTab(){
 		detachOldEnvironment();
 		oldActivatedTab=OUTFITTAB;
 		
+		if(redOutfitScroll!=null){
+			shopMenuBorder.attachChild(redOutfitScroll);
+			
+			shopMenuBorder.attachChild(greenOutfitScroll);
+			shopMenuBorder.attachChild(blueOutfitScroll);
+			
+			
+			isLoadFinish=true;
+			return;
+		}
+
+		redOutfitScroll = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Red");	
+		redOutfitScroll.setPosition(shopMenuBorder.getWidth()/2-redOutfitScroll.getWidth(),currentFundsTitle.getHeight()+20);
+		redOutfitScroll.setTextAlign(TextButton.LEFT);
+		redOutfitScroll.setScale(1);
+		redOutfitScroll.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(redOutfitScroll);
+
+		greenOutfitScroll = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Green");	
+		greenOutfitScroll.setPosition(shopMenuBorder.getWidth()/2-greenOutfitScroll.getWidth(),currentFundsTitle.getHeight()*2+20);
+		greenOutfitScroll.setTextAlign(TextButton.LEFT);
+		greenOutfitScroll.setScale(1);
+		greenOutfitScroll.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(greenOutfitScroll);
+
+		blueOutfitScroll = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Blue");	
+		blueOutfitScroll.setPosition(shopMenuBorder.getWidth()/2-blueOutfitScroll.getWidth(),currentFundsTitle.getHeight()*3+20);
+		blueOutfitScroll.setTextAlign(TextButton.LEFT);
+		blueOutfitScroll.setScale(1);
+		blueOutfitScroll.setColor(255, 255, 255);
+		shopMenuBorder.attachChild(blueOutfitScroll);
+		
+		isLoadFinish=true;
+	}
+	
+	public void setOutfitColor(int red,int green,int blue){
+		this.redValue = red;
+		this.greenValue = green;
+		this.blueValue = blue;
+		
+	}
+	
+	public int getOutfitColorRed(){
+		return redValue;
+	}
+	
+	public int getOutfitColorGreen(){
+		return greenValue;
+	}
+	
+	public int getOutfitColorBlue(){
+		return blueValue;
 	}
 	
 	public void setDetailPanel(int buildingIndex,String productNameString,String costString,String detailString){
@@ -473,7 +859,7 @@ public class ShopMenu  extends Scene {
 			shopMenuBorder.attachChild(currentFundsTitle);
 			shopMenuBorder.attachChild(currentFundsValue);
 			
-			oldActivatedTab=-1;
+			//oldActivatedTab=-1;
 		}
 	}
 
@@ -487,5 +873,19 @@ public class ShopMenu  extends Scene {
 	
 	public void setShopMenuListener(ShopMenuListener listener){
 		this.listener= listener;
+	}
+	
+	public int getActivateTab(){
+		return oldActivatedTab;
+	}
+	
+	public void loadNewResource(){
+		if(oldActivatedTab==BUYTAB){
+			curBuyPage=1;
+			changeBuyPage(curBuyPage);
+		}else if(oldActivatedTab==SELLTAB){
+			curSellPage=1;
+			changeSellPage(curSellPage);
+		}
 	}
 }

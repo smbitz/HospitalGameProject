@@ -23,6 +23,7 @@ import android.view.MotionEvent;
 
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.data.UserMissionSkeleton;
+import com.kazekim.temp.Building;
 import com.kazekim.ui.TextButton;
 
 public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnAreaTouchListener,BriefMenuListener,PauseMenuListener,EndMissionMenuListener,ShopMenuListener{ 
@@ -148,6 +149,21 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		final ShopMenu shopMenu = new ShopMenu(activity);
 		shopMenu.setShopMenuListener(this);
 		
+		shopMenu.addBuyItem(Building.CHAIR);
+		shopMenu.addBuyItem(Building.CARDIOLOGY);
+		shopMenu.addBuyItem(Building.CHEMOTHERAPY);
+		shopMenu.addBuyItem(Building.CLOSET1);
+		shopMenu.addBuyItem(Building.WATER);
+		shopMenu.addBuyItem(Building.PHYSIOTHERAPY);
+		shopMenu.addBuyItem(Building.PLANT);
+		shopMenu.addBuyItem(Building.PSYCHIATRY);
+		shopMenu.addBuyItem(Building.OPHTHALMOLOGY);
+		shopMenu.addBuyItem(Building.BABY_SCAN);
+		
+		shopMenu.buyItem(Building.WATER);
+		shopMenu.buyItem(Building.BABY_SCAN);
+		
+		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
@@ -157,7 +173,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				if(!isOpenShop){
-					
+					shopMenu.loadNewResource();
 					setChildScene(shopMenu);
 					isOpenShop=true;
 				}
@@ -171,6 +187,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		this.attachChild(shopMenuButton);
 		scene.registerTouchArea(shopMenuButton);
 	   
+		shopMenu.setExpenseValueScreen(20, 2300, 220);
 	  }
 	  
 	  public void setFont(){
@@ -261,6 +278,12 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	@Override
 	public void onBuyButtonClick(ShopMenu shopMenu, int buildingNumber) {
 		isOpenShop=false;
+	}
+
+	@Override
+	public void onSellButtonClick(ShopMenu shopMenu, int buildingNumber) {
+		isOpenShop=false;
+		
 	}
 
 

@@ -58,6 +58,7 @@ public class ImageButton  extends TiledSprite{
         	   setCurrentTileIndex(1);
         	break;
            case MotionEvent.ACTION_MOVE: {
+        	   setCurrentTileIndex(0);
             	break;}
            case MotionEvent.ACTION_UP:
         	   setCurrentTileIndex(0);

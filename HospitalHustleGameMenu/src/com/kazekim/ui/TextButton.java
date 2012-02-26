@@ -13,6 +13,11 @@ public class TextButton extends TiledSprite{
 	private float blue=0;
 	private String title;
 	private Font font;
+	private int align;
+	
+	public static int CENTER=0;
+	public static int LEFT=1;
+	public static int RIGHT=2;
 
 	private TextButton(float pX, float pY, float pTileWidth, float pTileHeight,
 			TiledTextureRegion pTiledTextureRegion) {
@@ -37,9 +42,21 @@ public class TextButton extends TiledSprite{
 	
 	private void setText(Font font, String title){
 		text = new Text(0, 0, font, title);
-		text.setPosition((this.getWidth()-text.getWidth())/2, (this.getHeight()-text.getHeight())/2);
+		
+		setTextAlign(CENTER);
 		text.setColor(red, green, blue);
 		this.attachChild(text);
+	}
+	
+	public void setTextAlign(int align){
+		this.align=align;
+		if(align==LEFT){
+			text.setPosition((20+text.getWidth())/2, (this.getHeight()-text.getHeight())/2);
+		}else if(align==CENTER){
+			text.setPosition((this.getWidth()-text.getWidth())/2, (this.getHeight()-text.getHeight())/2);
+		}else{
+			text.setPosition(this.getWidth()-text.getWidth()/2-20, (this.getHeight()-text.getHeight())/2);
+		}
 	}
 
 	public void setColor(float red,float green,float blue){
