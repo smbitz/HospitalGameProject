@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.view.MotionEvent;
 
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
+import com.kazekim.data.UserMissionSkeleton;
 import com.kazekim.temp.Building;
 import com.kazekim.ui.ProductImageButton;
 import com.kazekim.ui.TextButton;
@@ -34,14 +35,11 @@ public class ShopMenu  extends Scene {
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas2;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas3;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas4;
-	private BitmapTextureAtlasEx layoutBitmapTextureAtlas5;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas6;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas7;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas8;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas9;
 	private BitmapTextureAtlasEx layoutBitmapTextureAtlas10;
-	private BitmapTextureAtlasEx layoutBitmapTextureAtlas11;
-	private BitmapTextureAtlasEx layoutBitmapTextureAtlas12;
 	
 	private Text buyTabTitleText;
 	private Text sellTabTitleText;
@@ -97,6 +95,10 @@ public class ShopMenu  extends Scene {
 	 private TextButton salariesValueScreen;
 	 private TextButton totalValueScreen;
 	 
+	 private Sprite pharmacyScrollButton;
+	 private Sprite salariesScrollButton;
+	
+	 
 	 // Outfit Tab Environment
 	 
 	 private int redValue= 0;
@@ -109,9 +111,14 @@ public class ShopMenu  extends Scene {
 	 
 	//Other Environment
 	 
+	 private int scrollStartX;
+	 private int scrollEndX;
+	 
 	 private TiledTextureRegion screenValueTextureRegion;
 	 private TiledTextureRegion textTitleTextureRegion;
 	 private TiledTextureRegion colorTextureRegion;
+	 private TextureRegion scrollButtonTextureRegion;
+	 
 	 
 	 private int oldActivatedTab=-1;
 	  
@@ -130,6 +137,8 @@ public class ShopMenu  extends Scene {
 	  public static final int OUTFITTAB=3;
 	  
 	  private boolean isLoadFinish=true;
+	  
+	  private UserMissionSkeleton skeleton;
 
 	public ShopMenu(BaseGameActivity activity){
 		this.activity=activity;
@@ -137,6 +146,16 @@ public class ShopMenu  extends Scene {
 		
 		setFont();
 		setBackgroundEnabled(false);
+		
+		newBuyItemList();
+		newCurrentItemList();
+		
+		skeleton = UserMissionSkeleton.getInstance();
+		buyItems = new ArrayList<Integer>();
+		for(int i=0;i<skeleton.getMissionStation().size();i++){
+			addBuyItem(skeleton.getMissionStationAtIndex(i));
+		}
+		setExpenseValueScreen(skeleton.getPharmacyCurValue(), skeleton.getSalaryCurValue(), skeleton.getPharmacyCurValue()+skeleton.getSalaryCurValue());
 		
 		layoutBitmapTextureAtlas7 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
@@ -211,8 +230,8 @@ public class ShopMenu  extends Scene {
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
 		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas2);
 		
-		TiledTextureRegion buttonTextureRegion = layoutBitmapTextureAtlas2.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
-		continueButton = new TextButton(0, 0, buttonTextureRegion,lcdFont,"Continue"){
+		textTitleTextureRegion = layoutBitmapTextureAtlas2.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);  
+		continueButton = new TextButton(0, 0, textTitleTextureRegion,lcdFont,"Continue"){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 				int myEventAction = pSceneTouchEvent.getAction(); 
@@ -260,28 +279,21 @@ public class ShopMenu  extends Scene {
 		outfitTabTitleText.setColor(0.0f, 0.0f, 0.0f);
 		shopMenuTab.attachChild(outfitTabTitleText);
 		
-		layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
-		
-		textTitleTextureRegion =layoutBitmapTextureAtlas4.appendTiledAsset(activity, "montagemediobutton.png", 3, 1);
 		currentFundsTitle = new TextButton(0,0, textTitleTextureRegion.deepCopy(),lcdFont,"Current Funds");	
 		currentFundsTitle.setPosition(shopMenuBorder.getWidth()/2-currentFundsTitle.getWidth()+20, 0);
 		currentFundsTitle.setScale(1);
 		currentFundsTitle.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(currentFundsTitle);
 		
-		layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		layoutBitmapTextureAtlas4 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
-		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas5);
+		activity.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas4);
 		
-		screenValueTextureRegion =layoutBitmapTextureAtlas5.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1);
+		screenValueTextureRegion =layoutBitmapTextureAtlas4.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1);
+		scrollButtonTextureRegion = layoutBitmapTextureAtlas4.appendTextureAsset(activity, "scrollbar.png");
 		
 		setFund("0");
-		
-		newBuyItemList();
-		newCurrentItemList();
-		
+
 		oldActivatedTab=BUYTAB;
 		activateDealTab();
 		
@@ -291,7 +303,6 @@ public class ShopMenu  extends Scene {
 		if(currentFundsValue!=null){
 			detachChild(currentFundsValue);
 			currentFundsValue=null;
-			activity.getEngine().getTextureManager().unloadTexture(layoutBitmapTextureAtlas5);
 		}
 		
 		
@@ -456,7 +467,6 @@ public class ShopMenu  extends Scene {
 			        	   arrowDown.setCurrentTileIndex(0);
 			        	   curBuyPage++;
 			        	   if(curBuyPage<=maxBuyPage){
-			        		   System.out.println("dsadasd "+curBuyPage);
 			        		   changeBuyPage(curBuyPage);
 			        	   }else{
 			        		   curBuyPage=maxBuyPage;
@@ -514,7 +524,7 @@ public class ShopMenu  extends Scene {
 						int myEventAction = pSceneTouchEvent.getAction(); 
 				        switch (myEventAction) {
 				           case MotionEvent.ACTION_UP:
-				        	   setDetailPanel(getIndexButton(),"Artificial Plant "+getBuildingIndex(), "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
+				        	   setDetailPanel(getChooseIndex(),"Artificial Plant "+getBuildingIndex(), "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
 	
 				           break;
 				        }
@@ -650,7 +660,12 @@ public class ShopMenu  extends Scene {
 		while(i<productSelectButton.length){
 			if(selectIndex<buyItems.size()){
 				productSelectButton[i].changeImage(buyItems.get(selectIndex));
-			
+				
+				if(skeleton.getIsNewAtIndex(i)){
+					productSelectButton[i].setNewProduct(true);
+				}else{
+					productSelectButton[i].setNewProduct(false);
+				}
 				productSelectButton[i].setVisible(true);
 			}else{
 				productSelectButton[i].setVisible(false);
@@ -667,7 +682,7 @@ public class ShopMenu  extends Scene {
 		while(i<productSelectButton.length){
 			if(selectIndex<currentItems.size()){
 				productSelectButton[i].changeImage(currentItems.get(selectIndex));
-			
+				productSelectButton[i].setNewProduct(false);
 				productSelectButton[i].setVisible(true);
 			}else{
 				productSelectButton[i].setVisible(false);
@@ -687,7 +702,7 @@ public class ShopMenu  extends Scene {
 			shopMenuBorder.attachChild(pharmacyExpense);
 			
 			shopMenuBorder.attachChild(salariesExpense);
-			shopMenuBorder.attachChild(arrowDown);
+			shopMenuBorder.attachChild(totalExpense);
 			
 			resetEpenseValueScreen();
 			
@@ -695,29 +710,100 @@ public class ShopMenu  extends Scene {
 			return;
 		}
 		
+		pharmacyScrollButton =new Sprite(0,0 , scrollButtonTextureRegion);	
+		salariesScrollButton =new Sprite(0,0 , scrollButtonTextureRegion);	
 		
 		
-		pharmacyExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Parnmacy");	
+		
+		pharmacyExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Parnmacy"){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				
+				scrollStartX = (int) (getWidth()/2+getWidth()*3/16);
+				scrollEndX = (int)(getWidth()/2+getWidth()*3/8);
+				System.out.println(pTouchAreaLocalX+" "+scrollEndX+" "+scrollStartX+" "+(float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue())+" "
+						+(int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()))+" "+scrollStartX);
+					int myEventAction = pSceneTouchEvent.getAction(); 
+			        switch (myEventAction) {
+			           case MotionEvent.ACTION_DOWN:
+			        	break;
+			           case MotionEvent.ACTION_MOVE: 
+			           case MotionEvent.ACTION_UP:
+			        	   if(pTouchAreaLocalX>=scrollStartX && pTouchAreaLocalX<=scrollEndX){
+			        		   System.out.println("Dsafsdfsgfdgdfgdfgfdgdgdf");
+			        		   pharmacyScrollButton.setPosition(pTouchAreaLocalX,pharmacyScrollButton.getY());
+			        		   salariesValue = (int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()));
+			        		   skeleton.setSalaryCurValue(salariesValue);
+			        	   }
+			                break;
+			        }
+				
+		        
+				return true;
+				
+			}
+	   };	
 		pharmacyExpense.setPosition(shopMenuBorder.getWidth()/2-pharmacyExpense.getWidth(),currentFundsTitle.getHeight()+20);
 		pharmacyExpense.setTextAlign(TextButton.LEFT);
 		pharmacyExpense.setScale(1);
 		pharmacyExpense.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(pharmacyExpense);
-		
+		registerTouchArea(pharmacyExpense);
 		
 
-		salariesExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Salaries");	
+		salariesExpense = new TextButton(0,0, colorTextureRegion.deepCopy(),lcdFont,"Salaries"){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				
+				scrollStartX = (int) (getWidth()/2+getWidth()*3/16);
+				scrollEndX = (int)(getWidth()/2+getWidth()*3/8);
+				
+					int myEventAction = pSceneTouchEvent.getAction(); 
+			        switch (myEventAction) {
+			           case MotionEvent.ACTION_DOWN:
+			        	break;
+			           case MotionEvent.ACTION_MOVE: 
+			           case MotionEvent.ACTION_UP:
+			        	   if(pTouchAreaLocalX>=scrollStartX && pTouchAreaLocalX<=scrollEndX){
+			        		   salariesScrollButton.setPosition(pTouchAreaLocalX,salariesScrollButton.getY());
+			        		   salariesValue = (int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()));
+			        		   skeleton.setSalaryCurValue(salariesValue);
+			        	   }
+			                break;
+			        }
+				
+		        
+				return true;
+				
+			}
+	   };	
+	   
+	   scrollStartX = (int) (salariesExpense.getWidth()/2+salariesExpense.getWidth()*3/16);
+		scrollEndX = (int)(salariesExpense.getWidth()/2+salariesExpense.getWidth()*3/8);
+		
 		salariesExpense.setPosition(shopMenuBorder.getWidth()/2-salariesExpense.getWidth(),currentFundsTitle.getHeight()*2+20);
 		salariesExpense.setTextAlign(TextButton.LEFT);
 		salariesExpense.setScale(1);
 		salariesExpense.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(salariesExpense);
+		registerTouchArea(salariesExpense);
 
+		pharmacyScrollButton.setPosition(scrollStartX+((float)pharmacyValue/skeleton.getPharmacyMaxValue()*(scrollEndX-scrollStartX)),pharmacyExpense.getHeight()/2-pharmacyScrollButton.getHeight()/2);
+		pharmacyScrollButton.setScale(1);
+		pharmacyExpense.attachChild(pharmacyScrollButton);
+		
+		salariesScrollButton.setPosition(scrollStartX+((float)salariesValue/skeleton.getSalaryMaxValue()*(scrollEndX-scrollStartX)),salariesExpense.getHeight()/2-salariesScrollButton.getHeight()/2);
+		salariesScrollButton.setScale(1);
+		salariesExpense.attachChild(salariesScrollButton);
+		
+		
 		totalExpense = new TextButton(0,0, textTitleTextureRegion.deepCopy(),lcdFont,"Total");	
 		totalExpense.setPosition(shopMenuBorder.getWidth()/2-currentFundsTitle.getWidth()+20,currentFundsTitle.getHeight()*3+20);
 		totalExpense.setScale(1);
 		totalExpense.setColor(255, 255, 255);
 		shopMenuBorder.attachChild(totalExpense);
+		
+		
 		
 		resetEpenseValueScreen();
 		

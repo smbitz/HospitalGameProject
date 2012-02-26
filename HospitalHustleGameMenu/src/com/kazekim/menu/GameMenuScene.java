@@ -49,10 +49,32 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		  setFont();
 		  
 		  UserMissionSkeleton missionSkeleton =  new UserMissionSkeleton();
-		  missionSkeleton.addMissionStation(1);
-		  missionSkeleton.addMissionStation(1);
-		  missionSkeleton.addMissionStation(2);
-
+		  
+		  missionSkeleton.addMissionStation(Building.DENTIST);
+		  missionSkeleton.addMissionStation(Building.CARDIOLOGY);
+		  missionSkeleton.addMissionStation(Building.CHEMOTHERAPY);
+			missionSkeleton.addMissionStation(Building.CLOSET1);
+			missionSkeleton.addMissionStation(Building.WATER);
+			missionSkeleton.addMissionStation(Building.PHYSIOTHERAPY);
+			missionSkeleton.addMissionStation(Building.PLANT);
+			missionSkeleton.addMissionStation(Building.PSYCHIATRY);
+			missionSkeleton.addMissionStation(Building.OPHTHALMOLOGY);
+			missionSkeleton.addMissionStation(Building.BABY_SCAN);
+			
+			missionSkeleton.setColorNurseShirtRed(200);
+			missionSkeleton.setColorNurseShirtGreen(100);
+			missionSkeleton.setColorNurseShirtBlue(0);
+			
+			missionSkeleton.setPharmacyCurValue(10);
+			missionSkeleton.setPharmacyMaxValue(20);
+			missionSkeleton.setBedNum(1);
+			missionSkeleton.setFoodNum(1);
+			missionSkeleton.setPlantNum(1);
+			missionSkeleton.setSalaryCurValue(20);
+			missionSkeleton.setSalaryMaxValue(30);
+			missionSkeleton.setStationNum(1);
+			missionSkeleton.setWaterNum(1);
+			
 		//   System.out.println("Count "+missionSkeleton.getMissionStationNumCount()+" "+missionSkeleton.getAppearedStationListNumCount());
 		
 		   this.setTouchAreaBindingEnabled(true);
@@ -149,16 +171,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		final ShopMenu shopMenu = new ShopMenu(activity);
 		shopMenu.setShopMenuListener(this);
 		
-		shopMenu.addBuyItem(Building.CHAIR);
-		shopMenu.addBuyItem(Building.CARDIOLOGY);
-		shopMenu.addBuyItem(Building.CHEMOTHERAPY);
-		shopMenu.addBuyItem(Building.CLOSET1);
-		shopMenu.addBuyItem(Building.WATER);
-		shopMenu.addBuyItem(Building.PHYSIOTHERAPY);
-		shopMenu.addBuyItem(Building.PLANT);
-		shopMenu.addBuyItem(Building.PSYCHIATRY);
-		shopMenu.addBuyItem(Building.OPHTHALMOLOGY);
-		shopMenu.addBuyItem(Building.BABY_SCAN);
+		
 		
 		shopMenu.buyItem(Building.WATER);
 		shopMenu.buyItem(Building.BABY_SCAN);
@@ -187,7 +200,7 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		this.attachChild(shopMenuButton);
 		scene.registerTouchArea(shopMenuButton);
 	   
-		shopMenu.setExpenseValueScreen(20, 2300, 220);
+		
 	  }
 	  
 	  public void setFont(){

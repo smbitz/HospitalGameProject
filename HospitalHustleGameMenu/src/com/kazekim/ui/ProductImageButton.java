@@ -15,6 +15,7 @@ public class ProductImageButton extends ImageButton {
 	private int chooseIndex=0;
 	private int buildingIndex=0;
 	private int indexButton=0;
+	private boolean isAttachLayer1=false;
 	
 	private TiledTextureRegion productTexture;
 	
@@ -28,7 +29,7 @@ public class ProductImageButton extends ImageButton {
 		layer1 = new TiledSprite(0, 0, pTiledTextureRegion2);
 	   layer1.setCurrentTileIndex(3);
 	   layer1.setScale(1);
-
+	  
 	   
 	}
 	
@@ -91,9 +92,16 @@ public class ProductImageButton extends ImageButton {
 		return productTexture;
 	}
 	
-	private void setNewProduct(boolean isNewProduct){
+	public void setNewProduct(boolean isNewProduct){
+		
 		if(isNewProduct){
-			attachChild(layer1);
+			if(!isAttachLayer1){
+				 attachChild(layer1);
+				 isAttachLayer1=true;
+			}
+			layer1.setVisible(true);
+		}else{
+			layer1.setVisible(false);
 		}
 	}
 	

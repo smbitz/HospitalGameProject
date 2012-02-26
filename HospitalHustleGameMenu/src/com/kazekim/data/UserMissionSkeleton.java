@@ -26,7 +26,15 @@ public class UserMissionSkeleton {
 	private int salaryValue_Cur=0;
 	private int salaryValue_Max=300;
 	
+	private static UserMissionSkeleton instance;
+	
+	public static UserMissionSkeleton getInstance(){
+		return instance;
+	}
+	
 	public UserMissionSkeleton(){
+		instance = this;
+		
 		missionStationList = new ArrayList<Integer>();
 		checkNewStationList = new ArrayList<Boolean>();
 		
@@ -117,11 +125,11 @@ public class UserMissionSkeleton {
 	}
 	
 	public void setSalaryCurValue(int salaryValue_Cur){
-		this.salaryValue_Cur = pharmacyValue_Cur;
+		this.salaryValue_Cur = salaryValue_Cur;
 	}
 	
 	public void setSalaryMaxValue(int salaryValue_Max){
-		this.salaryValue_Max = pharmacyValue_Max;
+		this.salaryValue_Max = salaryValue_Max;
 	}
 	
 	public int getPharmacyCurValue(){
@@ -152,6 +160,10 @@ public class UserMissionSkeleton {
 		}else{
 			checkNewStationList.add(false);
 		}
+	}
+	
+	public void addAppearedStation(Integer stationID){
+		appearedStationList.add(stationID);
 	}
 	
 	public ArrayList<Integer> getMissionStation(){
