@@ -11,7 +11,10 @@ public class UserMissionSkeleton {
 	private int waterNum=0;
 	private int foodNum=0;
 	private int bedNum=0;
+	private int tvNum=0;
 	private int stationNum=0;
+	
+	private int fund=0;
 	
 	private ArrayList<Integer> missionStationList;
 	private ArrayList<Integer> appearedStationList;
@@ -64,6 +67,10 @@ public class UserMissionSkeleton {
 		this.bedNum = bedNum;
 	}
 	
+	public void setTvNum(int tvNum){
+		this.tvNum = tvNum;
+	}
+	
 	public void setStationNum(int stationNum){
 		this.stationNum = stationNum;
 	}
@@ -86,6 +93,68 @@ public class UserMissionSkeleton {
 	
 	public int getStationNum(){
 		return stationNum;
+	}
+	
+	public int getTVNum(){
+		return tvNum;
+	}
+	
+	public void increasePlantNum(){
+		this.plantNum++;
+	}
+	
+	public void increaseWaterNum(){
+		this.waterNum++;
+	}
+	
+	public void increaseFoodNum(){
+		this.foodNum++;
+	}
+	
+	public void increaseBedNum(){
+		this.bedNum++;
+	}
+	
+	public void increaseTvNum(){
+		this.tvNum++;
+	}
+	
+	public void increaseStationNum(){
+		this.stationNum++;
+	}
+	
+	public void decreasePlantNum(){
+		this.plantNum--;
+	}
+	
+	public void decreaseWaterNum(){
+		this.waterNum--;
+	}
+	
+	public void decreaseFoodNum(){
+		this.foodNum--;
+	}
+	
+	public void decreaseBedNum(){
+		this.bedNum--;
+	}
+	
+	public void decreaseTvNum(){
+		this.tvNum--;
+	}
+	
+	public void decreaseStationNum(){
+		this.stationNum--;
+	}
+	
+	// Funds
+	
+	public void setFund(int fund){
+		this.fund = fund;
+	}
+	
+	public int getFund(){
+		return fund;
 	}
 	
 	//Set Nurse's Color Shirt

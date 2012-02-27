@@ -48,6 +48,12 @@ public class TextButton extends TiledSprite{
 		this.attachChild(text);
 	}
 	
+	public void changeText(Font font,String title){
+		this.detachChild(text);
+		setText(title);
+		
+	}
+	
 	public void setTextAlign(int align){
 		this.align=align;
 		if(align==LEFT){

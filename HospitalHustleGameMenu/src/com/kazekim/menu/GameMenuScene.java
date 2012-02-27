@@ -75,6 +75,14 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 			missionSkeleton.setStationNum(1);
 			missionSkeleton.setWaterNum(1);
 			
+			missionSkeleton.setFund(100);
+			missionSkeleton.setPlantNum(1);
+			missionSkeleton.setTvNum(0);
+			missionSkeleton.setBedNum(1);
+			missionSkeleton.setFoodNum(1);
+			missionSkeleton.setWaterNum(0);
+			missionSkeleton.setStationNum(3);
+			
 		//   System.out.println("Count "+missionSkeleton.getMissionStationNumCount()+" "+missionSkeleton.getAppearedStationListNumCount());
 		
 		   this.setTouchAreaBindingEnabled(true);
@@ -173,8 +181,8 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 		
 		
 		
-		shopMenu.buyItem(Building.WATER);
-		shopMenu.buyItem(Building.BABY_SCAN);
+		shopMenu.buyItem(Building.WATER,30);
+		shopMenu.buyItem(Building.BABY_SCAN,20);
 		
 		
 		BitmapTextureAtlasEx layoutBitmapTextureAtlas5 = new BitmapTextureAtlasEx(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);

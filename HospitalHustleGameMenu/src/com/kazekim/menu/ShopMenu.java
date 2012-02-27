@@ -62,6 +62,7 @@ public class ShopMenu  extends Scene {
 	 private TiledSprite arrowDown;
 	 
 	 private TiledSprite productDetailImage;
+	 private TiledSprite outImage;
 	 private TextButton buyButton; 
 	 private TextButton sellButton; 
 	 private Sprite detailFrame;
@@ -78,7 +79,7 @@ public class ShopMenu  extends Scene {
 	 private int maxSellPage=1;
 	 private int curSellPage=1;
 	 private ArrayList<Integer> buyItems;
-	 private ArrayList<Boolean> haveItems;
+	 private ArrayList<Integer> numItems;
 	 private ArrayList<Integer> currentItems;
 	
 	 // Expense  Tab Environment
@@ -292,7 +293,7 @@ public class ShopMenu  extends Scene {
 		screenValueTextureRegion =layoutBitmapTextureAtlas4.appendTiledAsset(activity, "insertbuttonsmall.png", 1, 1);
 		scrollButtonTextureRegion = layoutBitmapTextureAtlas4.appendTextureAsset(activity, "scrollbar.png");
 		
-		setFund("0");
+		setFund(Integer.toString(skeleton.getFund()));
 
 		oldActivatedTab=BUYTAB;
 		activateDealTab();
@@ -300,17 +301,20 @@ public class ShopMenu  extends Scene {
 	}
 	
 	public void setFund(String value){
-		if(currentFundsValue!=null){
+	/*	if(currentFundsValue!=null){
 			detachChild(currentFundsValue);
 			currentFundsValue=null;
 		}
-		
-		
-		currentFundsValue = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,value);	
-		currentFundsValue.setPosition(shopMenuBorder.getWidth()/2, 13);
-		currentFundsValue.setScale(1);
-		currentFundsValue.setColor(255, 255, 255);
-		shopMenuBorder.attachChild(currentFundsValue);
+		*/
+		if(currentFundsValue==null){
+			currentFundsValue = new TextButton(0,0, screenValueTextureRegion.deepCopy(),lcdFont,value);	
+			currentFundsValue.setPosition(shopMenuBorder.getWidth()/2, 13);
+			currentFundsValue.setScale(1);
+			currentFundsValue.setColor(255, 255, 255);
+			shopMenuBorder.attachChild(currentFundsValue);
+			return;
+		}
+		currentFundsValue.changeText(lcdFont, value);
 	}
 	
 	public void activateDealTab(){
@@ -414,6 +418,14 @@ public class ShopMenu  extends Scene {
 		   sellButton.setScale(1);
 		 //  shopMenuBorder.attachChild(sellButton);
 		   registerTouchArea(sellButton);
+		   
+		   TiledTextureRegion outTextureRegion = layoutBitmapTextureAtlas6.appendTiledAsset(activity, "montage_cantBuy_EN.png", 2, 1);
+		   outImage = new TiledSprite(0, 0, outTextureRegion);
+		   outImage.setPosition(detailFrame.getX()+detailFrame.getWidth()/2-outImage.getWidth()/2,detailFrame.getY()+ detailFrame.getHeight()/2-outImage.getHeight()/2);
+		   outImage.setScale(1);
+		   outImage.setCurrentTileIndex(0);
+		   shopMenuBorder.attachChild(outImage);
+		   
 	   
 	   TiledTextureRegion upArrowTextureRegion = layoutBitmapTextureAtlas6.appendTiledAsset(activity, "buttonup.png", 2, 1);  
 		arrowUp = new TiledSprite(0, 0, upArrowTextureRegion){
@@ -524,7 +536,7 @@ public class ShopMenu  extends Scene {
 						int myEventAction = pSceneTouchEvent.getAction(); 
 				        switch (myEventAction) {
 				           case MotionEvent.ACTION_UP:
-				        	   setDetailPanel(getChooseIndex(),"Artificial Plant "+getBuildingIndex(), "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
+				        	   setDetailPanel(getChooseIndex(),"Artificial Plant "+getBuildingIndex(), getIndexButton()*10, "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
 	
 				           break;
 				        }
@@ -552,14 +564,14 @@ public class ShopMenu  extends Scene {
 	   productDetailImage.setPosition(-productDetailImage.getWidth()*scale/4,-productDetailImage.getHeight()*scale/4);
 	   productDetailImage.setScale(scale);
 	   
-	   setDetailPanel(Building.CLOSET3,"Artificial Plant 0", "120", "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
+	   setDetailPanel(Building.CLOSET3,"Artificial Plant 0", 120, "Scientificially \nengineered to \nstay green and \nleafy under \nartificial hospital \nlights.");
 	   
 	   isLoadFinish=true;
 	}
 	
 	public void newBuyItemList(){
 		buyItems = new ArrayList<Integer>();
-		haveItems = new ArrayList<Boolean>();
+		numItems = new ArrayList<Integer>();
 		maxBuyPage=1;
 		curBuyPage=1;
 		
@@ -568,7 +580,7 @@ public class ShopMenu  extends Scene {
 	
 	public void addBuyItem(int buildingIndex){
 		buyItems.add(buildingIndex);
-		haveItems.add(false);
+		numItems.add(0);
 		
 		
 		if(buyItems.size()<=9){
@@ -579,6 +591,8 @@ public class ShopMenu  extends Scene {
 			checkArrowVisible();
 		}
 		
+		
+		
 	}
 	
 	private void newCurrentItemList(){
@@ -588,18 +602,46 @@ public class ShopMenu  extends Scene {
 		
 	}
 	
-	public void setHaveItem(int buildingIndex){
+	public void setIncreaseNumItem(int buildingIndex){
 		int index = buyItems.indexOf(buildingIndex);
 		
-		haveItems.set(index, true);
+		numItems.set(index, numItems.get(index)+1);
+		
+		if(buildingIndex==Building.PLANT){
+			skeleton.decreasePlantNum();
+		}else if(buildingIndex==Building.WATER){
+			skeleton.decreaseWaterNum();
+		}else if(buildingIndex==Building.FOOD){
+			skeleton.decreaseFoodNum();
+		}else if(buildingIndex==Building.BED){
+			skeleton.decreaseBedNum();
+		}else if(buildingIndex==Building.TELEVISION){
+			skeleton.decreaseTvNum();
+		}else{
+			skeleton.decreaseStationNum();
+		}
 		
 		reGenerateCurrentItemList();
 	}
 	
-	public void setNoItem(int buildingIndex){
+	public void setDecreaseNumItem(int buildingIndex){
 		int index = buyItems.indexOf(buildingIndex);
 		
-		haveItems.remove(index);
+		numItems.set(index, numItems.get(index)-1);
+		
+		if(buildingIndex==Building.PLANT){
+			skeleton.increasePlantNum();
+		}else if(buildingIndex==Building.WATER){
+			skeleton.increaseWaterNum();
+		}else if(buildingIndex==Building.FOOD){
+			skeleton.increaseFoodNum();
+		}else if(buildingIndex==Building.BED){
+			skeleton.increaseBedNum();
+		}else if(buildingIndex==Building.TELEVISION){
+			skeleton.increaseTvNum();
+		}else{
+			skeleton.decreaseStationNum();
+		}
 		
 		reGenerateCurrentItemList();
 		
@@ -610,8 +652,8 @@ public class ShopMenu  extends Scene {
 		newCurrentItemList();
 		
 		int i=0;
-		while(i<haveItems.size()){
-			if(haveItems.get(i)==true){
+		while(i<numItems.size()){
+			if(numItems.get(i)>0){
 				currentItems.add(buyItems.get(i));
 			}
 			i++;
@@ -626,12 +668,15 @@ public class ShopMenu  extends Scene {
 		}
 	}
 	
-	public void buyItem(int buildingIndex){
-		setHaveItem(buildingIndex);
+	public void buyItem(int buildingIndex,int price){
+		setIncreaseNumItem(buildingIndex);
+		
+		skeleton.setFund(skeleton.getFund()-price);
+		setFund(Integer.toString(skeleton.getFund()));
 	}
 	
 	public void outOfItem(int buildingIndex){
-		setHaveItem(buildingIndex);
+		setDecreaseNumItem(buildingIndex);
 	}
 	
 	public void checkArrowVisible(){
@@ -722,7 +767,8 @@ public class ShopMenu  extends Scene {
 				scrollStartX = (int) (getWidth()/2+getWidth()*3/16);
 				scrollEndX = (int)(getWidth()/2+getWidth()*3/8);
 				System.out.println(pTouchAreaLocalX+" "+scrollEndX+" "+scrollStartX+" "+(float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue())+" "
-						+(int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()))+" "+scrollStartX);
+						+(int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()))+" "+scrollStartX
+						+" ");
 					int myEventAction = pSceneTouchEvent.getAction(); 
 			        switch (myEventAction) {
 			           case MotionEvent.ACTION_DOWN:
@@ -730,8 +776,7 @@ public class ShopMenu  extends Scene {
 			           case MotionEvent.ACTION_MOVE: 
 			           case MotionEvent.ACTION_UP:
 			        	   if(pTouchAreaLocalX>=scrollStartX && pTouchAreaLocalX<=scrollEndX){
-			        		   System.out.println("Dsafsdfsgfdgdfgdfgfdgdgdf");
-			        		   pharmacyScrollButton.setPosition(pTouchAreaLocalX,pharmacyScrollButton.getY());
+			        		   pharmacyScrollButton.setPosition(pTouchAreaLocalX-scrollStartX,pharmacyScrollButton.getY());
 			        		   salariesValue = (int)((float)((pTouchAreaLocalX-scrollStartX)/(scrollEndX-scrollStartX)*skeleton.getSalaryMaxValue()));
 			        		   skeleton.setSalaryCurValue(salariesValue);
 			        	   }
@@ -911,7 +956,7 @@ public class ShopMenu  extends Scene {
 		return blueValue;
 	}
 	
-	public void setDetailPanel(int buildingIndex,String productNameString,String costString,String detailString){
+	public void setDetailPanel(int buildingIndex,String productNameString,int costString,String detailString){
 		
 		if(productName!=null){
 			
@@ -925,7 +970,7 @@ public class ShopMenu  extends Scene {
 			productName.setPosition(detailFrame.getWidth()*5/16, 20);
 			detailFrame.attachChild(productName);
 			
-			productCost = new Text(0, 0, lcdFont, "Cost: "+costString);
+			productCost = new Text(0, 0, lcdFont, "Cost: "+Integer.toString(costString));
 			productCost.setScale(0.9f);
 			productCost.setPosition(detailFrame.getWidth()*5/16, 25+productName.getHeight());
 			detailFrame.attachChild(productCost);
@@ -934,6 +979,24 @@ public class ShopMenu  extends Scene {
 			productDetail.setScale(0.9f);
 			productDetail.setPosition(detailFrame.getWidth()*5/16, 30+productName.getHeight()+productCost.getHeight());
 			detailFrame.attachChild(productDetail);
+			
+			if(skeleton.getFund()<costString){
+				outImage.setCurrentTileIndex(0);
+				outImage.setVisible(true);
+				buyButton.setVisible(false);
+			}else if((buildingIndex==Building.PLANT && skeleton.getPlantNum()<=0) ||
+					(buildingIndex==Building.WATER && skeleton.getWaterNum()<=0) ||
+					(buildingIndex==Building.FOOD && skeleton.getFoodNum()<=0) ||
+					(buildingIndex==Building.BED && skeleton.getBedNum()<=0) ||
+					(buildingIndex==Building.TELEVISION && skeleton.getTVNum()<=0) ||
+					(skeleton.getStationNum()<=0)){
+					outImage.setCurrentTileIndex(1);
+					outImage.setVisible(true);
+					buyButton.setVisible(false);
+			}else{
+				outImage.setVisible(false);
+				buyButton.setVisible(true);
+			}
 				
 	}
 	
