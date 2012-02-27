@@ -675,8 +675,11 @@ public class ShopMenu  extends Scene {
 		setFund(Integer.toString(skeleton.getFund()));
 	}
 	
-	public void outOfItem(int buildingIndex){
+	public void sellItem(int buildingIndex,int price){
 		setDecreaseNumItem(buildingIndex);
+		
+		skeleton.setFund(skeleton.getFund()+price);
+		setFund(Integer.toString(skeleton.getFund()));
 	}
 	
 	public void checkArrowVisible(){
