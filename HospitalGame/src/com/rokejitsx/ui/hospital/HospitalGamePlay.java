@@ -29,13 +29,14 @@ import com.rokejitsx.data.GameCharatorFloorChangedListener;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.route.RouteManager;
+import com.rokejitsx.data.xml.BuildingInfo;
 import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
-import com.rokejitsx.data.xml.HospitalLevelReader.BuildingInfo;
 import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.building.BuildingListener;
 import com.rokejitsx.ui.building.Chair;
 import com.rokejitsx.ui.building.GlassDoor;
+import com.rokejitsx.ui.building.Laundry;
 import com.rokejitsx.ui.building.elevator.Elevator;
 import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector.ElevatorSelectorListener;
 import com.rokejitsx.ui.building.others.Food;
@@ -47,6 +48,8 @@ import com.rokejitsx.ui.building.transport.Helicopter;
 import com.rokejitsx.ui.building.transport.Transporter;
 import com.rokejitsx.ui.building.waitingqueue.Outside;
 import com.rokejitsx.ui.building.waitingqueue.OutsideElevator;
+import com.rokejitsx.ui.building.ward.Bed;
+import com.rokejitsx.ui.building.ward.Cardiology;
 import com.rokejitsx.ui.building.ward.Triage;
 import com.rokejitsx.ui.building.ward.Ward;
 import com.rokejitsx.ui.building.ward.WardListener;
@@ -58,6 +61,8 @@ import com.rokejitsx.ui.item.Coffee;
 import com.rokejitsx.ui.item.Dust;
 import com.rokejitsx.ui.item.InfoPlate;
 import com.rokejitsx.ui.item.Item;
+import com.rokejitsx.ui.item.Medicine;
+import com.rokejitsx.ui.item.Pill;
 import com.rokejitsx.ui.nurse.Nurse;
 import com.rokejitsx.ui.nurse.NurseListener;
 import com.rokejitsx.ui.nurse.NurseTail;
@@ -345,6 +350,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   private float machineBreakTime, machineBreakCountTime;  
   private int[] patinetIdList = {0, 1, 2 , 3, 4, 5, 7, 8, 9, 10};
   private int[] patinetWomanIdList = {2, 7, 10};
+  private int[] patinetOldIdList = {3, 4};
   private Random random = new Random();
   
   
@@ -352,9 +358,10 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   private UpgradeHospitalListener upgradeHospitalListener;
   
   private int leavedHospitalCount, transporterLeveingCount;
-  
-  public HospitalGamePlay(int maxFloor){
+  private boolean needUmbrella;
+  public HospitalGamePlay(int maxFloor, boolean needUmbrella){
 	super(maxFloor);
+	this.needUmbrella = needUmbrella;
 	itemOnDesk = new Item[5];
 	patientList = new Vector<Patient>();
 	healedPatientList = new Vector<Patient>();
@@ -411,6 +418,16 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
     soundManager.createMusic(hospitalStressSound);
     
   }
+  
+  public void unLoad(){
+    SoundPlayerManager.getInstance().stopSound(hospitalSound);	  
+    SoundPlayerManager.getInstance().releaseSound(hospitalSound);
+    
+    SoundPlayerManager.getInstance().stopSound(hospitalStressSound);	  
+    SoundPlayerManager.getInstance().releaseSound(hospitalStressSound);
+  }
+  
+  
   
   private void playPatientOnPickedSound(Patient patient){
 	if(patientShakeSoundStartPlayTime != -1 && System.currentTimeMillis() - patientShakeSoundStartPlayTime < 2000){
@@ -717,20 +734,25 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   
   
   public void patientComein(CourseInfo courseInfo){
+	//courseInfo.setBedRequestItem(new int[]{1,0,1});
 	int iid = Math.abs(random.nextInt());	
 	int pId;
+	int[] bedRequestItem = courseInfo.getBedRequestItem();
+	//int[] bedRequestItem = new int[]{1, 0, 1};
 	
-	if(courseInfo.isHasBabyScanInList()){
+	
+	if(bedRequestItem != null && bedRequestItem.length > 1){
+	  iid = iid % patinetOldIdList.length;
+	  pId = patinetOldIdList[iid];		
+	}else if(courseInfo.isHasBabyScanInList()){
 	  iid = iid % patinetWomanIdList.length;
 	  pId = patinetWomanIdList[iid];
 	}else{
 	  iid = iid % patinetIdList.length;
 	  pId = patinetIdList[iid];	
-	}
+	}	
 	
-	//pId = 5;
-	
-    Patient patient = new Patient(pId);	  
+    Patient patient = new Patient(pId, needUmbrella);	  
     if(getFloor() != 0)
       patient.setVisible(false);    
     patient.setGameCharactorPosition(routeManagerList[0].getRouteX(0), routeManagerList[0].getRouteY(0));
@@ -743,16 +765,38 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
     patient.setPatientListener(this);
     
     
-    InfoPlate infoPlate = new InfoPlate(patientQueueNumber);    
-    infoPlate.setOwner(patient);
+    InfoPlate infoPlate = new InfoPlate(patientQueueNumber);
+    
+    int pillId = -1;
+    if(bedRequestItem != null){
+      pillId = Pill.randomPill();	
+    }
+    
     if(babyPatient == null){
+      infoPlate.setOwner(patient);            	
       patient.addWardHealingRoute(Building.TRIAGE);      
       int[] machineList = courseInfo.getMachineList();
       for(int i = 0;i < machineList.length;i++){
-        int wardId = machineList[i];	
+        int wardId = machineList[i];     
+        //wardId = Building.BED;
         HealingRoute hRoute = patient.addWardHealingRoute(wardId);
-        //if(wardId != Building.BED)
         hRoute.addItem(infoPlate);
+        if(wardId == Building.BED){
+          if(bedRequestItem != null){
+            for(int j = 0; j < bedRequestItem.length;j++){
+              int id = bedRequestItem[j];
+              if(id == 0){
+            	Medicine medicine = new Medicine(patientQueueNumber);
+            	medicine.setOwner(patient);
+                hRoute.addItem(medicine);	  
+              } else if(id == 1){
+            	Pill pill = new Pill(pillId, patientQueueNumber);
+            	pill.setOwner(patient);
+                hRoute.addItem(pill);                 
+              }                	
+            }	  
+          }	
+        }
       }
       
       patient.setShowFloorNumberInBubbleBox(getMaxFloor() >= 2);      
@@ -763,14 +807,29 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
       babyPatient.addWardHealingRoute(Building.TRIAGE);
       babyPatient.setHealthLevel(courseInfo.getStartHealth());
       babyPatient.setFeverLevel(courseInfo.getDamageAmount());          
-      infoPlate.setOwner(babyPatient);
+      infoPlate.setOwner(babyPatient);           
       
       int[] machineList = courseInfo.getMachineList();
       for(int i = 0;i < machineList.length;i++){
         int wardId = machineList[i];	
         HealingRoute hRoute = babyPatient.addWardHealingRoute(wardId);
-        //if(wardId != Building.BED)
-          hRoute.addItem(infoPlate);
+        hRoute.addItem(infoPlate);
+        if(wardId == Building.BED){
+          if(bedRequestItem != null){
+            for(int j = 0; j < bedRequestItem.length;j++){
+              int id = bedRequestItem[j];
+              if(id == 0){
+                Medicine medicine = new Medicine(patientQueueNumber);
+                medicine.setOwner(babyPatient);
+                hRoute.addItem(medicine);	  
+              } else if(id == 1){
+                Pill pill = new Pill(pillId, patientQueueNumber);
+                pill.setOwner(babyPatient);
+                hRoute.addItem(pill);                 
+              }                	
+            }	  
+          }	
+        }
       }
          	
       babyPatient.setGameCharactorFloorChangeListener(this);
@@ -1112,14 +1171,20 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	  if(!(iEn instanceof Patient))
 	    continue;
 	  Patient patient= (Patient) iEn;
-	  if(!patient.isOnPick() && patient.getCurrentFloor() == 0 && !open){
+	  if(!patient.isOnPick() && patient.getCurrentFloor() == 0){
 	    float x2 = patient.getX() + patient.getWidth()/2 ;	  
 	    float y2 = patient.getY() + patient.getHeight()/2;
 	    float x3 = x2 - x1;
 	    float y3 = y2 - y1;
 	    float distance = FloatMath.sqrt((x3 * x3) + (y3 * y3));
-	    if(distance < 100)
+	    if(distance < 100){	      
 	      open = true;
+	      if(patient.isMoveout()){
+	        patient.openUmbrella();	  
+	      }else{
+	    	patient.closeUmbrella();	  
+	      }
+	    }
 	  }
 	 
 	}
@@ -1154,22 +1219,29 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
        if(rhs instanceof Helicopter)
          return -1;
        float x = lhs.getX() + lhs.getWidth()/2;
-       float y = lhs.getY() + lhs.getHeight()/2;
+       float y = lhs.getY() + lhs.getHeight()/2 + 20;
+       
+       if(lhs instanceof GlassDoor || lhs instanceof Water || lhs instanceof Cardiology || lhs instanceof Building && !(lhs instanceof Bed) && !(lhs instanceof Laundry))
+         y += 40;
        
        if(lhs instanceof GlassDoor)
-         y += 60;
+    	 y += 20;
        
        if(lhs instanceof Patient || lhs instanceof Nurse || lhs instanceof NurseTail)
-         y += lhs.getHeight() / 2;
+         y += lhs.getHeight() / 2 - 20;
        
        float x1 = rhs.getX() + rhs.getWidth()/2;
-       float y1 = rhs.getY() + rhs.getHeight()/2;
+       float y1 = rhs.getY() + rhs.getHeight()/2 + 20;
        
-       if(rhs instanceof GlassDoor)
-         y1 += 60;
+       if(rhs instanceof GlassDoor || rhs instanceof Water || rhs instanceof Cardiology || rhs instanceof Building && !(rhs instanceof Bed) && !(rhs instanceof Laundry))
+         y1 += 40;
+       
+       if(rhs instanceof GlassDoor){
+    	 y1 += 20;   
+       }
        
        if(rhs instanceof Patient || rhs instanceof Nurse || rhs instanceof NurseTail)
-         y1 += rhs.getHeight() / 2;
+         y1 += rhs.getHeight() / 2 - 20;
        
        float x3 = x - x1;
        float y3 = y - y1;    		
@@ -1181,28 +1253,23 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
        
        
        if(lhs instanceof GlassDoor){    	 
-         if(angle>= 45 && angle <= 225)
+         if(angle> 45 && angle < 225)
     	   return -1;	    
+         else if(angle == 45 || angle == 225)
+           return 0;
          return 1;
        }/*else if(rhs instanceof GlassDoor){
-    	   
-       }*/
+         if(angle> 45 && angle < 225)
+       	   return 1;	    
+         else if(angle == 45 || angle == 225)
+           return 0;
+         return -1;   
+       }       */
        
-      /* if(angle >= 315 && angle < 45)
-         return 1;
-       
-       if(angle >= 45 && angle < 135)
+       if(angle > 337.5 || angle < 157.5)
          return -1;
-       
-       
-       if(angle >= 135 && angle < 225)         
-    	 return -1;
-       
-       return 1;*/
-       
-       
-       if(angle >= 337.5 || angle <= 157.5)
-         return -1;
+       else if(angle == 337.5 || angle == 157.5)
+         return 0;
        return 1;
        	 
     	
@@ -1245,8 +1312,9 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	
 	Enumeration<GameObject> e = buildingList.elements();
 	while(e.hasMoreElements()){
-      GameObject obj = e.nextElement();      
-	  tmp.add(obj);	
+      GameObject obj = e.nextElement(); 
+      if(obj.getCurrentFloor() == getFloor())
+	    tmp.add(obj);	
 	}
 	
 	ArrayList<IEntity> children = mChildren;
@@ -1403,8 +1471,9 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	        
 	        //upgradeBuildingList.remove(obj);
 	        	        
-	        upgradeComplete();
-	      }else if(hospitalState == STATE_SELL){	    	
+	        upgradeComplete(STATE_BUY, info.getBuildingId());
+	      }else if(hospitalState == STATE_SELL){	
+	    	 
 		    BuildingInfo info = upgradeList[upgradeBuildingList.indexOf(obj)];
 		    int buildingType = info.getBuildingId();
 		    switch(buildingType){
@@ -1424,7 +1493,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 		    HospitalGameActivity.getGameActivity().sendDeattachChild(obj);
 		    buildingList.remove(obj);
 		    //upgradeBuildingList.remove(obj);		    
-		    upgradeComplete();	  
+		    upgradeComplete(STATE_SELL, buildingType);	  
 	      }
 	        return true;
 	      
@@ -1437,8 +1506,10 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   }
 
 
-   
   public void upgradeComplete(){
+    upgradeComplete(-1, -1);	  
+  }
+  private void upgradeComplete(int action, int buildingType){
 	
 	HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {		
 		@Override
@@ -1471,7 +1542,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 	    }
 	});
 	Log.d("RokejitsX", "upgradeHospitalListener.onUpgradeCompleted()1111111111111111111111111111111111111111111111");
-	upgradeHospitalListener.onUpgradeCompleted();
+	upgradeHospitalListener.onUpgradeCompleted(action, buildingType);
 	Log.d("RokejitsX", "upgradeHospitalListener.onUpgradeCompleted()2222222222222222222222222222222222222222222222");
 	
   } 
@@ -2234,7 +2305,7 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   }
   
   public interface UpgradeHospitalListener {
-    public void onUpgradeCompleted();	  
+    public void onUpgradeCompleted(int action, int buildingType);	  
   }
 
 

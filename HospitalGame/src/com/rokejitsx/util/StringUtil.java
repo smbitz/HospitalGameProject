@@ -2,6 +2,8 @@ package com.rokejitsx.util;
 
 import java.util.Vector;
 
+import org.anddev.andengine.opengl.font.Font;
+
 public class StringUtil {
    
 	
@@ -61,6 +63,32 @@ public class StringUtil {
   	String[] datas = new String[result.size()];
   	result.copyInto(datas);*/
   	return source.split(delimeter);
+  }
+  
+  // wrap text within boundaries
+  public static String getNormalizedText(Font font, String ptext, float textWidth) {
+    // no need to normalize, its just one word, so return
+    if (!ptext.contains(" "))
+      return ptext;
+    String[] words = ptext.split(" ");
+    StringBuilder normalizedText = new StringBuilder();
+    StringBuilder line = new StringBuilder();
+
+    for (int i = 0; i < words.length; i++) {
+      if (font.getStringWidth((line + words[i])) > (textWidth)) {
+        normalizedText.append(line).append('\n');
+        line = new StringBuilder();
+      }
+                 
+      if(line.length() == 0)                         
+        line.append(words[i]);
+      else
+        line.append(' ').append(words[i]);
+         
+      if (i == words.length - 1)
+        normalizedText.append(line);
+    }
+    return normalizedText.toString();
   }
   
 }

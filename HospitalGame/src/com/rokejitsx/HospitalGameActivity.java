@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import org.anddev.andengine.audio.sound.SoundManager;
 import org.anddev.andengine.engine.Engine;
 import org.anddev.andengine.engine.camera.Camera;
 import org.anddev.andengine.engine.options.EngineOptions;
@@ -17,20 +16,26 @@ import org.anddev.andengine.entity.util.FPSLogger;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
 
+import android.util.Log;
+
 import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameFonts;
-import com.rokejitsx.data.loader.HospitalLoader;
 import com.rokejitsx.data.loader.Loader;
 import com.rokejitsx.data.loader.LoaderListener;
-import com.rokejitsx.data.loader.LoadingScene;
 import com.rokejitsx.data.loader.ResourceLoader;
-import com.rokejitsx.menu.MainMenuScene;
-import com.rokejitsx.menu.MainMenuScene.MyMenuListener;
+import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.save.GameStatManager;
+import com.rokejitsx.ui.scene.HospitalDetailScene;
+import com.rokejitsx.ui.scene.LoadingScene;
+import com.rokejitsx.ui.scene.SplashScreen;
+import com.rokejitsx.ui.scene.SplashScreen.SplashScreenListener;
+import com.rokejitsx.ui.scene.map.MapScene;
+import com.rokejitsx.ui.scene.map.MapScene.MapSceneListener;
 import com.zurubu.scene.AppSharedPreference;
 import com.zurubu.scene.MenuScene;
 import com.zurubu.scene.TargetData;
 
-public class HospitalGameActivity extends BaseGameActivity {
+public class HospitalGameActivity extends BaseGameActivity implements SplashScreenListener, MapSceneListener {
   private static final int CAMERA_WIDTH = 800;
   private static final int CAMERA_HEIGHT = 600;
   private Camera mCamera;
@@ -83,12 +88,13 @@ public class HospitalGameActivity extends BaseGameActivity {
   
   @Override
   public Engine onLoadEngine() {
+	
 	gameAct = this;
 	appSettings = new AppSharedPreference(this);
 	dataMode = setData();
     this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
     Engine e = new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(4, 3), this.mCamera)/*.setNeedsSound(true).setNeedsMusic(true)*/);
-   // e.getEngineOptions().getTouchOptions().setRunOnUpdateThread(true);
+    //e.getEngineOptions().getTouchOptions().setRunOnUpdateThread(true);
 	return e; 	
   }
   private ArrayList<TargetData> setData() {
@@ -110,6 +116,8 @@ public class HospitalGameActivity extends BaseGameActivity {
   //private MainMenuScene menuScene;
   @Override
   public void onLoadResources() {
+	GameStatManager.getInstance().setSaveName("testsave5");
+	GameStatManager.getInstance().loadStat();
 	SoundPlayerManager.getInstance().reset();
     GameFonts.getInstance().loadFont(getTextureManager(), getFontManager());
      
@@ -123,16 +131,67 @@ public class HospitalGameActivity extends BaseGameActivity {
 	return new LoadingScene();
   }
 
+  private int hospitalId = 0;
+  
   @Override
   public void onLoadComplete() {
 	ResourceLoader rLoader = new ResourceLoader(new LoaderListener() {	
 		@Override
 		public void onLoadFinish(Loader loader) {
-		  showMainMenu();		
+		  showSplashScreen();
+		  //showMainMenu();		
+		  /*hospitalId = -1;
+		  showHospitalDetailScene();*/
+		  
+		  
+		  //sendSetScene(new MapScene(hospitalId, gameAct));
 		}
 	});
 	rLoader.startLoad();	
   } 
+  
+  private void showHospitalDetailScene(){
+	hospitalId++;
+	if(hospitalId == 8)
+	  hospitalId = 0;
+	Log.d("Rokejitsx", "ResourceManager.getInstance().getHospitalName(0) ============================================= "+ResourceManager.getInstance().getHospitalName(hospitalId));
+    sendSetScene(new HospitalDetailScene(ResourceManager.getInstance().getHospitalName(hospitalId), 0, 0, new HospitalDetailScene.HospitalDetailSceneListener() {
+			
+		@Override
+		public void onFinishShowHospitalDetail() {
+		  showHospitalDetailScene();		
+				
+		}
+	}));  
+  }
+  
+  @Override
+  public void onAirplaneArrivedHospital() {
+	hospitalId++;
+	if(hospitalId == 8)
+	  hospitalId = 0;
+    sendSetScene(new MapScene(hospitalId, gameAct));  	
+  }
+  
+  private void showSplashScreen(){    
+	runOnUpdateThread(new Runnable() {
+		
+		@Override
+		public void run() {
+		  SplashScreen screen = new SplashScreen(gameAct);
+		  mEngine.setScene(screen);
+		  screen.nextSplash();
+			
+		}
+	});
+	    
+  }
+  
+  @Override
+  public void onFinishShowSplashScreen() {
+  	showMainMenu();
+  	
+  }
   
   public void showMainMenu(){
     runOnUpdateThread(new Runnable() {
@@ -179,11 +238,30 @@ public class HospitalGameActivity extends BaseGameActivity {
   }
   
   public void sendUnloadTextureAtlas(BitmapTextureAtlas ba){
-  	  
+    Vector<BitmapTextureAtlas> v = new Vector<BitmapTextureAtlas>();
+    v.add(ba);
+    sendUnloadTextureAtlas(v);
+    
   }
   
   public void sendUnloadTextureAtlas(Vector<BitmapTextureAtlas> list){
     runOnUpdateThread(new SendUnloadTextureAtlasThread(list));	  
+  }
+  
+  public void sendDetachChildren(Entity entity){
+    runOnUpdateThread(new SendDetachChildren(entity));	  
+  }
+  
+  class SendDetachChildren implements Runnable{
+	private Entity entity;
+	
+	public SendDetachChildren(Entity entity){
+	  this.entity = entity;	
+	}
+	
+    public void run(){
+      entity.detachChildren();	
+    }	    
   }
   
   class SendUnloadTextureAtlasThread implements Runnable{
@@ -197,6 +275,8 @@ public class HospitalGameActivity extends BaseGameActivity {
 	  Enumeration<BitmapTextureAtlas> e = unloadList.elements();
 	  while(e.hasMoreElements()){
 	    BitmapTextureAtlas b = e.nextElement();
+	    if(b == null)
+	      continue;
 	    mEngine.getTextureManager().unloadTexture(b);
 	    b.clearTextureAtlasSources();	    
 	  }
@@ -270,6 +350,12 @@ public class HospitalGameActivity extends BaseGameActivity {
     
     
   }
+
+
+
+
+
+
 
 
   

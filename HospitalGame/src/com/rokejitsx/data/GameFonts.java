@@ -16,47 +16,60 @@ public class GameFonts {
 	
   public static final int DEFALUT_BOLD_18_BLACK = 0;	
   public static final int DEFALUT_BOLD_18_WHITE = 1;  
-  private static final int MAX_FONT = 2;
+  public static final int DEFALUT_BOLD_20_BLUE  = 2;
+  private static final int MAX_FONT = 3;
   
-  public static final int MENU_LCD_FONT_20_WHITE  = 0;
-  public static final int MENU_PLOK_FONT_18_RED   = 1;
+  public static final int MENU_LCD_FONT_20_WHITE   = 0;
+  public static final int MENU_PLOK_FONT_18_RED    = 1;
+  public static final int MENU_PLOK_FONT_20_BLUE   = 2;
+  public static final int MENU_LCD_FONT_20_BLUE   = 3;
   
-  private static final int MENU_MAX_FONT = 2;
+  private static final int MENU_MAX_FONT = 4;
 	
   
   private static final Typeface[] FONT_TYPE_FACE = {
     Typeface.DEFAULT,	   
     Typeface.DEFAULT,
+    Typeface.DEFAULT
   };
   
   private static final int[] FONT_STYLE = {
     Typeface.BOLD,	   
 	Typeface.BOLD,
+	Typeface.BOLD
   };
   
   private static final int[] FONT_SIZE = {
     18,	   
 	18,
+	20
   };
   
   private static final int[] FONT_COLOR = {
 	Color.BLACK,	   
     Color.WHITE,
+    Color.BLUE,
   };  
   
   private static final String[] MENU_FONT_TTF = {
     "LCD.ttf",
-    "Plok.ttf"
+    "Plok.ttf",
+    "Plok.ttf",
+    "LCD.ttf",
   };
   
   private static final int[] MENU_FONT_SIZE = {
     20,
-    18
+    18,
+    20,
+    20
   };
   
   private static final int[] MENU_FONT_COLOR = {	   
     Color.WHITE,
-    Color.RED
+    Color.RED,
+    Color.BLUE,
+    Color.BLUE
   };
   
   

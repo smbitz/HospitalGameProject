@@ -36,6 +36,7 @@ import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.building.waitingqueue.Outside;
 import com.rokejitsx.ui.building.ward.pharmacy.Pharmacy;
 import com.rokejitsx.ui.item.Item;
+import com.rokejitsx.ui.item.Medicine;
 import com.rokejitsx.ui.nurse.Nurse;
 
 
@@ -168,12 +169,33 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   private boolean moveToAmbulance, moveToHelicopter;
   
   private int billCost;
+  private Umbrella umbrella;
   
-  public Patient(int patientId){     
+  
+  public Patient(int patientId, boolean needUmbrella){     
 	super(bodyList[patientId][0]);	
 	this.patientId = patientId;
 	patientInfo = ResourceManager.getInstance().getPatientInfo(patientId);
 	init(patientId,patientInfo.randomHeadId());
+	
+	if(needUmbrella){
+	  umbrella = new Umbrella();
+	  umbrella.setPosition(getWidth()/ 2 - umbrella.getBaseWidth()/2, 30 - umbrella.getBaseHeight());
+	  attachChild(umbrella);
+	  
+	}
+  }
+  
+  public void openUmbrella(){
+    if(umbrella == null)
+      return;
+    umbrella.open();
+  }
+  
+  public void closeUmbrella(){
+	if(umbrella == null)
+      return;
+    umbrella.close();	  
   }
   
   public Patient(int patientId, int headId){     
@@ -181,11 +203,11 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	this.patientId = patientId;
 	patientInfo = ResourceManager.getInstance().getPatientInfo(patientId);
 	init(patientId, headId);
-  } 
+  }
   
   private void init(int patientId, int headId){
     if(patientId == 5){
-	  babyPatient = new Patient(6);
+	  babyPatient = new Patient(6, false);
 	  babyPatient.yourMom(this);
 	  babyPatient.setVisible(false);
 	}
@@ -289,7 +311,7 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }
   
   public void setFeverLevel(int fever){
-    this.feverLevel = fever;	  
+    this.feverLevel = fever;    
   }
   
   public void addBillCost(int cost){
@@ -611,7 +633,8 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }
   
   private void finishHealingRoute(){
-	
+	healthBar.setVisible(false);
+	queueNumber.setVisible(false);
 	isFinish = true;
 	jump();
 	if(listener != null)
@@ -686,6 +709,8 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
 	hideBubbleText();
 	onWaiting = false;
 	moveout = true;
+	healthBar.setVisible(false);
+	queueNumber.setVisible(false);
 	//idle(false);
     if(listener != null)
       listener.onPatientMoveOut(this);
@@ -755,7 +780,14 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
   }
   
   public void nextRequireItem(){
-    currentHealingRoute.nextItem();	  
+    currentHealingRoute.nextItem();
+    if(hasRequireItem()){
+      if(listener != null)
+        listener.onPatientRequestItem(this);
+      
+      showBubbleBoxItem();
+    }
+    
   }
   
   public Item getRequireItem(){
@@ -1413,23 +1445,26 @@ public class Patient extends GameCharactor implements PathFinderListener, IAnima
     
     public void setShowItem(int itemType, int patientNumber){
       item = Item.createItemObject(itemType, patientNumber);
-      item.setPosition(getBaseWidth() / 2 - item.getWidth() / 2, getBaseHeight() / 2 - item.getHeight() / 2 - 15);
-      //item.setAlpha(1);
+      item.unShowPatientNumber();
+      item.setPosition(getBaseWidth() / 2 - item.getWidth() / 2, getBaseHeight() / 2 - item.getHeight() / 2);      
       item.setVisible(true);
-      /*if(isVisible())
-        item.setVisible(true);
-      else
-    	item.setVisible(false);*/ 
-      detachChildren();
-      attachChild(item);
-      /*HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable(){
-        public void run(){
-           	
-        }	  
-      });*/
       
+      HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {
+		
+		@Override
+		public void run() {
+		  detachChildren();
+		  attachChild(item);
+		  bubbleBox.setVisible(false);
+	      bubbleTime = 2;	
+		}
+	  });
       
-      bubbleTime = 2;
+      //HospitalGameActivity.getGameActivity().sendDetachChildren(this);
+      //HospitalGameActivity.getGameActivity().sendAttachChild(this, item);
+      /*detachChildren();
+      attachChild(item);*/    
+      
       
     }
     

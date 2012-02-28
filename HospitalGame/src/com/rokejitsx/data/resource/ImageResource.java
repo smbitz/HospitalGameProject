@@ -159,6 +159,17 @@ public interface ImageResource {
   public final static String INTERFACE_METER_EN			= "interface_meeter_en.png";
   public final static String INTERFACE_CLOCK			= "interface_relogio.png";
   
+  public final static String MONTAGE_UMBRELLA			= "montage_umbrella.png";
+  
+  
+  public final static String ITEM_TABLE					= "items_table-HD.png";
+  
+  public final static String ACHIEVEMENT_ICON			= "achievement_icon-HD.png";
+  
+  public final static String INTERFACE_STAR				= "interface_stars.png";
+  
+  
+  
   
   
   /*public final static String[] IMAGE_LIST = {
@@ -358,6 +369,10 @@ public interface ImageResource {
     "media/textures/",    
     "media/textures/gui/",
     "media/textures/interfaces/",
+    "media/textures/",
+    "media/textures/gui/",
+    "media/textures/gui/",
+    "media/textures/interfaces/",
   };
   
   public final static String[][] staticResourceSet = {
@@ -478,7 +493,21 @@ public interface ImageResource {
 	    FLOOR_BUTTON_DOWN,
 	    FLOOR_BUTTON_UP,
 	    FLOOR_BUTTON	    
+	  },
+	  {//set11
+	    MONTAGE_UMBRELLA	  
+	  },
+	  {//set12
+	    ITEM_TABLE	  
+	  },
+	  {//set12
+	    ACHIEVEMENT_ICON	  
+	  },
+	  {//set13
+	    INTERFACE_STAR	  
 	  }
+	  
+	  
 	  
   }; 
   
@@ -493,6 +522,10 @@ public interface ImageResource {
 	  {2048, 2048},
 	  {256, 128},
 	  {1024, 256},	  
+	  {256, 256},
+	  {1024, 128},
+	  {128, 128},
+	  {64, 32},
   };
   
   public final static int[][][] staticImgFrameSize = {
@@ -615,7 +648,19 @@ public interface ImageResource {
 	  {2, 1},
 	  {2, 1},
 	  {2, 1}	 
-	}  
+	},
+	{
+	  {2,2}	
+	},
+	{
+	  {1,1}	
+	},
+	{
+	  {1,1}	
+	},
+	{
+	  {2,1}	
+	}
   };
   
   public final static int[][][] staticImgPositionInTextureAtlas = {
@@ -736,6 +781,18 @@ public interface ImageResource {
       {1024 - 120, 95},				//FLOOR_BUTTON_DOWN, 120x46
 	  {1024 - 120, 95 + 46},		//FLOOR_BUTTON_UP, 120x46
 	  {1024 - 128, 95 + 46 + 46}	//FLOOR_BUTTON  128x64 	    
-	}  
+	},
+	{
+	  {0,0}	
+	},
+	{
+	  {0,0}	
+	},
+	{
+	  {0,0}	
+	},
+	{
+	  {0,0}	
+	}
   };
 }

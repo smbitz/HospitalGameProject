@@ -26,7 +26,8 @@ public class CourseInfoReader extends TagXmlReader{
     "H4", 
     "H5", 
     "H6", 
-    "H7"
+    "H7",
+    ""
     
   };
 	
@@ -117,6 +118,19 @@ public class CourseInfoReader extends TagXmlReader{
       case 11://H7
     	readHosptipalInfo(6);	  
       break;
+      case 12://bed
+        try {
+		  String info = getStringValue();
+		  if(info != null)
+		    courseInfo.setBedRequestItem(StringUtil.stringToIntArray(info));
+		} catch (XmlPullParserException e) {
+		  // TODO Auto-generated catch block
+		  e.printStackTrace();
+		} catch (IOException e) {
+	      // TODO Auto-generated catch block
+	  	  e.printStackTrace();
+		}
+      break;
     }
 	  
 	return true;
@@ -205,12 +219,20 @@ public class CourseInfoReader extends TagXmlReader{
   
   public class CourseInfo{
     private int id, behaviorId, startHealth, damageAmount;
-    private int[] machines;
+    private int[] machines, bedRequestItem;
     private int[][][] hospitalData;
     
     public CourseInfo(int id){
       setId(id);	
       hospitalData = new int[7][9][3];
+    }
+    
+    public void setBedRequestItem(int[] item){
+      bedRequestItem = item;	
+    }
+    
+    public int[] getBedRequestItem(){
+      return bedRequestItem; 	
     }
     
     public void setId(int id){

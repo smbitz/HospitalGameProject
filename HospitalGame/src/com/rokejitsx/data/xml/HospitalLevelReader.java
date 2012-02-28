@@ -1,5 +1,7 @@
 package com.rokejitsx.data.xml;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -208,7 +210,7 @@ public class HospitalLevelReader extends XmlReader{
     routeManager = new RouteManager();
     for(int i = 0;i < nodeList.size();i++){
       PointF point = nodeList.get(""+i);
-      routeManager.addRoute(point.x, point.y);
+      routeManager.addRoute(point.x, point.y + 15);
     }
   }
   
@@ -355,95 +357,6 @@ public class HospitalLevelReader extends XmlReader{
 	
   }*/
   
-  public class BuildingInfo{
-    private int actId, buildingId, floor, actionNode, patientActionNode;
-    private float posX,posY;
-    private boolean enable;
-    //private float buildingFloorX, buildingFloorY;
-    
-    public BuildingInfo(int actId, int id){
-      this.actId = actId;
-      this.buildingId = id;	
-    }    
-    
-    public int getActId(){
-      return actId; 	
-    }
-    
-    /*public void setBuildingFloor(float x, float y){
-      buildingFloorX = x;
-      buildingFloorY = y;
-    }
-    
-    public float[] getBuildingFloor(){
-      return new float[]{buildingFloorX, buildingFloorY}; 	
-    }
-    
-    public float getBuildingFloorX(){
-      return buildingFloorX; 	
-    }
-    
-    public float getBuildingFloorY(){
-      return buildingFloorY; 	
-    }*/
-    
-    public void setActionNode(int node){
-      actionNode = node;	
-    }
-    
-    
-    
-    public void setPatientActionNoed(int node){
-      patientActionNode = node;	
-    }
-    
-    public int getActionNode(){
-      return actionNode;	
-    }
-    
-    public int getPatientActionNode(){
-      return patientActionNode; 	
-    }
-    
-    public int getBuildingId(){
-      return buildingId; 	
-    }
-    
-    public void setBuildingId(int id){
-      buildingId = id;	
-    }
-    
-    public void setFloor(int floor){
-      this.floor = floor;	
-    }
-    
-    public int getFloor(){
-      return floor; 	
-    }
-    
-    public void setPosition(float x, float y){
-      posX = x;
-      posY = y;
-    }
-    
-    public float getX(){
-      return posX;	
-    }
-    
-    public float getY(){
-      return posY;	
-    }
-    
-    public void setEnable(boolean enable){
-      this.enable = enable;  	
-    }
-    
-    public boolean isEnable(){
-      return enable;	
-    }   
-    
-    
-    
-  }
+  
   
 }

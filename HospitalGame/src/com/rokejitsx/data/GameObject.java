@@ -35,12 +35,11 @@ public class GameObject extends Rectangle implements FloorChangeListener, ImageR
     super(x, y, width, height);	
     //setCurrentFloor(floor);
     if(spriteName != null){
-      mainSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(spriteName));
-      mainSprite.setPosition(0, 0);
+      mainSprite = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(spriteName));      
       setWidth(mainSprite.getBaseWidth());
       setHeight(mainSprite.getBaseHeight());
     }
-    Shape body = onInitialBody(mainSprite);
+    onInitialBody(mainSprite);
     /*if(body != null){
       infoText = new ChangeableText(0, 0, GameFonts.getInstance().getFont(GameFonts.DEFALUT_BOLD_18_BLACK), "", HorizontalAlign.CENTER, 100);
 	  body.attachChild(infoText);

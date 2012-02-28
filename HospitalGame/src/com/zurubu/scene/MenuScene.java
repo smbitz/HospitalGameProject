@@ -18,9 +18,12 @@ import android.graphics.Color;
 
 import com.rokejitsx.GamePlay;
 import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.audio.SoundList;
+import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameFonts;
+import com.rokejitsx.save.GameStatManager;
 
-public class MenuScene extends Scene implements IOnSceneTouchListener { 
+public class MenuScene extends Scene implements IOnSceneTouchListener , SoundList{ 
 	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 	private Vector<BitmapTextureAtlas> list;
@@ -39,6 +42,9 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 		
 		// set layout for menu //
 		initLayoutMenu(); 
+		
+		SoundPlayerManager.getInstance().createMusic(MAIN_MENU);
+		SoundPlayerManager.getInstance().playSound(MAIN_MENU);
 	}
 
 	private void initFont(){
@@ -80,9 +86,10 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 		this.setTouchAreaBindingEnabled(true);
 	}
 	
-	//private BitmapTextureAtlas layoutBitmapTextureAtlas;
 	
-	public void unload(){
+	
+	//private BitmapTextureAtlas layoutBitmapTextureAtlas;
+	public void unload(){	  
 	  HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(list);	
 	}
 	
@@ -154,10 +161,14 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 	
 	private void nextScene(String sceneName) {
 		if(sceneName.toLowerCase().equals("play")){
+		  SoundPlayerManager.getInstance().stopSound(MAIN_MENU);
+		  SoundPlayerManager.getInstance().releaseSound(MAIN_MENU);
+		  
 		  GamePlay gamePlay = new GamePlay();
-		  HospitalGameActivity.getGameActivity().sendSetScene(gamePlay);
-		  gamePlay.loadHospital(0);
-			
+		  HospitalGameActivity.getGameActivity().sendSetScene(gamePlay);		  
+		  gamePlay.loadHospital();		
+		  unload();
+		  
 		}else if (sceneName.toLowerCase().equals("options")) {
 			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
 			

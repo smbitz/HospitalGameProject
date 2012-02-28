@@ -342,6 +342,7 @@ public class Nurse extends GameCharactor implements IAnimationListener {
       }
       itemToPick.setOwner(this);
       itemToPick = null;
+      setItemInHandPosition();
     }	  
   }
   
@@ -404,16 +405,9 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 	body.setColor(0, 1, 0);
 	return null;
   }
-
-  @Override
-  protected void onManagedUpdate(float pSecondsElapsed) {
-	/*if(leftItem != null){
-	  leftItem.setPosition(this.getX() - leftItem.getWidth()/2, this.getY() + getHeight()/2 - leftItem.getHeight()/2);	
-	}	
-	if(rightItem != null){
-	  rightItem.setPosition(this.getX() + getWidth()/2, this.getY() + getHeight()/2 - rightItem.getHeight()/2);	
-    }*/
-	int face = getFaceDirection();
+  
+  private void setItemInHandPosition(){
+    int face = getFaceDirection();
 	PointF rightHandPosition = new PointF();
 	PointF leftHandPosition = new PointF();
 	switch(face){
@@ -451,9 +445,20 @@ public class Nurse extends GameCharactor implements IAnimationListener {
 	if(leftItem != null)
 	  leftItem.setGameObjectPositionAsCenter(leftHandPosition.x, leftHandPosition.y);
 	if(rightItem != null)
-	  rightItem.setGameObjectPositionAsCenter(rightHandPosition.x, rightHandPosition.y);
+	  rightItem.setGameObjectPositionAsCenter(rightHandPosition.x, rightHandPosition.y);	  
+  }
+  @Override
+  protected void onManagedUpdate(float pSecondsElapsed) {
+	/*if(leftItem != null){
+	  leftItem.setPosition(this.getX() - leftItem.getWidth()/2, this.getY() + getHeight()/2 - leftItem.getHeight()/2);	
+	}	
+	if(rightItem != null){
+	  rightItem.setPosition(this.getX() + getWidth()/2, this.getY() + getHeight()/2 - rightItem.getHeight()/2);	
+    }*/
+	
 		
 	super.onManagedUpdate(pSecondsElapsed);
+	setItemInHandPosition();
 	
     if(isRepairing){
 	  nurseOperationTime += pSecondsElapsed;

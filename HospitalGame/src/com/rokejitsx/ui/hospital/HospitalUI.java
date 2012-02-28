@@ -1,24 +1,35 @@
 package com.rokejitsx.ui.hospital;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 import java.util.Vector;
 
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.primitive.Rectangle;
 import org.anddev.andengine.entity.scene.Scene;
+import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import org.anddev.andengine.input.touch.TouchEvent;
+import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
+import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 
+import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
+import com.kazekim.ui.TextButton;
 import com.rokejitsx.HospitalGameActivity;
+import com.rokejitsx.data.GameFonts;
+import com.rokejitsx.data.resource.ImageResource;
+import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.save.GameStatManager;
 import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector;
 import com.rokejitsx.ui.building.elevator.ElevatorFloorSelector.ElevatorSelectorListener;
-import com.rokejitsx.ui.hospital.HospitalGamePlay.HospitalListener;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
+import com.rokejitsx.ui.hospital.HospitalGamePlay.HospitalListener;
 import com.rokejitsx.ui.hospital.HospitalTimer.HospitalTimerListener;
 import com.rokejitsx.ui.item.Item;
 import com.rokejitsx.ui.patient.Patient;
 
-public class HospitalUI extends Entity implements HospitalListener{
+public class HospitalUI extends Entity implements HospitalListener, ImageResource{
+  private static int UI_BTN_CANCEL 		= 0;
+  private static int UI_BTN_MENU	    = 1;
   private HospitalStat hospitalStat;	
   private HospitalTimer timer;
   private HospitalFloorSelector hospitalFloorSelector;
@@ -29,7 +40,8 @@ public class HospitalUI extends Entity implements HospitalListener{
   
   private ItemDoughnut[] itemDoughnutList;
   
-  private Rectangle uiBtn;
+  private TextButton cancelBtn, menuBtn;
+  private BitmapTextureAtlasEx layoutBitmapTextureAtlas2;
   
   public HospitalUI(int maxFloor){	
 	
@@ -40,15 +52,23 @@ public class HospitalUI extends Entity implements HospitalListener{
 	  itemDoughnutList[i] = new ItemDoughnut();	
 	}
 	
+	AnimatedSprite itemBar = new AnimatedSprite(0, 0, ResourceManager.getInstance().getTexture(ITEM_TABLE));
+	itemBar.setScaleX(0.5f);
+	itemBar.setScaleY(0.75f);
+	itemBar.setPosition(400 - itemBar.getBaseWidth()/2, 600 - itemBar.getHeightScaled());
+	attachChild(itemBar);
+	
 	ItemDoughnut itemDo = itemDoughnutList[0];
-	float x = 450 - (itemDo.getWidth() * 2 + itemDo.getWidth()/2 + 20);
-	float y = 600 - itemDo.getHeight();
+	float x = 400 - (itemDo.getWidth() * 2 + itemDo.getWidth()/2 + 20);
+	float y = itemBar.getY() - itemDo.getHeight() / 2 + 10;
 	
 	for(int i = 0;i < itemDoughnutList.length;i++){
 	  itemDoughnutList[i].setPosition(x, y);
 	  x += itemDoughnutList[i].getWidth() + 10;
 	  attachChild(itemDoughnutList[i]);
     }
+	
+	
 	
 	
 	int cameraWidth = HospitalGameActivity.getGameActivity().getCameraWidth();
@@ -70,8 +90,36 @@ public class HospitalUI extends Entity implements HospitalListener{
     attachChild(elevatorFloorSelector);
     attachChild(hospitalStat);
     
-    uiBtn = new Rectangle(0, 0, 100, 60);
-    uiBtn.setPosition(800 - uiBtn.getWidth(), 600 - uiBtn.getHeight());
+    x = hospitalStat.getX() + hospitalStat.getWidth() + 5;
+    for(int i = 0;i < 9;i++){
+      AnimatedSprite star = new AnimatedSprite(x, 0, ResourceManager.getInstance().getTexture(INTERFACE_STAR)); 
+      if(i <= GameStatManager.getInstance().getHospitalLevel()){
+        star.setCurrentTileIndex(1);	  
+      }	
+      attachChild(star);
+      x += star.getBaseWidth() + 5;
+    }
+    
+    
+    layoutBitmapTextureAtlas2 = new BitmapTextureAtlasEx(1024, 128,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+	BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/textures/gamemenu/");
+	HospitalGameActivity.getGameActivity().getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas2);
+	
+	TiledTextureRegion titleBoxTextureRegion =layoutBitmapTextureAtlas2.appendTiledAsset(HospitalGameActivity.getGameActivity(), "montagemediobutton.png", 3, 1);
+	
+	
+	cancelBtn = new TextButton(0, 0, titleBoxTextureRegion.deepCopy(),GameFonts.getInstance().getMenuFont(GameFonts.MENU_LCD_FONT_20_WHITE),"Cancel");   
+	cancelBtn.setPosition(800 - cancelBtn.getBaseWidth(), 600 - cancelBtn.getBaseHeight());
+	
+	menuBtn = new TextButton(0, 0, titleBoxTextureRegion.deepCopy(),GameFonts.getInstance().getMenuFont(GameFonts.MENU_LCD_FONT_20_WHITE),"Menu");   
+	menuBtn.setPosition(800 - menuBtn.getBaseWidth(), 600 - menuBtn.getBaseHeight());
+	
+	menuBtn.setVisible(false);	
+	cancelBtn.setVisible(true);
+	
+	attachChild(cancelBtn);
+	attachChild(menuBtn);
+    
   }	
   
   public void setHospitalUIListner(HospitalUIListener listener){
@@ -82,15 +130,24 @@ public class HospitalUI extends Entity implements HospitalListener{
     this.doughtnutListener = listener;	  
   }
   
-  public void upgrade(){
-	uiBtn.setVisible(true);		
-	if(!uiBtn.hasParent())
-      attachChild(uiBtn);  
+  public void unload(){
+    HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(layoutBitmapTextureAtlas2);	  
   }
   
-  private void onUiBtnClicked(){
-    listener.onUiBtnClicked(HospitalUIListener.BTN_CANCEL);	   
-  }
+  /*public void upgrade(){	 
+	uiBtn.setVisible(true);
+	if(!uiBtn.hasParent())
+      HospitalGameActivity.getGameActivity().sendAttachChild(this, uiBtn);  
+  }*/
+  
+  /*private void onUiBtnClicked(){
+	if(uiBtn.getTitle().equals("Cancel")){
+      listener.onUiBtnClicked(HospitalUIListener.BTN_CANCEL);
+	}else{
+	  //show pause menu	
+	  listener.onUiBtnClicked(HospitalUIListener.BTN_MENU);
+	}
+  }*/
   
   public void setMoney(int money){
     hospitalStat.setMoney(money);	  
@@ -130,7 +187,9 @@ public class HospitalUI extends Entity implements HospitalListener{
   }
   
   public void startTimer(){
-	uiBtn.setVisible(false);
+	//uiBtn.setText("Menu");
+	cancelBtn.setVisible(false);
+	menuBtn.setVisible(true);
     timer.start();	  
   }
   
@@ -162,8 +221,11 @@ public class HospitalUI extends Entity implements HospitalListener{
     float touchX = pSceneTouchEvent.getX();
 	float touchY = pSceneTouchEvent.getY();
 	if(action == TouchEvent.ACTION_DOWN){
-	  if(uiBtn.isVisible() && uiBtn.contains(touchX, touchY)){
-	    onUiBtnClicked();
+	  if(cancelBtn.isVisible() && cancelBtn.contains(touchX, touchY)){
+		listener.onUiBtnClicked(HospitalUIListener.BTN_CANCEL);
+	    return true;	   
+	  }else if(menuBtn.isVisible() && menuBtn.contains(touchX, touchY)){
+	    listener.onUiBtnClicked(HospitalUIListener.BTN_MENU);
 	    return true;	   
 	  }
       for(int i = 0;i < itemDoughnutList.length;i++){
@@ -253,5 +315,7 @@ public class HospitalUI extends Entity implements HospitalListener{
     itemDoughnutList[index].unCheck();
 	
   }
+  
+  
 	
 }

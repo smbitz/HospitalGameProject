@@ -10,6 +10,7 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextur
 import org.anddev.andengine.opengl.texture.region.TiledTextureRegion;
 import org.xmlpull.v1.XmlPullParserException;
 
+import android.graphics.PointF;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
@@ -20,6 +21,8 @@ import com.rokejitsx.data.xml.CourseInfoReader;
 import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
 import com.rokejitsx.data.xml.DataHolder;
 import com.rokejitsx.data.xml.HospitalInfoReader;
+import com.rokejitsx.data.xml.MapInfoReader;
+import com.rokejitsx.data.xml.MapInfoReader.MapInfo;
 import com.rokejitsx.data.xml.NurseInfoReader;
 import com.rokejitsx.data.xml.ObjectInfosReader;
 import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
@@ -42,6 +45,7 @@ public class ResourceManager implements ImageResource{
   private Vector<BitmapTextureAtlas> staticAtlasList;
   private BitmapTextureAtlas levelAtlas;
   private GlobalsXmlReader globalReader;
+  private MapInfoReader mapInfoReader;
   
   public static ResourceManager getInstance(){
    if(self == null){
@@ -74,6 +78,10 @@ public class ResourceManager implements ImageResource{
   
   public int[] getHospitalXmlIds(int hospital){
     return hospitalReader.getHospitalXml(hospital);	  
+  }
+  
+  public String getHospitalName(int hospital){
+    return hospitalReader.getHospitalName(hospital);	  
   }
   
   public AnimationInfo getAmbulanceAnimationInfo(int id){ 
@@ -121,6 +129,18 @@ public class ResourceManager implements ImageResource{
     return globalReader.getGlobalData(tagName);	  
   }
   
+  public MapInfo getMapInfo(int hospitalId){
+    return mapInfoReader.getMapInfo(hospitalId);	  
+  }
+  
+  public PointF getPlaneStart(){
+    return mapInfoReader.getPlaneStart();	  
+  }
+  
+  public PointF getPlaneEnd(){
+    return mapInfoReader.getPlaneEnd();	  
+  }
+  
   
   public void init(){
     infoReader = new ObjectInfosReader();
@@ -131,6 +151,7 @@ public class ResourceManager implements ImageResource{
     courseReader = new CourseInfoReader();  
     hospitalReader = new HospitalInfoReader();
     globalReader = new GlobalsXmlReader();
+    mapInfoReader = new MapInfoReader();
     
     try {
 	  
@@ -142,6 +163,7 @@ public class ResourceManager implements ImageResource{
 	  courseReader.startParse();  
 	  hospitalReader.startParse();
 	  globalReader.startParse();
+	  mapInfoReader.startParse();
 	  /*int id = 6;
 	  courseReader.print(id, 0);
 	  Log.d("RokejitsX", "=========================");

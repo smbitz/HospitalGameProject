@@ -266,8 +266,9 @@ public abstract class Ward extends Building{
       if(nurse.isHasItemInHand(item)){
         nurse.handOut(item);
         patient.nextRequireItem();
-        if(!patient.hasRequireItem())
+        if(!patient.hasRequireItem()){
           startHealing();	  
+        }
       }      
     }	
   }

@@ -98,8 +98,8 @@ public class HospitalInfoReader extends TagXmlReader{
        	  hospitalImage = getStringValue();	
         break;   
         case 5:
-         hosPitalName[index] = getStringValue();
-         index++;
+         hosPitalName[this.index] = getStringValue();
+         this.index++;
         break;
         default:
           next();//skip to <Levels>        

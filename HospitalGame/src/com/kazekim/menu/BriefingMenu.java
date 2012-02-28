@@ -26,6 +26,7 @@ import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.ui.TextButton;
 import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.data.GameFonts;
+import com.rokejitsx.util.StringUtil;
 
 
 public class BriefingMenu{
@@ -113,7 +114,7 @@ public class BriefingMenu{
 		menuBorder.attachChild(okButton);
 		scene.registerTouchArea(okButton);
 		
-		objectiveDetailText = new Text(0, 0, lcdFont, objectiveString);
+		objectiveDetailText = new Text(0, 0, lcdFont, StringUtil.getNormalizedText(lcdFont, objectiveString, menuBorder.getWidth() - 20));		
 		objectiveDetailText.setPosition(20, 20);
 		objectiveDetailText.setColor(0.0f, 0.0f, 0.0f);
 		menuBorder.attachChild(objectiveDetailText);
@@ -125,6 +126,8 @@ public class BriefingMenu{
 		
 	
 	}
+	
+	
 	
 	public void unLoad(){
 	  Vector<BitmapTextureAtlas> list = new Vector<BitmapTextureAtlas>();
