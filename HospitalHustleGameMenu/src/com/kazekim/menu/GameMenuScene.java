@@ -21,10 +21,13 @@ import android.graphics.Color;
 import android.location.Address;
 import android.view.MotionEvent;
 
+import codegears.hospitalhustlegamemenu.HospitalHustleGameMenuActivity;
+
 import com.kazekim.andengine.extend.BitmapTextureAtlasEx;
 import com.kazekim.data.UserMissionSkeleton;
 import com.kazekim.temp.Building;
 import com.kazekim.ui.TextButton;
+import com.zurubu.scene.MenuScene;
 
 public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnAreaTouchListener,BriefMenuListener,PauseMenuListener,EndMissionMenuListener,ShopMenuListener{ 
 	  
@@ -41,9 +44,9 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	  private boolean isEndGame=false;
 	  private boolean isOpenShop=false;
 	  
-	  public GameMenuScene(final BaseGameActivity activity){	
+	  public GameMenuScene(){	
 		  
-		  this.activity = activity;
+		  this.activity = HospitalHustleGameMenuActivity.getInterfaceActivity();
 		  this.scene = this;
 		  
 		  setFont();
@@ -288,7 +291,12 @@ public class GameMenuScene extends Scene implements  IOnSceneTouchListener, IOnA
 	@Override
 	public void onMainMenuButtonClick(EndMissionMenu endMissionMenu) {
 		isEndGame=false;
-
+		if (MenuScene.getScene() != null) {
+			activity.getEngine().setScene(MenuScene.getScene());
+		} else {
+			final MenuScene menuScene = new MenuScene();
+			activity.getEngine().setScene(menuScene);
+		}
 	}
 
 	@Override

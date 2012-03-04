@@ -1,18 +1,27 @@
 package com.zurubu.scene;
 
+import codegears.hospitalhustlegamemenu.HospitalHustleGameMenuActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 public class AppSharedPreference {
 	private static Context context;
 	
-	private float lastMusicVolumePosition = 501;
-	private float lastSFXVolumePosition = 530;
-	private float lastMusicVolume;
-	private float lastSFXVolume;
+	private int lastMusicVolume;
+	private int lastSFXVolume;
 	private SharedPreferences preferenceOptions;
 	
+	public static AppSharedPreference instance;
+	
+	public static AppSharedPreference getInstance(){
+		if(instance==null)
+			new AppSharedPreference(HospitalHustleGameMenuActivity.getInterfaceActivity());
+		
+		return instance;
+	}
+	
 	public AppSharedPreference(Context _context){
+		instance = this;
 		context =_context;
 		
 		preferenceOptions = context.getSharedPreferences("savefiles", 0);
@@ -20,60 +29,37 @@ public class AppSharedPreference {
 		load(context);
 	}
 	
-	public void load(Context context){
-		lastMusicVolumePosition = preferenceOptions.getFloat("lastMusicVolumePosition", 0);	
-		lastSFXVolumePosition = preferenceOptions.getFloat("lastSFXVolumePosition", 0);	
-		lastMusicVolume = preferenceOptions.getFloat("lastMusicVolume", 0);	
-		lastSFXVolume = preferenceOptions.getFloat("lastSFXVolume", 0);	
+	public void load(Context context){	
+		lastMusicVolume = preferenceOptions.getInt("lastMusicVolume", 100);	
+		lastSFXVolume = preferenceOptions.getInt("lastSFXVolume", 100);	
 	}
 	
 	public void save(Context context){
 		SharedPreferences.Editor editoption = preferenceOptions.edit();
 		
-		editoption.putFloat("lastMusicVolumePosition", lastMusicVolumePosition);
-		editoption.putFloat("lastSFXVolumePosition", lastSFXVolumePosition);
-		editoption.putFloat("lastMusicVolume", lastMusicVolume);
-		editoption.putFloat("lastSFXVolume", lastSFXVolume);
+		editoption.putInt("lastMusicVolume", lastMusicVolume);
+		editoption.putInt("lastSFXVolume", lastSFXVolume);
 		editoption.commit();
 	}
 	
-	public void setMusicVolumePosition(float volume){
-		this.lastMusicVolumePosition=volume;
-		save(context);
-		
-	}
 	
-	public float getMusicVolumePosition(){
-		return lastMusicVolumePosition;
-	}
-	
-	public void setSFXVolumePosition(float volume){
-		this.lastSFXVolumePosition=volume;
-		save(context);
-		
-	}
-	
-	public float getSFXVolumePosition(){
-		return lastSFXVolumePosition;
-	}
-	
-	public void setMusicVolume(float volume){
+	public void setMusicVolume(int volume){
 		this.lastMusicVolume=volume;
 		save(context);
 		
 	}
 	
-	public float getMusicVolume(){
+	public int getMusicVolume(){
 		return lastMusicVolume;
 	}
 	
-	public void setSFXVolume(float volume){
+	public void setSFXVolume(int volume){
 		this.lastSFXVolume=volume;
 		save(context);
 		
 	}
 	
-	public float getSFXVolume(){
+	public int getSFXVolume(){
 		return lastSFXVolume;
 	}
 }

@@ -14,8 +14,9 @@ import org.anddev.andengine.ui.activity.BaseGameActivity;
 
 import com.kazekim.menu.GameMenuScene;
 import com.kazekim.menu.InitialVal;
+import com.zurubu.scene.OptionMenuListener;
 
-public class MenuGameActivity extends BaseGameActivity {
+public class MenuGameActivity extends BaseGameActivity{
 	
 	private static ArrayList<Entity> menuSceneList = new ArrayList<Entity>();
 	private Camera mCamera;
@@ -59,7 +60,7 @@ public class MenuGameActivity extends BaseGameActivity {
 	public Scene onLoadScene() {
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
-		return new GameMenuScene(this);
+		return new GameMenuScene();
 	}
 
 	@Override
@@ -67,4 +68,5 @@ public class MenuGameActivity extends BaseGameActivity {
 		// TODO Auto-generated method stub
 		
 	}
+
 }

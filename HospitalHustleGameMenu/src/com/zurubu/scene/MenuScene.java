@@ -3,7 +3,6 @@ package com.zurubu.scene;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.scene.Scene.IOnSceneTouchListener;
 import org.anddev.andengine.entity.sprite.Sprite;
-import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
 import org.anddev.andengine.opengl.font.FontFactory;
@@ -12,72 +11,168 @@ import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
+import com.kazekim.menu.GameMenuScene;
+import com.kazekim.menu.InitialVal;
+import com.kazekim.ui.ColorTextButton;
+
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Bundle;
 
 import codegears.hospitalhustlegamemenu.*;
 
-public class MenuScene extends Scene implements IOnSceneTouchListener { 
-	private BitmapTextureAtlas mFontTexture;
-	private Font mFont;
+public class MenuScene extends Scene implements IOnSceneTouchListener{ 
+	
 	private static MenuScene scene;
+	
+	private Sprite background;
+	private Sprite menuBorder;
+	
+	private Font mFont;
+	
+	private ColorTextButton playButton;
+	private ColorTextButton endlessModeButton;
+	private ColorTextButton optionsButton;
+	private ColorTextButton bestNurseButton;
+	private ColorTextButton tellFriendButton;
+	private ColorTextButton connectButton;
+	private ColorTextButton changePlayerButton;
 	 
+	private BitmapTextureAtlas buttonBitmapTextureAtlas;
+	private TextureRegion buttonTextureRegion;
+	private BitmapTextureAtlas screenBitmapTextureAtlas;
+	private BitmapTextureAtlas menuBitmapTextureAtlas;
+
+	private HospitalHustleGameMenuActivity interfaceAct;
+	
+	private static final int PLAYBUTTON=0;
+	private static final int ENDLESSMODEBUTTON=1; 
+	private static final int OPTIONSBUTTON=2;
+	private static final int BESTNURSESBUTTON=3;
+	private static final int TELLFRIENDBUTTON=4;
+	private static final int CONNECTBUTTON=5;
+	private static final int CHANGEPLAYERBUTTON=6;
+	
 	public static MenuScene getScene(){    
 		return scene;	  
 	}
 	
 	public MenuScene() {
+		
+		interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
+		
 		scene = this;
-		initFont();
+		
+		this.mFont=interfaceAct.getFont();
 		
 		// set layout for menu //
 		initLayoutMenu(); 
+		
+		
 	}
 
-	private void initFont(){
-	    /* Load Font/Textures. */
-		HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();  
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
-		interfaceAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		interfaceAct.getFontManager().loadFont(this.mFont);	  
-	}
+	
 	
 	private void initLayoutMenu(){
 		/* set layout menu. */ 
 		// background //
-		setLayout(1024, 1024, "textures/menu/main_background.png", 0, 0, false, "");
+		screenBitmapTextureAtlas = new BitmapTextureAtlas(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
+		
+		interfaceAct.getEngine().getTextureManager().loadTexture(screenBitmapTextureAtlas);
+		
+		TextureRegion bgTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(screenBitmapTextureAtlas, interfaceAct, "textures/menu/main_background.png",0, 0);
+		background = new Sprite(0,0, bgTextureRegion);
+		this.attachChild(background);
+		
 		// mainmenu border //
-		setLayout(512, 512, "textures/menu/mainmenu_border.png", 25, 105, false, "");
+		menuBitmapTextureAtlas = new BitmapTextureAtlas(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
+		
+		interfaceAct.getEngine().getTextureManager().loadTexture(menuBitmapTextureAtlas);
+
+		TextureRegion menuTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuBitmapTextureAtlas, interfaceAct, "textures/menu/mainmenu_border.png",0, 0);
+		menuBorder = new Sprite(InitialVal.CAMERA_WIDTH/40, InitialVal.CAMERA_HEIGHT/6, menuTextureRegion);
+		this.attachChild(menuBorder);
+		
 		// menu button play //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 130, true, "Play");	
-		// menu button endless mode //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 200, true, "Endless Mode");	
-		// menu button option //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 270, true, "Options");
-		// menu button bess nuress //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 340, true, "Best Nuress");	
-		// menu button tell a friend //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 410, true, "Tell a Friend");
-		// menu button connect //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 45, 505, true, "Connect");	
-		// main logo //
+		
+		buttonBitmapTextureAtlas = new BitmapTextureAtlas(512, 512,TextureOptions.DEFAULT);
+		buttonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(buttonBitmapTextureAtlas, interfaceAct, "textures/menu/menu_button1.png",0, 0);
+		interfaceAct.getEngine().getTextureManager().loadTexture(buttonBitmapTextureAtlas);
+		
+		playButton = addButton(buttonTextureRegion.deepCopy(), mFont, "Play",PLAYBUTTON);
+		playButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.1));
+		menuBorder.attachChild(playButton);
+		
+		endlessModeButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Endless Mode",ENDLESSMODEBUTTON);
+		endlessModeButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.1+(playButton.getHeight()-10)));
+		menuBorder.attachChild(endlessModeButton);
+		
+		optionsButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Options",OPTIONSBUTTON);
+		optionsButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.1+(playButton.getHeight()-10)*2));
+		menuBorder.attachChild(optionsButton);
+		
+		bestNurseButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Best Nurses",BESTNURSESBUTTON);
+		bestNurseButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.1+(playButton.getHeight()-10)*3));
+		menuBorder.attachChild(bestNurseButton);
+		
+		tellFriendButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Tell a Friend",TELLFRIENDBUTTON);
+		tellFriendButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.1+(playButton.getHeight()-10)*4));
+		menuBorder.attachChild(tellFriendButton);
+		
+		
+		connectButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Connect",CONNECTBUTTON);
+		connectButton.setPosition((int)(menuBorder.getWidth()/2-playButton.getWidth()/2), (int)(menuBorder.getHeight()*0.15+(playButton.getHeight()-10)*5));
+		menuBorder.attachChild(connectButton);
+		
+		changePlayerButton =addButton(buttonTextureRegion.deepCopy(), mFont, "Change Player",CHANGEPLAYERBUTTON);
+		changePlayerButton.setPosition((int)(InitialVal.CAMERA_WIDTH-changePlayerButton.getWidth()), 0);
+		this.attachChild(changePlayerButton);
+		
 		setLayout(256, 256, "textures/menu/main_logo.png", 50, 10, false, "");	
 		// menu insert button //
 		setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, "");	
 		// menu button change player //
-		setLayout(512, 512, "textures/menu/menu_button1.png", 540, 0, true, "Change Player");	
+	//	setLayout(512, 512, "textures/menu/menu_button1.png", 540, 0, true, "Change Player");	
 		
 		this.setTouchAreaBindingEnabled(true);
 	}
 	
+	private ColorTextButton addButton(TextureRegion texture,Font font,String text,final int menuType){
+		ColorTextButton button = new ColorTextButton(0,0, texture, font, text){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+						int eventaction = pSceneTouchEvent.getAction(); 
+		                switch (eventaction) {
+		                   case TouchEvent.ACTION_DOWN: 
+		                	   break;
+		                   
+		                   case TouchEvent.ACTION_MOVE:
+		                	   break;
+		                   
+		                   case TouchEvent.ACTION_UP:{
+		                	
+		                		   nextScene(menuType);
+		                		   
+		                	   break;
+		                   }
+		                }
+				return true;
+			}
+		};
+		button.setColorNormal(0.0f,0.0f,0.0f);
+		button.setColorOnClick(1.0f,0.0f,0.0f);
+		this.registerTouchArea(button);
+		
+		return button;
+	}
+	
 	private void setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();  
+		  
 			
 		BitmapTextureAtlas layoutBitmapTextureAtlas;
 		TextureRegion layoutTextureRegion;
@@ -88,62 +183,15 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 		layoutTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(layoutBitmapTextureAtlas, interfaceAct, path,0, 0);
 		interfaceAct.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
 		
-		if (setTx) {
-			layout = new Sprite(pX, pY, layoutTextureRegion){
-				@Override
-				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-							int eventaction = pSceneTouchEvent.getAction(); 
-			                float X = pSceneTouchEvent.getX();
-			                float Y = pSceneTouchEvent.getY();
-			                switch (eventaction) {
-			                   case TouchEvent.ACTION_DOWN: {
-			                	   System.out.println("#######  Down  ######");
-			                	   this.getChild(0).setColor(1.0f,0.0f,0.0f);
-			                	   break;
-			                   }
-			                   case TouchEvent.ACTION_MOVE:{
-			                	   System.out.println("#######  Move  ######");
-			                	   X = pSceneTouchEvent.getX();
-					               Y = pSceneTouchEvent.getY();
-			                	   if (X < this.getX() || X > this.getX() + this.getWidth() || Y < this.getY() || Y > this.getY() + this.getHeight()) {
-			                		   this.getChild(0).setColor(0.0f,0.0f,0.0f);
-			                		   System.out.println("#######  Cancel  ######");
-			                	   } else {
-			                		   this.getChild(0).setColor(1.0f,0.0f,0.0f);
-			                	   }
-			                	   break;
-			                   }
-			                   case TouchEvent.ACTION_UP:{
-			                	   System.out.println("#######  UP  ######");
-			                	   this.getChild(0).setColor(0.0f, 0.0f, 0.0f);
-			                	   if (X < this.getX() || X > this.getX() + this.getWidth() || Y < this.getY() || Y > this.getY() + this.getHeight()) {	     
-			                		   System.out.println("#######  Cancel  ######");
-			                	   } else {
-			                		   nextScene(((Text)this.getChild(0)).getText());
-			                	   }
-			                		   
-			                	   break;
-			                   }
-			                }
-					return true;
-				}
-			};	
-			Text stx = new Text(0, 0, this.mFont, tx);
-			stx.setPosition((layout.getWidth()/2) - (stx.getWidth()/2), (layout.getHeight()/2) - (stx.getHeight()/2) + 2);
-			stx.setColor(0.0f, 0.0f, 0.0f);
-			layout.attachChild(stx);
-			this.registerTouchArea(layout);
-		} 
-		else {
-			layout = new Sprite(pX, pY, layoutTextureRegion);
-		}
+		layout = new Sprite(pX, pY, layoutTextureRegion);
 		layout.setScale(1);
 		this.attachChild(layout);
 	}
 	
-	private void nextScene(String sceneName) {
-		if(sceneName.toLowerCase().equals("play")){
-			Intent myIntent;
+	private void nextScene(int type) {
+		if(type == PLAYBUTTON){
+		
+			/*Intent myIntent;
 			HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
 
 			myIntent = new Intent(interfaceAct,
@@ -151,21 +199,21 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 			
 			
 			interfaceAct.startActivityForResult(myIntent,1);
-			
-		}else if (sceneName.toLowerCase().equals("options")) {
-			HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
-			
+			*/
+			final GameMenuScene gameMenuScene = new GameMenuScene();
+			interfaceAct.getEngine().setScene(gameMenuScene);
+		}else if (type == OPTIONSBUTTON) {
+
 			// call option scene //	
 		    // switch to the new scene
-			if (OptionsScene.getScene() != null) {
+	/*		if (OptionsScene.getScene() != null) {
 				interfaceAct.getEngine().setScene(OptionsScene.getScene());
-			} else {
+			} else {*/
 				final OptionsScene optionsScene = new OptionsScene();
 				interfaceAct.getEngine().setScene(optionsScene);
-			}
-		} else if (sceneName.toLowerCase().equals("best nuress")) {
-			HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();			
-			
+		//	}
+		} else if (type == BESTNURSESBUTTON) {
+	
 			// call option scene //	
 		    // switch to the new scene
 			if (BestNursesScene.getScene() != null) {
@@ -174,9 +222,8 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 				final BestNursesScene bestnursesScene = new BestNursesScene();
 				interfaceAct.getEngine().setScene(bestnursesScene);
 			}
-		} else if (sceneName.toLowerCase().equals("connect")) {
-			HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();			
-			
+		} else if (type == CONNECTBUTTON) {
+
 			String url = "http://www.facebook.com/pages/Hospital-Hustle-Game/150163501688464";  
 			Intent i = new Intent(Intent.ACTION_VIEW);  
 			Uri u = Uri.parse(url);  
@@ -196,5 +243,12 @@ public class MenuScene extends Scene implements IOnSceneTouchListener {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public void recycle(){
+		buttonBitmapTextureAtlas.clearTextureAtlasSources();
+		screenBitmapTextureAtlas.clearTextureAtlasSources();
+		menuBitmapTextureAtlas.clearTextureAtlasSources();
+	}
+
 }
 

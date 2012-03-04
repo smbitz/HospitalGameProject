@@ -10,7 +10,13 @@ import org.anddev.andengine.engine.options.resolutionpolicy.RatioResolutionPolic
 import org.anddev.andengine.entity.Entity;
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.util.FPSLogger;
+import org.anddev.andengine.opengl.font.Font;
+import org.anddev.andengine.opengl.font.FontFactory;
+import org.anddev.andengine.opengl.texture.TextureOptions;
+import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.ui.activity.BaseGameActivity;
+
+import android.graphics.Color;
 
 import com.zurubu.scene.AppSharedPreference;
 import com.zurubu.scene.MenuScene;
@@ -21,9 +27,11 @@ public class HospitalHustleGameMenuActivity extends BaseGameActivity {
 	private static final int CAMERA_HEIGHT = 600;
 	private static ArrayList<Entity> menuSceneList = new ArrayList<Entity>();
 	private Camera mCamera;
-	private AppSharedPreference appSettings;
 	private ArrayList<TargetData> dataMode;
 	private int page = 0;
+	
+	private BitmapTextureAtlas mFontTexture;
+	private Font mFont;
 	  
 	private static HospitalHustleGameMenuActivity interfaceAct;
 	 
@@ -46,10 +54,7 @@ public class HospitalHustleGameMenuActivity extends BaseGameActivity {
 	public Camera getCamera(){
 	    return mCamera;	  
 	} 
-	
-	public AppSharedPreference getAppSettings(){
-	    return appSettings;	  
-	} 
+
 	
 	public void setDataMode(ArrayList<TargetData> d) {
 		dataMode = d;
@@ -70,7 +75,9 @@ public class HospitalHustleGameMenuActivity extends BaseGameActivity {
 	@Override
 	public Engine onLoadEngine() {
 		interfaceAct = this;
-		appSettings = new AppSharedPreference(interfaceAct);
+		
+		
+		
 		dataMode = setData();
 	    this.mCamera = new Camera(0, 0, CAMERA_WIDTH, CAMERA_HEIGHT);
 		return new Engine(new EngineOptions(true, ScreenOrientation.LANDSCAPE, new RatioResolutionPolicy(5, 3), this.mCamera));
@@ -93,6 +100,24 @@ public class HospitalHustleGameMenuActivity extends BaseGameActivity {
 	public void onLoadComplete() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	private void initFont(){
+	    /* Load Font/Textures. */
+ 
+		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		FontFactory.setAssetBasePath("font/");
+		mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
+		
+		this.getEngine().getTextureManager().loadTexture(this.mFontTexture);
+		getFontManager().loadFont(mFont);	  
+	}
+	
+	public Font getFont(){
+		if(mFont==null){
+			initFont();
+		}
+		return mFont;
 	}
 	
 	private ArrayList<TargetData> setData() {

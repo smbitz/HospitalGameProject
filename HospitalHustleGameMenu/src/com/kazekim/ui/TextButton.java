@@ -74,7 +74,7 @@ public class TextButton extends TiledSprite{
 	}
 	
 	public void setText(String title){
-		this.detachChild(text);
+		this.detachChildren();
 		
 		this.title=title;
 		
@@ -82,7 +82,7 @@ public class TextButton extends TiledSprite{
 	}
 	
 	public void setFont(Font font){
-		this.detachChild(text);
+		this.detachChildren();
 		
 		this.font=font;
 		
