@@ -32,6 +32,7 @@ import com.rokejitsx.data.route.RouteManager;
 import com.rokejitsx.data.xml.BuildingInfo;
 import com.rokejitsx.data.xml.CourseInfoReader.CourseInfo;
 import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
+import com.rokejitsx.menu.shopmenu.UpgradeData;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.building.BuildingListener;
 import com.rokejitsx.ui.building.Chair;
@@ -1511,9 +1512,20 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
   }
   private void upgradeComplete(int action, int buildingType){
 	
-	HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {		
+	 if(buildingType != -1){
+	   int price = Building.getMachineCost(buildingType);
+	   UpgradeData data = UpgradeData.getInstance();
+       if(action == STATE_BUY){
+         data.setFunds(data.getFunds() - price);	    
+       }else{
+    	 data.setFunds(data.getFunds() + price);  
+       }		 
+	 } 
+	/*HospitalGameActivity.getGameActivity().runOnUpdateThread(new Runnable() {		
 		@Override
-		public void run() {
+		public void run() {*/
+	  
+	  Vector<Entity> removeList = new Vector<Entity>();
 		  Enumeration<GameObject> e = upgradeBuildingList.elements();		  					
 		  while(e.hasMoreElements()){
 		    GameObject obj = e.nextElement();
@@ -1528,7 +1540,8 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 		    	 info.getBuildingId() != Building.BED)
 		        info.setBuildingId(Building.NONE);
 		      buildingList.remove(obj);
-		      obj.detachSelf();		    
+		      //obj.detachSelf();
+		      removeList.add(obj);
 		  	  removeFloorChangeListener(obj);
 		    }else{
 		      obj.setGameObjectReadyToUpgrade(false);	
@@ -1537,13 +1550,12 @@ public class HospitalGamePlay extends Hospital implements WardListener, PatientL
 		  	    
 		  	  
 		  }
-		  	
+		  upgradeHospitalListener.onUpgradeCompleted(action, buildingType);
+		  HospitalGameActivity.getGameActivity().sendDeattachChild(removeList);	
 			
-	    }
-	});
-	Log.d("RokejitsX", "upgradeHospitalListener.onUpgradeCompleted()1111111111111111111111111111111111111111111111");
-	upgradeHospitalListener.onUpgradeCompleted(action, buildingType);
-	Log.d("RokejitsX", "upgradeHospitalListener.onUpgradeCompleted()2222222222222222222222222222222222222222222222");
+	    /*}
+	});*/
+	
 	
   } 
   

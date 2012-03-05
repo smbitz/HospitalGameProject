@@ -23,8 +23,11 @@ import com.rokejitsx.data.GameFonts;
 import com.rokejitsx.data.loader.Loader;
 import com.rokejitsx.data.loader.LoaderListener;
 import com.rokejitsx.data.loader.ResourceLoader;
+import com.rokejitsx.data.resource.MenuResourceManager;
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.menu.shopmenu.UpgradeMenu;
 import com.rokejitsx.save.GameStatManager;
+import com.rokejitsx.save.ProfileManager;
 import com.rokejitsx.ui.scene.HospitalDetailScene;
 import com.rokejitsx.ui.scene.LoadingScene;
 import com.rokejitsx.ui.scene.SplashScreen;
@@ -58,6 +61,7 @@ public class HospitalGameActivity extends BaseGameActivity implements SplashScre
   public void finish() {
 	SoundPlayerManager.getInstance().releaseAll();
 	GameFonts.getInstance().unLoadAllFonts();
+	MenuResourceManager.getInstance().unLoadAll();
 	//onDestroy();  
 	super.finish();
   }
@@ -116,8 +120,15 @@ public class HospitalGameActivity extends BaseGameActivity implements SplashScre
   //private MainMenuScene menuScene;
   @Override
   public void onLoadResources() {
-	GameStatManager.getInstance().setSaveName("testsave5");
-	GameStatManager.getInstance().loadStat();
+	ProfileManager profileManager = ProfileManager.getInstance();
+	profileManager.loadProfile();  
+	  
+	if(profileManager.getProfileCount() > 0){
+	  GameStatManager.getInstance().setSaveName(profileManager.getCurrentProfileKey());
+	  GameStatManager.getInstance().loadStat();
+	}
+	/*GameStatManager.getInstance().setSaveName("testsave6");
+	GameStatManager.getInstance().loadStat();*/
 	SoundPlayerManager.getInstance().reset();
     GameFonts.getInstance().loadFont(getTextureManager(), getFontManager());
      
@@ -138,8 +149,13 @@ public class HospitalGameActivity extends BaseGameActivity implements SplashScre
 	ResourceLoader rLoader = new ResourceLoader(new LoaderListener() {	
 		@Override
 		public void onLoadFinish(Loader loader) {
-		  showSplashScreen();
-		  //showMainMenu();		
+		  //sendSetScene(new UpgradeMenu());
+		  //showSplashScreen();
+		  
+		  
+		  
+		  
+		  showMainMenu();		
 		  /*hospitalId = -1;
 		  showHospitalDetailScene();*/
 		  

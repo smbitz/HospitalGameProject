@@ -22,7 +22,8 @@ public class GameFonts {
   public static final int MENU_LCD_FONT_20_WHITE   = 0;
   public static final int MENU_PLOK_FONT_18_RED    = 1;
   public static final int MENU_PLOK_FONT_20_BLUE   = 2;
-  public static final int MENU_LCD_FONT_20_BLUE   = 3;
+  public static final int MENU_LCD_FONT_20_BLUE    = 3;
+  public static final int MENU_PLOK_FONT_18_BLACK  = 4;
   
   private static final int MENU_MAX_FONT = 4;
 	

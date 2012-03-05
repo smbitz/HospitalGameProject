@@ -8,6 +8,8 @@ import org.anddev.andengine.entity.sprite.AnimatedSprite;
 import android.util.Log;
 
 import com.rokejitsx.data.resource.ResourceManager;
+import com.rokejitsx.data.xml.AnimationInfo;
+import com.rokejitsx.menu.shopmenu.UpgradeData;
 import com.rokejitsx.ui.item.Item;
 
 public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_IDLE      = 0;
@@ -45,7 +47,7 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
 	   }
 	  };		
   private Vector<Item> prepareQueue;
-  private long startPrepareTime;
+  private float startPrepareTime;
   private AnimatedSprite shellSprite, counterSprite, signSprite, elevatorSprite;
   private String counterImgName, signImgName;
   private FirstPharmacyListener listener;
@@ -105,7 +107,7 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
 	  
   private void startPreparing(){
 	setState(STATE_DO_WORK);  
-    startPrepareTime = System.currentTimeMillis();
+    startPrepareTime = 0;
     
   }
 	  
@@ -152,18 +154,37 @@ public class FirstPharmacy extends Pharmacy{ /* private static final int STATE_I
     {105, 169},
   };
   
+  
+  private float doWorkTime;
   @Override
-  public void setItemPosition(Item item, int prepareQueue) {
-	Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
-	float[] off = offset[prepareQueue];
-	item.setPosition(/*getX() + */off[0] - item.getWidth()/2, /*getY() + */off[1] - item.getHeight()/2);			
+  protected AnimationInfo onSetAnimInfoBefore(int state, AnimationInfo animInfo) {
+	if(state == STATE_DO_WORK){
+	  AnimationInfo info = animInfo.deepCopy();	
+	  int phamacy = UpgradeData.getInstance().getPhamacy();
+	  float fps = info.getFPS();
+	  
+	  fps = fps + ((fps * phamacy) / 100);	  
+	  info.setFPS(fps);
+	  doWorkTime = (info.getSequenceCount() * (1000 / info.getFPS())) / 1000;/*maxDoworkTime - ((maxDoworkTime * phamacy) / 200)*/;	  
+	  return info;
+	}
+	
+	return super.onSetAnimInfoBefore(state, animInfo);
   }
+
+ @Override
+ public void setItemPosition(Item item, int prepareQueue) {
+   Log.d("RokejitsX", "prepareQueue = "+prepareQueue);  
+   float[] off = offset[prepareQueue];
+   item.setPosition(/*getX() + */off[0] - item.getWidth()/2, /*getY() + */off[1] - item.getHeight()/2);			
+ }
   
   @Override
   protected void onManagedUpdate(float pSecondsElapsed) {
 	switch(getState()){
 	  case STATE_DO_WORK:
-	    if(System.currentTimeMillis() > startPrepareTime + 5000){
+		startPrepareTime += pSecondsElapsed;
+	    if(startPrepareTime >= doWorkTime){
 	      finishPreparing(); 	
 	    }
 	  break;

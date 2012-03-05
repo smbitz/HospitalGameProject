@@ -170,7 +170,7 @@ public class Nurse extends GameCharactor implements IAnimationListener {
     setAnimation(repairSprite, animInfo.getEachFrameDuration(), animInfo.getSequence(), 1, false);
     isRepairing = true;
     nurseOperationTime = 0;
-    nurseOperationMaxTime = ((Ward)getCurrentBuilding()).getRepairTime() / 1000;
+    nurseOperationMaxTime = ((Ward)getCurrentBuilding()).getRepairTime();
   }
   
   

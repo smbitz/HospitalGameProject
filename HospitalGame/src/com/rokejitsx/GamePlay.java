@@ -24,6 +24,7 @@ import com.rokejitsx.data.route.RouteManager;
 import com.rokejitsx.data.xml.BuildingInfo;
 import com.rokejitsx.menu.InGameMenuScene2;
 import com.rokejitsx.menu.InGameMenuScene2.InGameMenuScene2Listener;
+import com.rokejitsx.menu.shopmenu.UpgradeData;
 import com.rokejitsx.save.GameStatManager;
 import com.rokejitsx.ui.building.Building;
 import com.rokejitsx.ui.hospital.HospitalFloorSelector.FloorSelectListener;
@@ -83,49 +84,40 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
 	new HospitalLevelLoader(buildingInfoList, routeManagerList, hospitalId, level, maxFloor, this).startLoad();    
   }
   
+  
+  private static final int[] STATIC_BUILDING = {
+    Building.PLANT,	  
+    Building.WATER,
+    Building.FOOD,
+    Building.TELEVISION
+  };  
   @Override
   public void onLoadFinish(Loader loader) {
 	if(loader instanceof HospitalLevelLoader){	  
-	  HospitalLevelLoader gLoader = (HospitalLevelLoader) loader;
-	  /*hospitalBg = gLoader.getHospitalBackground();
-	  bgTextureAtlas = gLoader.getBgTextureAtlas();*/
+	  HospitalLevelLoader gLoader = (HospitalLevelLoader) loader;	  
 	  hospitalBg = gLoader.getHospitalBg();
 	  bgTextureAtlas = gLoader.getBgBitmapTextureAtlas();
-	  /*int[] allBuildingTypeList = new int[buildingInfoList.length];
-	  for(int i = 0;i < buildingInfoList.length;i++){
-	    allBuildingTypeList[i] = buildingInfoList[i].getBuildingId();	  
-	  }*/	 
+	  
+	  UpgradeData data = UpgradeData.getInstance();
+	  GameStatManager stat = GameStatManager.getInstance();
+	  
+	  data.setFunds(stat.getTotalMoney());
+	  data.setPhamacy(stat.getPhamacy());
+	  data.setSalaries(stat.getSalaries());
+	  data.setRed(stat.getRed());
+	  data.setGreen(stat.getGreen());
+	  data.setBlue(stat.getBlue());
+	  
+	  
 	  int[] avaiableBuildingType = ResourceManager.getInstance().getBuildingListInLevel(hospitalId, level);
-	  /*for(int i = 0;i < avaiableBuildingType.length;i++){
-		int buildingType = avaiableBuildingType[i];
-		int num = 0;
-	    BuildingInfo[] list = getUpgradeBuildingInfoWithType(buildingType, true);
-	    Log.d("RokejitsX", "buildingType = "+buildingType);
-	    Log.d("RokejitsX", "list = "+list);	    
-		if(list != null){		 
-		  num = list.length; 
-		}	  
-		Log.d("RokejitsX", "num2 = "+num);
-		if(buildingType == Building.PLANT){
-		  UserMissionSkeleton.getInstance().setPlantNum(num);	
-		}else if(buildingType == Building.WATER){
-		  UserMissionSkeleton.getInstance().setWaterNum(num);	
-		}else if(buildingType == Building.FOOD){
-		  UserMissionSkeleton.getInstance().setFoodNum(num);	
-		}else if(buildingType == Building.TELEVISION){
-		  UserMissionSkeleton.getInstance().setTvNum(num);	
-		}else if(buildingType == Building.BED){
-		  UserMissionSkeleton.getInstance().setBedNum(num);	
-		}else{
-		  UserMissionSkeleton.getInstance().setStationNum(num);	
-		}
+	  int[] availableList = new int[STATIC_BUILDING.length + avaiableBuildingType.length];
 		
-		
-		
-	  }*/
+	  System.arraycopy(STATIC_BUILDING, 0, availableList, 0, STATIC_BUILDING.length);
+	  System.arraycopy(avaiableBuildingType, 0, availableList, STATIC_BUILDING.length, avaiableBuildingType.length);
 	  
 	  
-	  inGameMenuScene.setBuildingList(avaiableBuildingType, buildingInfoList);
+	  GameStatManager.getInstance().loadAppearedBuilding();
+	  inGameMenuScene.setBuildingList(availableList, buildingInfoList);
       hospital = gLoader.getHospital();
       hospital.addFloorChangeListener(this);
       hospitalUI = gLoader.getHospitalUI();
@@ -255,7 +247,8 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
   
   private void upgrade(){
 	//hospitalUI.upgrade();
-	sendSetChildScene(inGameMenuScene);
+	//sendSetChildScene(inGameMenuScene);
+	setChildScene(inGameMenuScene, false, true, true);
 	inGameMenuScene.showUpgradeMenu();
   }
   
@@ -414,7 +407,25 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
 	    /*sendSetChildScene(new LoadingScene());
 	    loadHospitalLevel(buildingInfoList, routeManagerList, hospitalId, hospital.getMaxFloor());*/
 	  }
+	  
+	  
+	  gameStat.setTotalMoney(UpgradeData.getInstance().getFunds() + hospitalUI.getMoney());
+	  
+	  gameStat.setPhamacy(UpgradeData.getInstance().getPhamacy());
+	  gameStat.setSalaries(UpgradeData.getInstance().getSalaries());
+	  gameStat.setRed(UpgradeData.getInstance().getRed());
+	  gameStat.setBlue(UpgradeData.getInstance().getBlue());
+	  gameStat.setGreen(UpgradeData.getInstance().getGreen());
+	  
+	  
+	  
 	  gameStat.saveStat();
+	  int[] avaiableBuildingType = ResourceManager.getInstance().getBuildingListInLevel(hospitalId, level);
+	  int[] availableList = new int[STATIC_BUILDING.length + avaiableBuildingType.length];			
+	  System.arraycopy(STATIC_BUILDING, 0, availableList, 0, STATIC_BUILDING.length);
+	  System.arraycopy(avaiableBuildingType, 0, availableList, STATIC_BUILDING.length, avaiableBuildingType.length);
+		
+	  gameStat.saveAppearedBuilding(availableList, true);
 	}
 	
 	hospital.timeOut();	
@@ -537,6 +548,33 @@ public class GamePlay extends Scene implements IOnSceneTouchListener, HospitalTi
 	  sendSetChildScene(new LoadingScene());
 	  loadHospitalLevel(buildingInfoList, routeManagerList, hospitalId, hospital.getMaxFloor());
 	}
+	
+	//int[] avaiableBuildingType = ResourceManager.getInstance().getBuildingListInLevel(hospitalId, level);
+	/*Vector<Integer> list = new Vector<Integer>();
+	for(int i = 0;i < buildingInfoList.length;i++){
+	  int buildingType = buildingInfoList[i].getBuildingId();
+	  if(buildingType == Building.PLANT ||
+	     buildingType == Building.WATER ||
+	     buildingType == Building.TELEVISION ||
+	     buildingType == Building.FOOD ||
+	     buildingType == Building.BED){
+	     if(!buildingInfoList[i].isEnable())
+	       buildingType = -1;
+	  }
+	  
+	  if(buildingType != -1){
+	    if(!list.contains(buildingType))
+	      list.add(buildingType);
+	  }
+	  
+	}
+	
+	int[] buildingList = new int[list.size()];
+	for(int i = 0;i < list.size();i++){
+	  buildingList[i] = list.elementAt(i);	
+	}*/
+	
+	
     //this.getChildScene().back();	
   }
 

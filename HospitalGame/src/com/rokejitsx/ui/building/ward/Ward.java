@@ -24,7 +24,7 @@ public abstract class Ward extends Building{
   
   
   private double healingEffectiveLevel; 
-  private long operationTime,endHealingTime, repairTime;
+  private float operationTime,endHealingTime, repairTime;
   private WardListener listener; 
   private int billCost;
   private Sound healingSound;
@@ -89,7 +89,7 @@ public abstract class Ward extends Building{
     DataHolder dHolder = ResourceManager.getInstance().getGlobalData(tagName);	  
     if(dHolder.get(GiActionPointBuilding.IN_USE_TIME) != null){
       Log.d("RokejitsX", "dHolder.get(GiActionPointBuilding.IN_USE_TIME) = "+dHolder.get(GiActionPointBuilding.IN_USE_TIME));
-      setOperationTime((long) (dHolder.getFloat(GiActionPointBuilding.IN_USE_TIME) * 1000));	
+      setOperationTime(dHolder.getFloat(GiActionPointBuilding.IN_USE_TIME));	
     }
     
     if(dHolder.get(GiActionPointBuilding.DAMAGE) != null){
@@ -97,7 +97,7 @@ public abstract class Ward extends Building{
     }
     
     if(dHolder.get(GiActionPointBuilding.REPAIR_TIME) != null){
-      setRepairTime((long) (dHolder.getFloat(GiActionPointBuilding.REPAIR_TIME) * 1000));	
+      setRepairTime(dHolder.getFloat(GiActionPointBuilding.REPAIR_TIME));	
     }
     
     if(dHolder.get(GiActionPointBuilding.BILL) != null){
@@ -111,13 +111,13 @@ public abstract class Ward extends Building{
   
 
   
-  private void setRepairTime(long time){
+  private void setRepairTime(float time){
     repairTime = time;
     if(repairTime != 0)
       this.setBuildingCanBroke();
   }
   
-  public long getRepairTime(){
+  public float getRepairTime(){
     return repairTime;	  
   }
 
@@ -129,7 +129,7 @@ public abstract class Ward extends Building{
     healingEffectiveLevel = healingLevel;	  
   }
   
-  public void setOperationTime(long time){
+  public void setOperationTime(float time){
     operationTime = time;	  
   } 
   
@@ -167,7 +167,7 @@ public abstract class Ward extends Building{
 	getCurrentPatient().onHealing();
     onStartHealing();      
     currentHealingTime = 0;
-    endHealingTime = System.currentTimeMillis() + operationTime;
+    endHealingTime = operationTime;
     //playHealingSound();
   }
   
@@ -176,7 +176,7 @@ public abstract class Ward extends Building{
 	Patient patient = getCurrentPatient();	
 	patient.setHealthLevel(patient.getHealthLevel() + (healingEffectiveLevel  * pSecondsElapsed));	
     onHealing(pSecondsElapsed);	  
-    if(System.currentTimeMillis() > endHealingTime)
+    if(currentHealingTime >= endHealingTime)
       finishHealing();
   }
   

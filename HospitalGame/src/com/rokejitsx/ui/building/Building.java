@@ -14,7 +14,10 @@ import com.rokejitsx.data.GameCharactorListener;
 import com.rokejitsx.data.GameObject;
 import com.rokejitsx.data.resource.ResourceManager;
 import com.rokejitsx.data.xml.AnimationInfo;
+import com.rokejitsx.data.xml.DataHolder;
 import com.rokejitsx.data.xml.ObjectInfosReader.ObjectInfo;
+import com.rokejitsx.data.xml.global.GlobalsXmlReader;
+import com.rokejitsx.data.xml.global.giactionpoint.GiActionPointBuilding;
 import com.rokejitsx.ui.building.elevator.Elevator;
 import com.rokejitsx.ui.building.others.Food;
 import com.rokejitsx.ui.building.others.Plant;
@@ -245,11 +248,14 @@ public abstract class Building extends GameObject implements GameCharactorListen
   }
   
   
-  
+  protected AnimationInfo onSetAnimInfoBefore(int state, AnimationInfo animInfo){
+    return animInfo;	  
+  }
   
   public void setState(int state){	
     this.buildingState = state;	  
     AnimationInfo animationInfo = ResourceManager.getInstance().getAnimationInfo(animationIds[state]);   
+    animationInfo = onSetAnimInfoBefore(state, animationInfo);
     setAnimation(mainSprite, animationInfo);   
     onSetState(state);
   }
@@ -653,6 +659,129 @@ public abstract class Building extends GameObject implements GameCharactorListen
     }
     machineField.setCurrentTileIndex(frame);
     return machineField;
+  }
+  
+  public static int getMachineCost(int buildingType){
+	Log.d("RokejitsX", "getMachineCost = "+buildingType);
+	String tagName = null;
+    switch(buildingType){
+      case BED:
+        tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BED;
+      break;
+      case XRAY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_XRAY;
+      break;
+      case QUICKTREAT:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_QUICKTREAT;
+      break;
+      case PLANT:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PLANT;
+      break;
+      case WATER:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_WATER;
+      break;
+      case FOOD:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_FOOD;
+      break;
+      case TAC:
+        tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CAT;
+      break;
+      case PHYSIOTHERAPY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PHYSIOTHERAPY;
+      break;
+      case OPHTHALMOLOGY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPHTHALMOLOGY;
+      break;
+      case PSYCHIATRY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_PSYCHIATRY;
+      break;
+      case CHEMOTHERAPY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CHEMOTHERAPY;
+      break;
+      case BABY_SCAN:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_BABYSCAN;
+      break;
+      case DENTIST:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_DENTIST;
+      break;
+      case CARDIOLOGY:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_CARDIOLOGY;
+      break;
+      case OPERATION:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_OPERATION;
+      break;
+      case ULTRASCAN:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_ULTRA_SCAN;
+      break;
+      case TELEVISION:
+    	tagName = GlobalsXmlReader.GLOBAL_GI_ACTION_POINT_TELEVISION;
+      break;
+    }    
+    DataHolder dHolder = ResourceManager.getInstance().getGlobalData(tagName);
+    return (int) dHolder.getDouble(GiActionPointBuilding.PRICE);	  
+  }
+
+  
+  public static String getMachineDescription(int buildingType){
+    switch(buildingType){
+      case BED:
+        return "This new and improved hospital bed has 25% less bed bugs than last year's model!";
+      case XRAY:
+        return "It's 10 times more X-treme than the Y-ray!";
+      case QUICKTREAT:
+          return "Gets patients in and out before you can say 'malpractice'.";
+      case PLANT:
+          return "Scientifically engineered to stay green and leafy under artificial hospital lights.";
+      case WATER:
+          return "The finest in imported tap water; it keeps patients content longer. Now with more fish.";
+      case FOOD:
+          return "These prepackaged meals taste almost like real food.";
+      case TAC:
+          return "Contains three settings: regular, delicate, and permanent press.";
+      case PHYSIOTHERAPY:
+          return "Gives patients a run for their money.";
+      case OPHTHALMOLOGY:
+          return "Make sure patients sign the fine print before treatment.";
+      case PSYCHIATRY:
+          return "Dr. Birdbrain has a flighty but effective method for uplifting patient spirits.";
+      case CHEMOTHERAPY:
+          return "A dermatologic treatment that smoothes wrinkles, clears pores, and smells like pine!";
+      case BABY_SCAN:
+          return "Send patients to Dr. Juan and they will always leave pregnant!";
+      case DENTIST:
+          return "We never hear patients complain about Dr. Molar, but they sure do mumble a lot.";
+      case CARDIOLOGY:
+          return "If a patient complains of chest pains and they haven't even seen the bill yet, send them here.";
+      case OPERATION:
+          return "He slices; he dices; patients won't know what hit them!";
+      case ULTRASCAN:
+          return "No one really knows how to use it. But it's so high tech, that we trust its diagnosis.";
+      case TELEVISION:
+          return "It's the ultimate plug-in drug! It keeps patients pacified for longer periods.";
+    }	  
+    return null;
+  }
+  
+  public static String getDoctorName(int buildingType){
+    switch(buildingType){
+      case QUICKTREAT:
+        return "Dr. Swift";
+      case PHYSIOTHERAPY:
+          return "Dr. Hale";
+      case OPHTHALMOLOGY:
+          return "Dr. Buenavista";
+      case PSYCHIATRY:
+          return "Dr. Birdbrain";
+      case BABY_SCAN:
+          return "Dr. Don Juan";
+      case DENTIST:
+          return "Dr. Molar";
+      case CARDIOLOGY:
+          return "Dr. Lionhart";
+      case OPERATION:
+          return "Dr. Hackenslash";      
+    }  	   
+    return null;
   }
   
   public static String getBuildingName(int buildingType){	  

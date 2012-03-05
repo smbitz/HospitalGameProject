@@ -173,7 +173,7 @@ public class PauseMenu extends Scene {
 		            	break;}
 		           case MotionEvent.ACTION_UP:
 		        	   optionsButton.setCurrentTileIndex(0);
-		        	   back();
+		        	   //back();
 						listener.onOptionsButtonClick(pauseMenu);
 		                break;
 		        }

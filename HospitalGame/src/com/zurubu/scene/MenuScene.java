@@ -21,9 +21,15 @@ import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.audio.SoundList;
 import com.rokejitsx.audio.SoundPlayerManager;
 import com.rokejitsx.data.GameFonts;
+import com.rokejitsx.data.resource.MenuImageResource;
+import com.rokejitsx.data.resource.MenuResourceManager;
+import com.rokejitsx.menu.profilemenu.ProfileNameField;
+import com.rokejitsx.menu.profilemenu.ProfileScreen;
+import com.rokejitsx.menu.profilemenu.ProfileScreen.ProfileScreenListener;
 import com.rokejitsx.save.GameStatManager;
+import com.rokejitsx.save.ProfileManager;
 
-public class MenuScene extends Scene implements IOnSceneTouchListener , SoundList{ 
+public class MenuScene extends Scene implements IOnSceneTouchListener , SoundList, ProfileScreenListener, MenuImageResource{ 
 	private BitmapTextureAtlas mFontTexture;
 	private Font mFont;
 	private Vector<BitmapTextureAtlas> list;
@@ -39,7 +45,7 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 		//scene = this;
 		list = new Vector<BitmapTextureAtlas>();
 		initFont();
-		
+		MenuResourceManager.getInstance().load(IMAGE_PROFILE_MENU_SET);
 		// set layout for menu //
 		initLayoutMenu(); 
 		
@@ -57,7 +63,7 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 		interfaceAct.getFontManager().loadFont(this.mFont);	*/
 		mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);
 	}
-	
+	private ProfileNameField profileNameField;
 	private void initLayoutMenu(){
 		/* set layout menu. */ 
 		// background //
@@ -79,18 +85,30 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 		// main logo //
 		list.add(setLayout(256, 256, "textures/menu/main_logo.png", 50, 10, false, ""));	
 		// menu insert button //
-		list.add(setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, ""));	
+		//list.add(setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, ""));
+		
+		profileNameField = new ProfileNameField("");
+		profileNameField.setPosition(310, 17);
+		attachChild(profileNameField);
+		updateProfileName();
+		//list.add(setLayout(256, 256, "textures/menu/menu_insertbutton.png", 310, 17, false, ""));
 		// menu button change player //
 		list.add(setLayout(512, 512, "textures/menu/menu_button1.png", 540, 0, true, "Change Player"));	
 		
 		this.setTouchAreaBindingEnabled(true);
 	}
 	
-	
+	public void updateProfileName(){
+      String profileName = ProfileManager.getInstance().getCurrentProfileName();
+	  if(profileName == null)
+	    profileName = "";
+	  profileNameField.changeName(profileName);
+	}
 	
 	//private BitmapTextureAtlas layoutBitmapTextureAtlas;
 	public void unload(){	  
 	  HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(list);	
+	  MenuResourceManager.getInstance().unLoad(IMAGE_PROFILE_MENU_SET);
 	}
 	
 	private BitmapTextureAtlas setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
@@ -161,13 +179,19 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 	
 	private void nextScene(String sceneName) {
 		if(sceneName.toLowerCase().equals("play")){
-		  SoundPlayerManager.getInstance().stopSound(MAIN_MENU);
-		  SoundPlayerManager.getInstance().releaseSound(MAIN_MENU);
-		  
-		  GamePlay gamePlay = new GamePlay();
-		  HospitalGameActivity.getGameActivity().sendSetScene(gamePlay);		  
-		  gamePlay.loadHospital();		
-		  unload();
+			
+		  if(ProfileManager.getInstance().getProfileCount() == 0){
+			ProfileScreen profileScree = new ProfileScreen();
+			profileScree.setProfileScreenListener(this);
+			setChildScene(profileScree, false, true, true);
+		  }else{			
+		    SoundPlayerManager.getInstance().stopSound(MAIN_MENU);
+		    SoundPlayerManager.getInstance().releaseSound(MAIN_MENU);		  
+		    GamePlay gamePlay = new GamePlay();
+		    HospitalGameActivity.getGameActivity().sendSetScene(gamePlay);		  
+		    gamePlay.loadHospital();		
+		    unload();
+		  }
 		  
 		}else if (sceneName.toLowerCase().equals("options")) {
 			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();
@@ -180,6 +204,9 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 				final OptionsScene optionsScene = new OptionsScene();
 				interfaceAct.getEngine().setScene(optionsScene);
 			}*/
+			OptionsScene opScene = new OptionsScene();
+			opScene.setOptionMenuListener(SoundPlayerManager.getInstance());
+			setChildScene(opScene, false, true, true); 
 		} else if (sceneName.toLowerCase().equals("best nuress")) {
 			/*HospitalHustleGameMenuActivity interfaceAct = HospitalHustleGameMenuActivity.getInterfaceActivity();			
 			
@@ -205,6 +232,10 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 			  // Raise on activity not found  
 //			  Toast toast = Toast.makeText(interfaceAct, "Browser not found.", Toast.LENGTH_SHORT);  
 			}*/  
+		}else if (sceneName.toLowerCase().equals("change player")) {
+		  ProfileScreen profileScree = new ProfileScreen();
+		  profileScree.setProfileScreenListener(this);
+		  setChildScene(profileScree, false, true, true);
 		}
 	}
 	
@@ -212,6 +243,12 @@ public class MenuScene extends Scene implements IOnSceneTouchListener , SoundLis
 	public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public void onChangedProfile() {
+	  updateProfileName();
+		
 	}
 }
 

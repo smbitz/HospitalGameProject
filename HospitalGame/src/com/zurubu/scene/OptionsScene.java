@@ -1,38 +1,69 @@
 package com.zurubu.scene;
 
+import java.util.Vector;
+
 import org.anddev.andengine.entity.scene.Scene;
 import org.anddev.andengine.entity.sprite.Sprite;
 import org.anddev.andengine.entity.text.Text;
 import org.anddev.andengine.input.touch.TouchEvent;
 import org.anddev.andengine.opengl.font.Font;
-import org.anddev.andengine.opengl.font.FontFactory;
 import org.anddev.andengine.opengl.texture.TextureOptions;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlas;
 import org.anddev.andengine.opengl.texture.atlas.bitmap.BitmapTextureAtlasTextureRegionFactory;
 import org.anddev.andengine.opengl.texture.region.TextureRegion;
 
-import android.graphics.Color;
-
+import com.kazekim.menu.InitialVal;
+import com.kazekim.ui.ColorTextButton;
 import com.rokejitsx.HospitalGameActivity;
 import com.rokejitsx.data.GameFonts;
 
-public class OptionsScene extends Scene{
-	private final float minX = 485;
-	private final float maxX = 555;
-	private float musicLastX;
-	private float sfxLaxtX;
+public class OptionsScene extends Scene /*implements OptionMenuListener*/{
+	private int minX = 0;
+	private int maxX = 0;
 	private Sprite musicThumb;
 	private Sprite sfxThumb;
-	private BitmapTextureAtlas mFontTexture;
+
 	private Font mFont;
-	private static OptionsScene scene;
-	private static float musicVolume;
-	private static float sfxVolume;
+	//private static OptionsScene scene;
+	private static int musicVolume;
+	private static int sfxVolume;
+	private int musicPosX=0;
+	private int sfxPosX=0;
+	
+	private BitmapTextureAtlas buttonBitmapTextureAtlas;
+	private BitmapTextureAtlas scrollBitmapTextureAtlas;
+	private BitmapTextureAtlas screenBitmapTextureAtlas;
+	private BitmapTextureAtlas logoBitmapTextureAtlas;
+	private BitmapTextureAtlas menuBitmapTextureAtlas;
+	private BitmapTextureAtlas scrollButtonBitmapTextureAtlas;
+	
+	private Sprite background;
+	private Sprite logo;
+	private Sprite menuBorder;
+	private Sprite scrollBar1;
+	private Sprite scrollBar2;
+	
+	private ColorTextButton okButton;
+	private ColorTextButton creditButton;
+	private ColorTextButton cancelButton;
+	
+	private static final int OKBUTTON=0;
+	private static final int CREDITBUTTON=1;
+	private static final int CANCELBUTTON=2;
+	
+	private static final int SCROLLMUSICVALUME=0;
+	private static final int SCROLLSFXVOLUME=1;
+	
+	private float diff = 0;
+	
+	private HospitalGameActivity interfaceAct;
+	
+	private OptionMenuListener listener;
 	 
-	public static OptionsScene getScene(){    
+/*	public static OptionsScene getScene(){    
 		return scene;	  
 	}
-	
+	*/
 	public static int getMusicVolume(){    
 		return (int) musicVolume;	  
 	}
@@ -43,179 +74,139 @@ public class OptionsScene extends Scene{
 	
 	public OptionsScene() {
 		// load data //
-		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
-		musicLastX = interfaceAct.getAppSettings().getMusicVolumePosition();
-		sfxLaxtX = interfaceAct.getAppSettings().getSFXVolumePosition();
+		interfaceAct = HospitalGameActivity.getGameActivity();
+		musicVolume = AppSharedPreference.getInstance().getMusicVolume();
+		sfxVolume = AppSharedPreference.getInstance().getSFXVolume();
 		
-		scene = this;
-		initFont();
+	
+		
+		//scene = this;
+		this.mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);
 		
 		// set layout for menu //
 		initLayoutOptions();
+		setBackgroundEnabled(false);
+		//setOptionMenuListener(this);
 		
 		// init volume //
-		musicVolume = calVolumn("music");
-		sfxVolume = calVolumn("sfx");
+		//musicVolume = calVolumn("music");
+		//sfxVolume = calVolumn("sfx");
 	}
 
-	private void initFont(){
-	    /* Load Font/Textures. */
-		/*HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
-		this.mFontTexture = new BitmapTextureAtlas(256, 256, TextureOptions.BILINEAR_PREMULTIPLYALPHA);
-		FontFactory.setAssetBasePath("font/");
-		this.mFont = FontFactory.createFromAsset(this.mFontTexture, interfaceAct, "Plok.ttf", 18, true, Color.RED);
-		interfaceAct.getEngine().getTextureManager().loadTexture(this.mFontTexture);
-		interfaceAct.getFontManager().loadFont(this.mFont);	  */
-		mFont = GameFonts.getInstance().getMenuFont(GameFonts.MENU_PLOK_FONT_18_RED);
+	
+	public void setOptionMenuListener(OptionMenuListener listener){
+		this.listener = listener;
 	}
 	
 	public void initLayoutOptions(){
 		/* set layout menu. */  
 		// background //
-		setLayout(1024, 1024, "textures/menu/main_background.png", 0, 0, false, "");
-		// options border //
-		setLayout(1024, 1024, "textures/menu/options_border.png", 81, 115, false, "");
-		// main logo //
-		setLayout(256, 256, "textures/menu/main_logo.png", 50, 10, false, "");
+		// background //
+		screenBitmapTextureAtlas = new BitmapTextureAtlas(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
 		
+		interfaceAct.getEngine().getTextureManager().loadTexture(screenBitmapTextureAtlas);
+		
+		//TextureRegion bgTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(screenBitmapTextureAtlas, interfaceAct, "textures/menu/main_background.png",0, 0);
+		//background = new Sprite(0,0, bgTextureRegion);
+		//this.attachChild(background);
+		
+		// options border //
+		
+		menuBitmapTextureAtlas = new BitmapTextureAtlas(1024, 1024,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
+		
+		interfaceAct.getEngine().getTextureManager().loadTexture(menuBitmapTextureAtlas);
+
+		TextureRegion menuTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(menuBitmapTextureAtlas, interfaceAct, "textures/menu/options_border.png",0, 0);
+		menuBorder = new Sprite(0,0, menuTextureRegion);
+		menuBorder.setPosition(InitialVal.CAMERA_WIDTH/2 - menuBorder.getWidth()/2, InitialVal.CAMERA_HEIGHT/2-menuBorder.getHeight()/2);
+		this.attachChild(menuBorder);
+
+		// main logo //
+		logoBitmapTextureAtlas= new BitmapTextureAtlas(256, 256,TextureOptions.BILINEAR_PREMULTIPLYALPHA);
+		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
+		
+		interfaceAct.getEngine().getTextureManager().loadTexture(logoBitmapTextureAtlas);
+
+		TextureRegion logoTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(logoBitmapTextureAtlas, interfaceAct, "textures/menu/main_logo.png",0, 0);
+		logo = new Sprite(InitialVal.CAMERA_WIDTH/16,InitialVal.CAMERA_HEIGHT/80, logoTextureRegion);
+		this.attachChild(logo);
+		
+	
 		// music volume bar //
-		setVolumeLayout(1024, 1024, "textures/menu/sliderback.png", 151, 160, true, "Music Volume");
+		
+		scrollBitmapTextureAtlas= new BitmapTextureAtlas(512, 512,TextureOptions.DEFAULT);
+		interfaceAct.getEngine().getTextureManager().loadTexture(scrollBitmapTextureAtlas);
+		
+		TextureRegion scrollTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(scrollBitmapTextureAtlas, interfaceAct, "textures/menu/sliderback.png",0, 0);
+		
+		scrollBar1 = new Sprite(0,0, scrollTextureRegion.deepCopy());
+		scrollBar1.setPosition(menuBorder.getWidth()/2 - scrollBar1.getWidth()/2, (int)(menuBorder.getHeight()*0.1));
+		menuBorder.attachChild(scrollBar1);
+		
+		Text musicText = new Text(0, 0, this.mFont, "Music Volume");
+		musicText.setPosition((int)(scrollBar1.getWidth()*0.02), (int)(scrollBar1.getHeight()/2-musicText.getHeight()/2));
+		musicText.setColor(0.0f, 0.0f, 0.0f);
+		scrollBar1.attachChild(musicText);
+
 		// sfx volume bar //
-		setVolumeLayout(1024, 1024, "textures/menu/sliderback.png", 151, 260, true, "SFX Volume");
+		
+		scrollBar2 = new Sprite(0,0, scrollTextureRegion.deepCopy());
+		scrollBar2.setPosition(menuBorder.getWidth()/2 - scrollBar2.getWidth()/2, scrollBar2.getHeight()*2);
+		menuBorder.attachChild(scrollBar2);
+		
+		Text sfxText = new Text(0, 0, this.mFont, "SFX Volume");
+		sfxText.setPosition((int)(scrollBar1.getWidth()*0.02), (int)(scrollBar1.getHeight()/2-sfxText.getHeight()/2));
+		sfxText.setColor(0.0f, 0.0f, 0.0f);
+		scrollBar2.attachChild(sfxText);
+		
+		//setVolumeLayout(1024, 1024, "textures/menu/sliderback.png", 151, 260, true, "SFX Volume");
 		
 		// ok button //
-		setLayout(256, 256, "textures/menu/small_button.png", 151, 360, true, "OK");
+		buttonBitmapTextureAtlas = new BitmapTextureAtlas(256, 256,TextureOptions.DEFAULT);
+		interfaceAct.getEngine().getTextureManager().loadTexture(buttonBitmapTextureAtlas);
+		
+		TextureRegion buttonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(buttonBitmapTextureAtlas, interfaceAct, "textures/menu/small_button.png",0, 0);
+		okButton = addButton(buttonTextureRegion.deepCopy(), mFont, "OK",OKBUTTON);
+		okButton.setPosition((int)(menuBorder.getWidth()/2-okButton.getWidth()*3/2), (int)(scrollBar2.getHeight()*4));
+		menuBorder.attachChild(okButton);
+		
 		// credits button //
-		setLayout(256, 256, "textures/menu/small_button.png", 326, 360, true, "Credits");
-		// cancle button //
-		setLayout(256, 256, "textures/menu/small_button.png", 501, 360, true, "Cancle");
+		
+		creditButton = addButton(buttonTextureRegion.deepCopy(), mFont, "Credits",CREDITBUTTON);
+		creditButton.setPosition((int)(menuBorder.getWidth()/2-okButton.getWidth()/2), (int)(scrollBar2.getHeight()*4));
+		menuBorder.attachChild(creditButton);
+		
+		
+		// cancel button //
+		cancelButton = addButton(buttonTextureRegion.deepCopy(), mFont, "Cancel",CANCELBUTTON);
+		cancelButton.setPosition((int)(menuBorder.getWidth()/2+okButton.getWidth()/2), (int)(scrollBar2.getHeight()*4));
+		menuBorder.attachChild(cancelButton);
+		
 		
 		// thumb music button //
-		musicThumb = setThumbLayout(256, 256, "textures/menu/scrollbar.png", musicLastX, 167);
-		this.attachChild(musicThumb);
-		this.registerTouchArea(musicThumb);
-		// thumb sfx button //
-		sfxThumb = setThumbLayout(256, 256, "textures/menu/scrollbar.png", sfxLaxtX, 267);
-		this.attachChild(sfxThumb);
-		this.registerTouchArea(sfxThumb);
 		
-		this.setTouchAreaBindingEnabled(true);
-	}
-	
-	private void setLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
-			
-		BitmapTextureAtlas layoutBitmapTextureAtlas;
-		TextureRegion layoutTextureRegion;
-		Sprite layout;
-		
-		layoutBitmapTextureAtlas = new BitmapTextureAtlas(pWidth, pHeight,TextureOptions.DEFAULT);
+		scrollButtonBitmapTextureAtlas = new BitmapTextureAtlas(256, 256,TextureOptions.DEFAULT);
 		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
-		layoutTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(layoutBitmapTextureAtlas, interfaceAct, path,0, 0);
-		interfaceAct.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
+		TextureRegion scrollButtonTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(scrollButtonBitmapTextureAtlas, interfaceAct, "textures/menu/scrollbar.png",0, 0);
+		interfaceAct.getEngine().getTextureManager().loadTexture(scrollButtonBitmapTextureAtlas);
 		
-		if (setTx) {
-			layout = new Sprite(pX, pY, layoutTextureRegion){
-				@Override
-				public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-							int eventaction = pSceneTouchEvent.getAction(); 
-			                float X = pSceneTouchEvent.getX();
-			                float Y = pSceneTouchEvent.getY();
-			                switch (eventaction) {
-			                   case TouchEvent.ACTION_DOWN: {
-			                	   System.out.println("#######  Down  ######");
-			                	   this.getChild(0).setColor(1.0f,0.0f,0.0f);
-			                	   break;
-			                   }
-			                   case TouchEvent.ACTION_MOVE:{
-			                	   System.out.println("#######  Move  ######");
-			                	   X = pSceneTouchEvent.getX();
-					               Y = pSceneTouchEvent.getY();
-			                	   if (X < this.getX() || X > this.getX() + this.getWidth() || Y < this.getY() || Y > this.getY() + this.getHeight()) {
-			                		   this.getChild(0).setColor(0.0f,0.0f,0.0f);
-			                		   System.out.println("#######  Cancel  ######");
-			                	   } else {
-			                		   this.getChild(0).setColor(1.0f,0.0f,0.0f);
-			                	   }
-			                	   break;
-			                   }
-			                   case TouchEvent.ACTION_UP:{
-			                	   System.out.println("#######  UP  ######");
-			                	   this.getChild(0).setColor(0.0f, 0.0f, 0.0f);
-			                	   if (X < this.getX() || X > this.getX() + this.getWidth() || Y < this.getY() || Y > this.getY() + this.getHeight()) {	     
-			                		   System.out.println("#######  Cancel  ######");
-			                	   } else {
-			                		   nextScene(((Text)this.getChild(0)).getText());
-			                	   }
-			                		   
-			                	   break;
-			                   }
-			                }
-					return true;
-				}
-			};	
-			Text stx = new Text(0, 0, this.mFont, tx);
-			stx.setPosition((layout.getWidth()/2) - (stx.getWidth()/2), (layout.getHeight()/2) - (stx.getHeight()/2) + 2);
-			stx.setColor(0.0f, 0.0f, 0.0f);
-			layout.attachChild(stx);
-			this.registerTouchArea(layout);
-		} 
-		else {
-			layout = new Sprite(pX, pY, layoutTextureRegion);
-		}
-		layout.setScale(1);
-		this.attachChild(layout);
-	}
-	
-	private void setVolumeLayout(int pWidth, int pHeight, String path, int pX, int pY, Boolean setTx, String tx) {
-		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
 		
-		BitmapTextureAtlas layoutBitmapTextureAtlas;
-		TextureRegion layoutTextureRegion;
-		Sprite layout;
+		minX = (int)(scrollBar1.getWidth()*13/20);
+		maxX = (int)(scrollBar2.getWidth()*8/10);
 		
-		layoutBitmapTextureAtlas = new BitmapTextureAtlas(pWidth, pHeight,TextureOptions.DEFAULT);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
-		layoutTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(layoutBitmapTextureAtlas, interfaceAct, path,0, 0);
-		interfaceAct.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
-		
-		layout = new Sprite(pX, pY, layoutTextureRegion);
-		layout.setScale(1);
-		this.attachChild(layout);
-		
-		Text stx = new Text(0, 0, this.mFont, tx);
-		stx.setPosition(30, (layout.getHeight()/2) - (stx.getHeight()/2) + 2);
-		stx.setColor(0.0f, 0.0f, 0.0f);
-		layout.attachChild(stx);
-		this.registerTouchArea(layout);
-	}
-	
-	private float diff = 0;
-	private Sprite setThumbLayout(int pWidth, int pHeight, String path, float pX, float pY) {
-		HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();  
-		
-		BitmapTextureAtlas layoutBitmapTextureAtlas;
-		TextureRegion layoutTextureRegion;
-		Sprite layout;
-		
-		layoutBitmapTextureAtlas = new BitmapTextureAtlas(pWidth, pHeight,TextureOptions.DEFAULT);
-		BitmapTextureAtlasTextureRegionFactory.setAssetBasePath("media/");
-		layoutTextureRegion = BitmapTextureAtlasTextureRegionFactory.createFromAsset(layoutBitmapTextureAtlas, interfaceAct, path,0, 0);
-		interfaceAct.getEngine().getTextureManager().loadTexture(layoutBitmapTextureAtlas);
-		
-		layout = new Sprite(pX, pY, layoutTextureRegion){
+		musicThumb = new Sprite(0,0, scrollButtonTextureRegion.deepCopy()){
 			@Override
 			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 						int eventaction = pSceneTouchEvent.getAction(); 
 		                float startX = pSceneTouchEvent.getX();
 		                switch (eventaction) {
 		                   case TouchEvent.ACTION_DOWN: {
-		                	   System.out.println("#######  Down  ######");
 		                	   diff = startX - this.getX();
 		                	   break;
 		                   }
 		                   case TouchEvent.ACTION_MOVE:{
-		                	   System.out.println("#######  Move  ######");
 		                	   if (pSceneTouchEvent.getX()-diff >= minX && pSceneTouchEvent.getX()-diff <= maxX) {
 		                		   this.setPosition((pSceneTouchEvent.getX()- diff), this.getY());
 		                	   } else {
@@ -227,78 +218,183 @@ public class OptionsScene extends Scene{
 		                	   }
 		                	   
 		                	   // set volume //
-		                	   if (this == musicThumb) {
-		                		   musicVolume = calVolumn("music");
-		                	   } else {
-		                		   sfxVolume = calVolumn("sfx");
-		                	   }
-		                	   System.out.println("#######  Music Volume  ######" + musicVolume);
-		                	   System.out.println("#######  Sfx Volume  ######" + sfxVolume);
+		                		   musicVolume = calVolumn(SCROLLMUSICVALUME);
+		                		   listener.onMusicValueChange(musicVolume);
 		                	   break;
 		                   }
 		                   case TouchEvent.ACTION_UP:{
-		                	   System.out.println("#######  UP  ######");
 		                	   break;
 		                   }
 		                }
 				return true;
 			}
 		};	
-		layout.setScale(1);
-		return layout;
+		musicPosX=getScrollPosXfromVolume(musicVolume);
+		musicThumb.setPosition(musicPosX, (int)(scrollBar1.getHeight()/2-musicThumb.getHeight()/2));
+		musicThumb.setScale(1);
+		scrollBar1.attachChild(musicThumb);
+		this.registerTouchArea(musicThumb);
+		// thumb sfx button //
+		sfxThumb = new Sprite(0,0, scrollButtonTextureRegion.deepCopy()){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+						int eventaction = pSceneTouchEvent.getAction(); 
+		                float startX = pSceneTouchEvent.getX();
+		                switch (eventaction) {
+		                   case TouchEvent.ACTION_DOWN: {
+		                	   diff = startX - this.getX();
+		                	   break;
+		                   }
+		                   case TouchEvent.ACTION_MOVE:{
+		                	   if (pSceneTouchEvent.getX()-diff >= minX && pSceneTouchEvent.getX()-diff <= maxX) {
+		                		   this.setPosition((pSceneTouchEvent.getX()- diff), this.getY());
+		                	   } else {
+		                		   if (pSceneTouchEvent.getX()-diff < minX) {
+		                			   this.setPosition(minX, this.getY());
+		                		   } else {
+		                			   this.setPosition(maxX, this.getY());
+		                		   }
+		                	   }
+		                	   
+		                	   // set volume //
+		                		   sfxVolume = calVolumn(SCROLLSFXVOLUME);
+		                		   listener.onSFXValueChange(sfxVolume);
+		                	   break;
+		                   }
+		                   case TouchEvent.ACTION_UP:{
+		                	   break;
+		                   }
+		                }
+				return true;
+			}
+		};	
+		sfxPosX=getScrollPosXfromVolume(sfxVolume);
+		sfxThumb.setPosition(sfxPosX, (int)(scrollBar2.getHeight()/2-sfxThumb.getHeight()/2));
+		sfxThumb.setScale(1);
+		scrollBar2.attachChild(sfxThumb);
+		this.registerTouchArea(sfxThumb);
+		
+		this.setTouchAreaBindingEnabled(true);
 	}
 	
-	private void nextScene(String sceneName) {
-		if (sceneName.toLowerCase().equals("cancle")) {
-			HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
-			
+	private ColorTextButton addButton(TextureRegion texture,Font font,String text,final int menuType){
+		ColorTextButton button = new ColorTextButton(0,0, texture, font, text){
+			@Override
+			public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
+				super.onAreaTouched(pSceneTouchEvent, pTouchAreaLocalX, pTouchAreaLocalY);
+						int eventaction = pSceneTouchEvent.getAction(); 
+		                switch (eventaction) {
+		                   case TouchEvent.ACTION_DOWN: 
+		                	   break;
+		                   
+		                   case TouchEvent.ACTION_MOVE:
+		                	   break;
+		                   
+		                   case TouchEvent.ACTION_UP:{
+		                	
+		                		   nextScene(menuType);
+		                		   
+		                	   break;
+		                   }
+		                }
+				return true;
+			}
+		};
+		button.setColorNormal(0.0f,0.0f,0.0f);
+		button.setColorOnClick(1.0f,0.0f,0.0f);
+		this.registerTouchArea(button);
+		
+		return button;
+	}
+	
+	private void nextScene(int menuType) {
+		if (menuType==CANCELBUTTON) {
+
 			// set volume position back //
-			musicThumb.setPosition(musicLastX, musicThumb.getY());
-			sfxThumb.setPosition(sfxLaxtX, sfxThumb.getY());
-			musicVolume = calVolumn("music");
-			sfxVolume = calVolumn("sfx");
+			musicThumb.setPosition(musicPosX, musicThumb.getY());
+			sfxThumb.setPosition(sfxPosX, sfxThumb.getY());
+			musicVolume = AppSharedPreference.getInstance().getSFXVolume();
+			sfxVolume = AppSharedPreference.getInstance().getMusicVolume();
+			listener.onSFXValueChange(sfxVolume);
+			listener.onMusicValueChange(musicVolume);
 						
 			// call option scene //	
 		    // switch to the new scene
-			interfaceAct.getEngine().setScene(new MenuScene());
 			/*if (MenuScene.getScene() != null) {
 				interfaceAct.getEngine().setScene(MenuScene.getScene());
 			} else {
 				final MenuScene menuScene = new MenuScene();
 				interfaceAct.getEngine().setScene(menuScene);
 			}*/
-		} else if (sceneName.toLowerCase().equals("ok")) {
-			HospitalGameActivity interfaceAct = HospitalGameActivity.getGameActivity();
 			
+			back();
+			recycle();
+		} else if (menuType==OKBUTTON) {
+
 			// record new volume position //
-			musicLastX = musicThumb.getX();
-			sfxLaxtX = sfxThumb.getX();
-			musicVolume = calVolumn("music");
-			sfxVolume = calVolumn("sfx");
+			musicVolume = calVolumn(SCROLLMUSICVALUME);
+			sfxVolume = calVolumn(SCROLLSFXVOLUME);
 			// save new volume //
-			interfaceAct.getAppSettings().setMusicVolumePosition(musicLastX);
-			interfaceAct.getAppSettings().setSFXVolumePosition(sfxLaxtX);
+			AppSharedPreference.getInstance().setMusicVolume(musicVolume);
+			AppSharedPreference.getInstance().setSFXVolume(sfxVolume);
+			sfxPosX=(int)(getScrollPosXfromVolume(sfxVolume));
+			musicPosX=(int)(getScrollPosXfromVolume(musicVolume));
 				
 			// call option scene //	
 		    // switch to the new scene
-			interfaceAct.getEngine().setScene(new MenuScene());
-			/*if (MenuScene.getScene() != null) {
+/*			if (MenuScene.getScene() != null) {
 				interfaceAct.getEngine().setScene(MenuScene.getScene());
 			} else {
 				final MenuScene menuScene = new MenuScene();
 				interfaceAct.getEngine().setScene(menuScene);
 			}*/
+			back();
+			recycle();
 		}
 	}
 	
-	private float calVolumn(String s) {
+	private int getScrollPosXfromVolume(int volume){
+
+		return (int)(minX+(maxX-minX)*volume/100);
+		
+	}
+	
+	private int calVolumn(int scrollType) {
 		float range = maxX - minX;
 		float v;
-		if (s == "music") {
+		if (scrollType == SCROLLMUSICVALUME) {
 			v = musicThumb.getX() - minX;	
 		} else {
 			v = sfxThumb.getX() - minX;	
 		}
-		return (100/range)*v;
+		return (int)((float)(100f/range)*v);
 	}
+	
+	public void recycle(){
+      Vector<BitmapTextureAtlas> list = new Vector<BitmapTextureAtlas>();
+	  list.add(buttonBitmapTextureAtlas);
+	  list.add(screenBitmapTextureAtlas);
+	  list.add(menuBitmapTextureAtlas);
+	  list.add(scrollBitmapTextureAtlas);
+	  list.add(scrollButtonBitmapTextureAtlas);
+	  HospitalGameActivity.getGameActivity().sendUnloadTextureAtlas(list);	
+    		
+		/*buttonBitmapTextureAtlas.clearTextureAtlasSources();
+		screenBitmapTextureAtlas.clearTextureAtlasSources();
+		menuBitmapTextureAtlas.clearTextureAtlasSources();
+		scrollBitmapTextureAtlas.clearTextureAtlasSources();
+		scrollButtonBitmapTextureAtlas.clearTextureAtlasSources();*/
+	}
+
+	/*@Override
+	public void onMusicValueChange(int musicVolume) {
+		// TODO Auto-generated method stub
+		System.out.println("music change!!");
+	}
+
+	@Override
+	public void onSFXValueChange(int sfxVolume) {
+		// TODO Auto-generated method stub
+		System.out.println("sfx change!!");
+	}*/
 }

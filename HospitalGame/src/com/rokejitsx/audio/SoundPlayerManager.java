@@ -11,13 +11,16 @@ import org.anddev.andengine.audio.music.MusicManager;
 import android.util.Log;
 
 import com.rokejitsx.HospitalGameActivity;
+import com.zurubu.scene.AppSharedPreference;
+import com.zurubu.scene.OptionMenuListener;
 
-public class SoundPlayerManager implements SoundList{
+public class SoundPlayerManager implements SoundList, OptionMenuListener{
   private static SoundPlayerManager self;
   //private Hashtable<String, Sound> playerList;
   
   private MySoundManager soundManager;
-  private MusicManager musicManager;
+  private MusicManager musicManager;  
+  //private Music currentMusic;
   private Hashtable<String, Object> soundPLayerList;
   //private Hashtable<String, Music> musicPLayerList;
   
@@ -36,10 +39,14 @@ public class SoundPlayerManager implements SoundList{
   
   public void reset(){
 	soundManager = new MySoundManager();   
-    musicManager = new MusicManager();/*HospitalGameActivity.getGameActivity().getEngine().getMusicManager()*/;    
+    musicManager = new MusicManager();/*HospitalGameActivity.getGameActivity().getEngine().getMusicManager()*/;
+    
     soundPLayerList = new Hashtable<String, Object>();  
     MySoundFactory.setAssetBasePath("media/audio/");
     MusicFactory.setAssetBasePath("media/audio/");
+    
+    /*soundManager.setMasterVolume(AppSharedPreference.getInstance().getSFXVolume());
+    musicManager.setMasterVolume(AppSharedPreference.getInstance().getMusicVolume());*/
   }
   
   public void createSound(String[] soundList){
@@ -79,9 +86,12 @@ public class SoundPlayerManager implements SoundList{
     Object obj = soundPLayerList.get(fileName);
     
     if(obj instanceof MySound){
+      ((MySound)obj).setVolume((float)AppSharedPreference.getInstance().getSFXVolume() / 100);
       ((MySound)obj).play();	
     }else if(obj instanceof Music){
+      ((Music)obj).setVolume((float)AppSharedPreference.getInstance().getMusicVolume() / 100);
       ((Music)obj).play();	
+      //currentMusic = ((Music)obj);
     }    
   }
   
@@ -98,6 +108,8 @@ public class SoundPlayerManager implements SoundList{
     }else if(obj instanceof Music){
       Music music = (Music) obj;
       music.stop();      
+      /*if(music.equals(currentMusic))
+        currentMusic = null;*/
     }	  
   }
   
@@ -128,7 +140,7 @@ public class SoundPlayerManager implements SoundList{
 	  return;
     try {
       Log.d("RokejitsX", "Load music "+MusicFactory.sAssetBasePath+fileName);
-      Music music = MusicFactory.createMusicFromAsset(musicManager, HospitalGameActivity.getGameActivity(), fileName);
+      Music music = MusicFactory.createMusicFromAsset(musicManager, HospitalGameActivity.getGameActivity(), fileName);      
       music.setLooping(true);
       soundPLayerList.put(fileName, music);
 	   
@@ -137,6 +149,26 @@ public class SoundPlayerManager implements SoundList{
 	  e.printStackTrace();
 	}    	  
     	  
+  }
+
+
+
+  @Override
+  public void onMusicValueChange(int musicVolume) {
+	Log.d("RokejitsX", "onMusicValueChangeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ="+musicVolume);
+    musicManager.setMasterVolume((float)musicVolume / 100);
+	/*if(currentMusic != null)
+	  currentMusic.setVolume(musicVolume);*/
+	
+  }
+
+
+
+  @Override
+  public void onSFXValueChange(int sfxVolume) {
+	Log.d("RokejitsX", "onSFXValueChangeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ="+sfxVolume);
+    soundManager.setMasterVolume((float)sfxVolume / 100);   
+	
   }
   
   //0863058135 
